@@ -1,0 +1,149 @@
+import { useState } from "react";
+import { Link, useNavigate } from "@tanstack/react-router";
+import { Menu, ShieldCheck, LayoutGrid, LogOut, UserRound } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { Sheet, SheetContent, SheetTitle, SheetTrigger } from "@/components/ui/sheet";
+import { useAuth } from "@/hooks/useAuth";
+
+const NAV = [
+  { to: "/", label: "Home" },
+  { to: "/about", label: "About" },
+  { to: "/services", label: "Services" },
+  { to: "/group", label: "FRAN-X Group" },
+  { to: "/opportunities", label: "Opportunities" },
+  { to: "/build", label: "Build With Us" },
+  { to: "/contact", label: "Contact" },
+] as const;
+
+export function Header() {
+  const [open, setOpen] = useState(false);
+  const { user, isAdmin, signOut } = useAuth();
+  const navigate = useNavigate();
+
+  const handleSignOut = async () => {
+    await signOut();
+    setOpen(false);
+    void navigate({ to: "/", replace: true });
+  };
+
+  return (
+    <header className="sticky top-0 z-50 border-b border-border/70 bg-background/80 backdrop-blur-xl">
+      <div className="container-x grid grid-cols-[minmax(0,1fr)_auto] items-center gap-4 py-3.5 lg:flex lg:justify-between">
+        <Link to="/" className="flex min-w-0 items-center gap-2.5">
+          <span className="grid h-9 w-9 shrink-0 place-items-center rounded-md border border-primary/40 bg-surface font-display text-sm font-bold text-primary">
+            FX
+          </span>
+          <span className="min-w-0">
+            <span className="block truncate font-display text-sm font-semibold tracking-tight">
+              FRAN-X <span className="text-metal">HOLDINGS</span>
+            </span>
+            <span className="hidden text-[10px] uppercase tracking-[0.22em] text-muted-foreground sm:block">
+              Business Group
+            </span>
+          </span>
+        </Link>
+
+        <nav className="hidden items-center gap-1 lg:flex">
+          {NAV.map((item) => (
+            <Link
+              key={item.to}
+              to={item.to}
+              activeOptions={{ exact: item.to === "/" }}
+              activeProps={{ className: "text-primary" }}
+              inactiveProps={{ className: "text-muted-foreground" }}
+              className="rounded-md px-3 py-2 text-sm font-medium transition-colors hover:text-foreground"
+            >
+              {item.label}
+            </Link>
+          ))}
+        </nav>
+
+        <div className="hidden items-center gap-2 lg:flex">
+          {user ? (
+            <>
+              <Button asChild variant="ghost" size="sm">
+                <Link to="/portal">
+                  <LayoutGrid /> Portal
+                </Link>
+              </Button>
+              {isAdmin ? (
+                <Button asChild variant="ghost" size="sm">
+                  <Link to="/admin">
+                    <ShieldCheck /> Admin
+                  </Link>
+                </Button>
+              ) : null}
+              <Button variant="outline" size="sm" onClick={handleSignOut}>
+                <LogOut /> Sign out
+              </Button>
+            </>
+          ) : (
+            <Button asChild variant="ghost" size="sm">
+              <Link to="/auth">
+                <UserRound /> Sign in
+              </Link>
+            </Button>
+          )}
+          <Button asChild variant="outline" size="sm">
+            <Link to="/contact">Start an Inquiry</Link>
+          </Button>
+          <Button asChild size="sm">
+            <Link to="/request">Request a Service</Link>
+          </Button>
+        </div>
+
+        <Sheet open={open} onOpenChange={setOpen}>
+          <SheetTrigger asChild>
+            <Button variant="outline" size="icon" className="lg:hidden" aria-label="Open menu">
+              <Menu />
+            </Button>
+          </SheetTrigger>
+          <SheetContent side="right" className="w-[86vw] max-w-sm overflow-y-auto bg-surface">
+            <SheetTitle className="font-display text-base">FRAN-X Holdings</SheetTitle>
+            <nav className="mt-6 flex flex-col gap-1">
+              {NAV.map((item) => (
+                <Link
+                  key={item.to}
+                  to={item.to}
+                  onClick={() => setOpen(false)}
+                  activeOptions={{ exact: item.to === "/" }}
+                  activeProps={{ className: "text-primary" }}
+                  className="rounded-md border border-border/60 px-4 py-3 text-sm font-medium"
+                >
+                  {item.label}
+                </Link>
+              ))}
+            </nav>
+            <div className="mt-6 flex flex-col gap-2">
+              <Button asChild onClick={() => setOpen(false)}>
+                <Link to="/request">Request a Service</Link>
+              </Button>
+              <Button asChild variant="outline" onClick={() => setOpen(false)}>
+                <Link to="/contact">Start an Inquiry</Link>
+              </Button>
+              {user ? (
+                <>
+                  <Button asChild variant="ghost" onClick={() => setOpen(false)}>
+                    <Link to="/portal">Client Portal</Link>
+                  </Button>
+                  {isAdmin ? (
+                    <Button asChild variant="ghost" onClick={() => setOpen(false)}>
+                      <Link to="/admin">Admin Dashboard</Link>
+                    </Button>
+                  ) : null}
+                  <Button variant="ghost" onClick={handleSignOut}>
+                    Sign out
+                  </Button>
+                </>
+              ) : (
+                <Button asChild variant="ghost" onClick={() => setOpen(false)}>
+                  <Link to="/auth">Sign in / Register</Link>
+                </Button>
+              )}
+            </div>
+          </SheetContent>
+        </Sheet>
+      </div>
+    </header>
+  );
+}
