@@ -10,7 +10,7 @@ type Message = {
   thread_user_id: string;
   sender_id: string;
   body: string;
-  is_admin: boolean;
+  from_admin: boolean;
   read_at: string | null;
   created_at: string;
 };
@@ -80,7 +80,7 @@ export function ChatPanel({
       thread_user_id: threadUserId,
       sender_id: currentUserId,
       body,
-      is_admin: asAdmin,
+      from_admin: asAdmin,
     });
     setSending(false);
     if (!error) {
@@ -112,7 +112,7 @@ export function ChatPanel({
                 >
                   <p className="whitespace-pre-wrap break-words">{m.body}</p>
                   <p className="mt-1 text-[10px] opacity-70">
-                    {m.is_admin ? "FRAN-X team" : "Client"} ·{" "}
+                    {m.from_admin ? "FRAN-X team" : "Client"} ·{" "}
                     {new Date(m.created_at).toLocaleString()}
                   </p>
                 </div>
