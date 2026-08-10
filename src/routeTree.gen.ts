@@ -18,6 +18,7 @@ import { Route as GroupRouteImport } from './routes/group'
 import { Route as OpportunitiesRouteImport } from './routes/opportunities'
 import { Route as RequestRouteImport } from './routes/request'
 import { Route as ServicesRouteImport } from './routes/services'
+import { Route as AuthenticatedAdminRouteImport } from './routes/_authenticated/admin'
 import { Route as AuthenticatedPortalRouteImport } from './routes/_authenticated/portal'
 import { Route as BuildIndexRouteImport } from './routes/build.index'
 import { Route as BuildAppRouteImport } from './routes/build.app'
@@ -71,6 +72,11 @@ const ServicesRoute = ServicesRouteImport.update({
   id: '/services',
   path: '/services',
   getParentRoute: () => rootRouteImport,
+} as any)
+const AuthenticatedAdminRoute = AuthenticatedAdminRouteImport.update({
+  id: '/admin',
+  path: '/admin',
+  getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
 const AuthenticatedPortalRoute = AuthenticatedPortalRouteImport.update({
   id: '/portal',
@@ -127,6 +133,7 @@ export interface FileRoutesByFullPath {
   '/opportunities': typeof OpportunitiesRoute
   '/request': typeof RequestRoute
   '/services': typeof ServicesRouteWithChildren
+  '/admin': typeof AuthenticatedAdminRoute
   '/portal': typeof AuthenticatedPortalRoute
   '/build/app': typeof BuildAppRoute
   '/build/website': typeof BuildWebsiteRoute
@@ -146,6 +153,7 @@ export interface FileRoutesByTo {
   '/opportunities': typeof OpportunitiesRoute
   '/request': typeof RequestRoute
   '/services': typeof ServicesRouteWithChildren
+  '/admin': typeof AuthenticatedAdminRoute
   '/portal': typeof AuthenticatedPortalRoute
   '/build/app': typeof BuildAppRoute
   '/build/website': typeof BuildWebsiteRoute
@@ -167,6 +175,7 @@ export interface FileRoutesById {
   '/opportunities': typeof OpportunitiesRoute
   '/request': typeof RequestRoute
   '/services': typeof ServicesRouteWithChildren
+  '/_authenticated/admin': typeof AuthenticatedAdminRoute
   '/_authenticated/portal': typeof AuthenticatedPortalRoute
   '/build/app': typeof BuildAppRoute
   '/build/website': typeof BuildWebsiteRoute
@@ -188,6 +197,7 @@ export interface FileRouteTypes {
     | '/opportunities'
     | '/request'
     | '/services'
+    | '/admin'
     | '/portal'
     | '/build/app'
     | '/build/website'
@@ -207,6 +217,7 @@ export interface FileRouteTypes {
     | '/opportunities'
     | '/request'
     | '/services'
+    | '/admin'
     | '/portal'
     | '/build/app'
     | '/build/website'
@@ -227,6 +238,7 @@ export interface FileRouteTypes {
     | '/opportunities'
     | '/request'
     | '/services'
+    | '/_authenticated/admin'
     | '/_authenticated/portal'
     | '/build/app'
     | '/build/website'
@@ -322,6 +334,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ServicesRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/_authenticated/admin': {
+      id: '/_authenticated/admin'
+      path: '/admin'
+      fullPath: '/admin'
+      preLoaderRoute: typeof AuthenticatedAdminRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
     '/_authenticated/portal': {
       id: '/_authenticated/portal'
       path: '/portal'
@@ -389,10 +408,12 @@ declare module '@tanstack/react-router' {
 }
 
 interface AuthenticatedRouteRouteChildren {
+  AuthenticatedAdminRoute: typeof AuthenticatedAdminRoute
   AuthenticatedPortalRoute: typeof AuthenticatedPortalRoute
 }
 
 const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
+  AuthenticatedAdminRoute: AuthenticatedAdminRoute,
   AuthenticatedPortalRoute: AuthenticatedPortalRoute,
 }
 
@@ -432,13 +453,3 @@ const rootRouteChildren: RootRouteChildren = {
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
-
-import type { getRouter } from './router.tsx'
-import type { startInstance } from './start.ts'
-declare module '@tanstack/react-start' {
-  interface Register {
-    ssr: true
-    router: Awaited<ReturnType<typeof getRouter>>
-    config: Awaited<ReturnType<typeof startInstance.getOptions>>
-  }
-}
