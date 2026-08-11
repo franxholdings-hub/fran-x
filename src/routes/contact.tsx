@@ -3,6 +3,7 @@ import { Mail, Phone, MessageCircle, MapPin } from "lucide-react";
 import { PageHero } from "@/components/site/PageHero";
 import { QuickInquiryForm } from "@/components/site/QuickInquiryForm";
 import { SITE, MAILTO_URL, TEL_URL, WHATSAPP_URL } from "@/lib/site";
+import { PHOTOS } from "@/lib/photos";
 
 const TITLE = "Contact FRAN-X Holdings | Email, Phone & WhatsApp";
 const DESCRIPTION =
@@ -35,6 +36,7 @@ function Contact() {
         eyebrow="Contact"
         title="Talk to FRAN-X Holdings."
         subtitle="Reach the team directly, or send a message and we will respond with next steps."
+        photo={PHOTOS.consulting}
       />
       <section className="container-x grid gap-10 py-14 lg:grid-cols-[1fr_1.2fr]">
         <div className="space-y-4">
