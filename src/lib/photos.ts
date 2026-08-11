@@ -69,9 +69,9 @@ export const PHOTOS = {
   },
   ecommerce: {
     src: ecommerceImg.url,
-    alt: "Forklift moving pallets of packaged goods inside a distribution warehouse",
-    credit: "20110826-FS-LSC-0222 \u2014 USDAgov (CC BY 2.0)",
-    source: "https://www.flickr.com/photos/41284017@N08/6098237534",
+    alt: "Shipping containers being moved at a commercial port terminal",
+    credit: "Moving Containers at Humber Sea Terminal \u2014 D H Wright (CC BY 2.0)",
+    source: "https://www.flickr.com/photos/59521130@N00/5143431251",
   },
   realEstate: {
     src: realEstateImg.url,
