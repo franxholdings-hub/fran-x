@@ -10,6 +10,7 @@ import { PageHero } from "@/components/site/PageHero";
 import { supabase } from "@/integrations/supabase/client";
 import { SERVICE_CATEGORIES, COMPLIANCE_NOTE } from "@/lib/site";
 import { searchServices, categoryAnchor, type ServiceRow } from "@/lib/search";
+import { PHOTOS } from "@/lib/photos";
 
 const TITLE = "Services | Web, App, AI, Consulting, Real Estate & Energy | FRAN-X";
 const DESCRIPTION =
@@ -81,6 +82,7 @@ function ServicesPage() {
         eyebrow="Services directory"
         title="Find the exact service you need."
         subtitle="Type what you need in plain language — FRAN-X will match it to the right service."
+        photo={PHOTOS.marketing}
       >
         <div className="max-w-2xl">
           <div className="relative">
