@@ -1,6 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { PageHero } from "@/components/site/PageHero";
 import { QuickInquiryForm } from "@/components/site/QuickInquiryForm";
+import { PHOTOS } from "@/lib/photos";
 
 const TITLE = "Build My App | Mobile App Development by FRAN-X Holdings";
 const DESCRIPTION =
@@ -27,6 +28,7 @@ function BuildApp() {
         eyebrow="App development"
         title="Build my app"
         subtitle="Tell us the platform, core features and how your users will use the app."
+        photo={PHOTOS.mobile}
       />
       <section className="container-x max-w-3xl py-14">
         <QuickInquiryForm
