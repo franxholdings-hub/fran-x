@@ -1,6 +1,7 @@
 import { Link } from "@tanstack/react-router";
 import { Mail, Phone, MapPin, MessageCircle } from "lucide-react";
 import { SITE, WHATSAPP_URL, MAILTO_URL, TEL_URL, COMPLIANCE_NOTE } from "@/lib/site";
+import { PHOTO_CREDITS } from "@/lib/photos";
 
 const COLUMNS: { title: string; links: { to: string; label: string; hash: string }[] }[] = [
   {
