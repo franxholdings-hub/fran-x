@@ -16,6 +16,7 @@ import { Button } from "@/components/ui/button";
 import { HeroBackground } from "@/components/site/HeroBackground";
 import { SectionHeading } from "@/components/site/SectionHeading";
 import { SITE, COMPLIANCE_NOTE } from "@/lib/site";
+import { PHOTOS } from "@/lib/photos";
 
 const TITLE = "FRAN-X Holdings | Technology, Business & Investment Group";
 const DESCRIPTION =
