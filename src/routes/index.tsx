@@ -81,12 +81,42 @@ const CORE_ACTIONS = [
 ];
 
 const CAPABILITIES = [
-  { icon: Cpu, title: "Technology & AI", body: "Websites, mobile apps, platforms, automation and AI systems." },
-  { icon: LineChart, title: "Business & Data", body: "Consulting, strategy, research and commercial development." },
-  { icon: ShoppingCart, title: "E-commerce", body: "Store builds, catalogue operations and online growth." },
-  { icon: Building2, title: "Real Estate", body: "Sourcing, advisory, marketing and deal facilitation." },
-  { icon: Car, title: "Automotive", body: "Vehicle sourcing, brokerage and transaction coordination." },
-  { icon: Fuel, title: "Oil & Gas / Energy", body: "Commercial advisory, matching and deal coordination." },
+  {
+    icon: Cpu,
+    title: "Technology & AI",
+    body: "Websites, mobile apps, platforms, automation and AI systems.",
+    photo: PHOTOS.technology,
+  },
+  {
+    icon: LineChart,
+    title: "Business & Data",
+    body: "Consulting, strategy, research and commercial development.",
+    photo: PHOTOS.data,
+  },
+  {
+    icon: ShoppingCart,
+    title: "E-commerce",
+    body: "Store builds, catalogue operations and online growth.",
+    photo: PHOTOS.ecommerce,
+  },
+  {
+    icon: Building2,
+    title: "Real Estate",
+    body: "Sourcing, advisory, marketing and deal facilitation.",
+    photo: PHOTOS.realEstate,
+  },
+  {
+    icon: Car,
+    title: "Automotive",
+    body: "Vehicle sourcing, brokerage and transaction coordination.",
+    photo: PHOTOS.automotive,
+  },
+  {
+    icon: Fuel,
+    title: "Oil & Gas / Energy",
+    body: "Commercial advisory, matching and deal coordination.",
+    photo: PHOTOS.energy,
+  },
 ];
 
 const JOURNEY = [
