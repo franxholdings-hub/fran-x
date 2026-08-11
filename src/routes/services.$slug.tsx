@@ -6,6 +6,19 @@ import { PageHero } from "@/components/site/PageHero";
 import { supabase } from "@/integrations/supabase/client";
 import { COMPLIANCE_NOTE } from "@/lib/site";
 import type { ServiceRow } from "@/lib/search";
+import { PHOTOS, type Photo } from "@/lib/photos";
+
+const CATEGORY_PHOTOS: Record<string, Photo> = {
+  "Technology & Digital": PHOTOS.technology,
+  "AI & Automation": PHOTOS.ai,
+  "Business & Data": PHOTOS.data,
+  "Marketing & Copywriting": PHOTOS.marketing,
+  "Creative & Media": PHOTOS.marketing,
+  "E-commerce": PHOTOS.ecommerce,
+  "Real Estate": PHOTOS.realEstate,
+  Automotive: PHOTOS.automotive,
+  "Oil & Gas / Energy": PHOTOS.energy,
+};
 
 export const Route = createFileRoute("/services/$slug")({
   head: ({ params }) => {
@@ -62,7 +75,12 @@ function ServiceDetail() {
 
   return (
     <>
-      <PageHero eyebrow={data.category} title={data.name} subtitle={data.description}>
+      <PageHero
+        eyebrow={data.category}
+        title={data.name}
+        subtitle={data.description}
+        photo={CATEGORY_PHOTOS[data.category] ?? PHOTOS.technology}
+      >
         <div className="flex flex-wrap gap-3">
           <Button asChild size="lg">
             <Link to="/request" search={{ service: data.slug, category: "" }}>
