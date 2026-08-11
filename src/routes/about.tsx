@@ -2,6 +2,7 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { Button } from "@/components/ui/button";
 import { PageHero } from "@/components/site/PageHero";
 import { SITE } from "@/lib/site";
+import { PHOTOS } from "@/lib/photos";
 
 const TITLE = "About FRAN-X Holdings | Diversified Business Group";
 const DESCRIPTION =
@@ -35,6 +36,7 @@ function About() {
         eyebrow="About FRAN-X"
         title="A diversified business group built for the next economy."
         subtitle={SITE.statement}
+        photo={PHOTOS.consulting}
       />
 
       <section id="who-we-are" className="container-x scroll-mt-24 py-16">
@@ -49,6 +51,15 @@ function About() {
               infrastructure, and emerging industries. We build digital products, advise businesses,
               coordinate commercial transactions and develop ventures across multiple sectors.
             </p>
+            <figure className="mt-8 overflow-hidden rounded-xl border border-border">
+              <img
+                src={PHOTOS.opportunities.src}
+                alt={PHOTOS.opportunities.alt}
+                loading="lazy"
+                decoding="async"
+                className="h-64 w-full object-cover"
+              />
+            </figure>
           </div>
           <div className="grid gap-4 sm:grid-cols-2">
             {VALUES.map((v) => (
@@ -81,11 +92,22 @@ function About() {
       </section>
 
       <section id="founder" className="container-x scroll-mt-24 py-16">
-        <div className="glass-panel grid gap-8 rounded-2xl p-8 sm:p-12 lg:grid-cols-[auto_1fr] lg:items-center">
-          <div className="grid h-28 w-28 place-items-center rounded-2xl border border-primary/40 bg-background font-display text-3xl font-semibold text-metal">
+        <div className="glass-panel relative grid gap-8 overflow-hidden rounded-2xl p-8 sm:p-12 lg:grid-cols-[auto_1fr] lg:items-center">
+          <img
+            src={PHOTOS.capital.src}
+            alt={PHOTOS.capital.alt}
+            loading="lazy"
+            decoding="async"
+            className="absolute inset-0 h-full w-full object-cover opacity-15"
+          />
+          <div
+            aria-hidden="true"
+            className="absolute inset-0 bg-gradient-to-r from-background via-background/90 to-background/60"
+          />
+          <div className="relative grid h-28 w-28 place-items-center rounded-2xl border border-primary/40 bg-background font-display text-3xl font-semibold text-metal">
             FE
           </div>
-          <div className="min-w-0">
+          <div className="relative min-w-0">
             <p className="eyebrow">Founder</p>
             <h2 className="mt-3 text-2xl font-semibold sm:text-3xl">{SITE.founder}</h2>
             <p className="mt-1 text-sm text-primary">Founder &amp; CEO, FRAN-X Holdings</p>

@@ -2,6 +2,7 @@ import { createFileRoute } from "@tanstack/react-router";
 import { PageHero } from "@/components/site/PageHero";
 import { QuickInquiryForm } from "@/components/site/QuickInquiryForm";
 import { OPPORTUNITY_TYPES, COMPLIANCE_NOTE } from "@/lib/site";
+import { PHOTOS } from "@/lib/photos";
 
 const TITLE = "Submit a Business Opportunity | FRAN-X Holdings";
 const DESCRIPTION =
@@ -28,6 +29,7 @@ function Opportunities() {
         eyebrow="Opportunities"
         title="Submit a business opportunity."
         subtitle="FRAN-X reviews commercial, investment and partnership opportunities across all group industries."
+        photo={PHOTOS.opportunities}
       />
       <section className="container-x max-w-3xl py-14">
         <QuickInquiryForm

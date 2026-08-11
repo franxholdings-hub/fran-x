@@ -5,6 +5,7 @@ import { Badge } from "@/components/ui/badge";
 import { Skeleton } from "@/components/ui/skeleton";
 import { PageHero } from "@/components/site/PageHero";
 import { supabase } from "@/integrations/supabase/client";
+import { PHOTOS, type Photo } from "@/lib/photos";
 
 const TITLE = "The FRAN-X Group | Companies & Ventures";
 const DESCRIPTION =
@@ -37,6 +38,20 @@ export function statusTone(status: string) {
   }
 }
 
+const COMPANY_PHOTOS: Record<string, Photo> = {
+  "fx-capital": PHOTOS.capital,
+  "fx-oil": PHOTOS.energy,
+  "fx-realty": PHOTOS.realEstate,
+  "fx-hotels": PHOTOS.hospitality,
+  "fx-air": PHOTOS.aviation,
+  "fx-auto": PHOTOS.automotive,
+  "fx-tech": PHOTOS.technology,
+  "frix-ai": PHOTOS.ai,
+  "fx-vault": PHOTOS.security,
+  "fx-agric": PHOTOS.agriculture,
+  eaizystore: PHOTOS.retail,
+};
+
 function GroupPage() {
   const { data, isLoading } = useQuery({
     queryKey: ["companies"],
@@ -57,6 +72,7 @@ function GroupPage() {
         eyebrow="Corporate portfolio"
         title="The FRAN-X Group"
         subtitle="A growing portfolio of businesses across multiple industries. Each venture is listed with its accurate current status."
+        photo={PHOTOS.capital}
       />
       <section className="container-x py-14">
         {isLoading ? (
@@ -67,11 +83,27 @@ function GroupPage() {
           </div>
         ) : (
           <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
-            {(data ?? []).map((c) => (
+            {(data ?? []).map((c) => {
+              const photo = COMPANY_PHOTOS[c.slug] ?? PHOTOS.capital;
+              return (
               <article
                 key={c.id}
-                className="glass-panel flex flex-col rounded-xl p-6 transition-transform duration-300 hover:-translate-y-1"
+                className="glass-panel group flex flex-col overflow-hidden rounded-xl transition-transform duration-300 hover:-translate-y-1"
               >
+                <div className="relative h-44 overflow-hidden">
+                  <img
+                    src={photo.src}
+                    alt={photo.alt}
+                    loading="lazy"
+                    decoding="async"
+                    className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
+                  />
+                  <div
+                    aria-hidden="true"
+                    className="absolute inset-0 bg-gradient-to-t from-background via-background/35 to-transparent"
+                  />
+                </div>
+                <div className="flex flex-1 flex-col p-6">
                 <div className="flex items-start justify-between gap-3">
                   <h2 className="font-display text-lg font-semibold">{c.name}</h2>
                   <Badge variant="outline" className={statusTone(c.status)}>
@@ -87,8 +119,10 @@ function GroupPage() {
                 <Button asChild variant="outline" size="sm" className="mt-6 w-full">
                   <Link to="/contact">Explore {c.name}</Link>
                 </Button>
+                </div>
               </article>
-            ))}
+              );
+            })}
           </div>
         )}
         <p className="mt-10 rounded-lg border border-border/60 bg-surface/40 p-4 text-xs text-muted-foreground">

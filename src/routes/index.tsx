@@ -16,6 +16,7 @@ import { Button } from "@/components/ui/button";
 import { HeroBackground } from "@/components/site/HeroBackground";
 import { SectionHeading } from "@/components/site/SectionHeading";
 import { SITE, COMPLIANCE_NOTE } from "@/lib/site";
+import { PHOTOS } from "@/lib/photos";
 
 const TITLE = "FRAN-X Holdings | Technology, Business & Investment Group";
 const DESCRIPTION =
@@ -80,12 +81,42 @@ const CORE_ACTIONS = [
 ];
 
 const CAPABILITIES = [
-  { icon: Cpu, title: "Technology & AI", body: "Websites, mobile apps, platforms, automation and AI systems." },
-  { icon: LineChart, title: "Business & Data", body: "Consulting, strategy, research and commercial development." },
-  { icon: ShoppingCart, title: "E-commerce", body: "Store builds, catalogue operations and online growth." },
-  { icon: Building2, title: "Real Estate", body: "Sourcing, advisory, marketing and deal facilitation." },
-  { icon: Car, title: "Automotive", body: "Vehicle sourcing, brokerage and transaction coordination." },
-  { icon: Fuel, title: "Oil & Gas / Energy", body: "Commercial advisory, matching and deal coordination." },
+  {
+    icon: Cpu,
+    title: "Technology & AI",
+    body: "Websites, mobile apps, platforms, automation and AI systems.",
+    photo: PHOTOS.technology,
+  },
+  {
+    icon: LineChart,
+    title: "Business & Data",
+    body: "Consulting, strategy, research and commercial development.",
+    photo: PHOTOS.data,
+  },
+  {
+    icon: ShoppingCart,
+    title: "E-commerce",
+    body: "Store builds, catalogue operations and online growth.",
+    photo: PHOTOS.ecommerce,
+  },
+  {
+    icon: Building2,
+    title: "Real Estate",
+    body: "Sourcing, advisory, marketing and deal facilitation.",
+    photo: PHOTOS.realEstate,
+  },
+  {
+    icon: Car,
+    title: "Automotive",
+    body: "Vehicle sourcing, brokerage and transaction coordination.",
+    photo: PHOTOS.automotive,
+  },
+  {
+    icon: Fuel,
+    title: "Oil & Gas / Energy",
+    body: "Commercial advisory, matching and deal coordination.",
+    photo: PHOTOS.energy,
+  },
 ];
 
 const JOURNEY = [
@@ -100,6 +131,17 @@ function Index() {
   return (
     <>
       <section className="relative overflow-hidden border-b border-border/60">
+        <img
+          src={PHOTOS.hero.src}
+          alt={PHOTOS.hero.alt}
+          fetchPriority="high"
+          decoding="async"
+          className="absolute inset-0 h-full w-full object-cover object-center opacity-35"
+        />
+        <div
+          aria-hidden="true"
+          className="absolute inset-0 bg-gradient-to-br from-background via-background/90 to-background/55"
+        />
         <HeroBackground />
         <div className="container-x relative py-20 sm:py-28 lg:py-32">
           <p className="eyebrow animate-rise">Diversified Business Group · Lagos, Nigeria</p>
@@ -163,11 +205,26 @@ function Index() {
               <Link
                 key={c.title}
                 to="/services"
-                className="rounded-xl border border-border bg-background/60 p-6 transition-colors hover:border-primary/50"
+                className="group overflow-hidden rounded-xl border border-border bg-background/60 transition-colors hover:border-primary/50"
               >
-                <c.icon className="h-5 w-5 text-primary" />
-                <h3 className="mt-4 font-display text-base font-semibold">{c.title}</h3>
-                <p className="mt-2 text-sm text-muted-foreground">{c.body}</p>
+                <div className="relative h-40 overflow-hidden">
+                  <img
+                    src={c.photo.src}
+                    alt={c.photo.alt}
+                    loading="lazy"
+                    decoding="async"
+                    className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
+                  />
+                  <div
+                    aria-hidden="true"
+                    className="absolute inset-0 bg-gradient-to-t from-background via-background/40 to-transparent"
+                  />
+                </div>
+                <div className="p-6">
+                  <c.icon className="h-5 w-5 text-primary" />
+                  <h3 className="mt-4 font-display text-base font-semibold">{c.title}</h3>
+                  <p className="mt-2 text-sm text-muted-foreground">{c.body}</p>
+                </div>
               </Link>
             ))}
           </div>

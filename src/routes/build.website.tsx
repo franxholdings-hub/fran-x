@@ -1,6 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { PageHero } from "@/components/site/PageHero";
 import { QuickInquiryForm } from "@/components/site/QuickInquiryForm";
+import { PHOTOS } from "@/lib/photos";
 
 const TITLE = "Build My Website | Web Development by FRAN-X Holdings";
 const DESCRIPTION =
@@ -27,6 +28,7 @@ function BuildWebsite() {
         eyebrow="Website development"
         title="Build my website"
         subtitle="Tell us the type of website, the features you need and your timeline."
+        photo={PHOTOS.technology}
       />
       <section className="container-x max-w-3xl py-14">
         <QuickInquiryForm

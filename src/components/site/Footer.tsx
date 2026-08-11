@@ -1,6 +1,7 @@
 import { Link } from "@tanstack/react-router";
 import { Mail, Phone, MapPin, MessageCircle } from "lucide-react";
 import { SITE, WHATSAPP_URL, MAILTO_URL, TEL_URL, COMPLIANCE_NOTE } from "@/lib/site";
+import { PHOTO_CREDITS } from "@/lib/photos";
 
 const COLUMNS: { title: string; links: { to: string; label: string; hash: string }[] }[] = [
   {
@@ -142,6 +143,24 @@ export function Footer() {
         <p className="mt-10 rounded-lg border border-border/60 bg-background/50 p-4 text-xs leading-relaxed text-muted-foreground">
           {COMPLIANCE_NOTE}
         </p>
+
+        <details className="mt-4 rounded-lg border border-border/60 bg-background/50 p-4 text-xs text-muted-foreground">
+          <summary className="cursor-pointer hover:text-primary">Photography credits</summary>
+          <ul className="mt-3 space-y-1.5">
+            {PHOTO_CREDITS.map((c) => (
+              <li key={c.source}>
+                <a
+                  href={c.source}
+                  target="_blank"
+                  rel="noopener noreferrer nofollow"
+                  className="hover:text-primary"
+                >
+                  {c.credit}
+                </a>
+              </li>
+            ))}
+          </ul>
+        </details>
 
         <div className="mt-8 flex flex-col gap-4 border-t border-border/70 pt-6 text-xs text-muted-foreground sm:flex-row sm:items-center sm:justify-between">
           <p>© 2026 FRAN-X Holdings. All Rights Reserved.</p>

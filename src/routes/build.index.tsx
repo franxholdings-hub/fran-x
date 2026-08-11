@@ -2,6 +2,7 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { Globe, Smartphone, Bot } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { PageHero } from "@/components/site/PageHero";
+import { PHOTOS } from "@/lib/photos";
 
 const TITLE = "Build With FRAN-X | Websites, Apps & AI Systems";
 const DESCRIPTION =
@@ -49,6 +50,7 @@ function BuildIndex() {
         eyebrow="Build with FRAN-X"
         title="Start your website, app or AI project."
         subtitle="Choose a track and we will scope, price and deliver it."
+        photo={PHOTOS.technology}
       />
       <section className="container-x grid gap-5 py-14 md:grid-cols-3">
         {OPTIONS.map((o) => (
