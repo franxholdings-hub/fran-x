@@ -11,6 +11,7 @@ import { AuthGateNotice } from "@/components/site/AuthGateNotice";
 import { useAuth } from "@/hooks/useAuth";
 import { REQUEST_CATEGORIES, COMPLIANCE_NOTE } from "@/lib/site";
 import { baseInquirySchema, submitInquiry } from "@/lib/inquiries";
+import { PHOTOS } from "@/lib/photos";
 
 const TITLE = "Request a Service | FRAN-X Holdings";
 const DESCRIPTION =
@@ -117,6 +118,7 @@ function RequestPage() {
         eyebrow="Request a service"
         title="Tell FRAN-X what you need."
         subtitle="Four short steps. You will receive a reference ID and a response from our team."
+        photo={PHOTOS.consulting}
       />
 
       <section className="container-x max-w-3xl py-14">
