@@ -17,7 +17,9 @@ const DESCRIPTION =
   "Submit a structured service request to FRAN-X Holdings and receive a reference ID, review and proposal from our team.";
 
 export const Route = createFileRoute("/request")({
-  validateSearch: (search: Record<string, unknown>) => ({
+  validateSearch: (
+    search: Record<string, unknown>,
+  ): { service?: string; category?: string } => ({
     service: typeof search['service'] === "string" ? (search['service'] as string) : "",
     category: typeof search['category'] === "string" ? (search['category'] as string) : "",
   }),
