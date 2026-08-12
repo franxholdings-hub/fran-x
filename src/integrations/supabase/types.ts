@@ -14,47 +14,171 @@ export type Database = {
   }
   public: {
     Tables: {
+      audit_log: {
+        Row: {
+          action: string
+          actor_email: string | null
+          actor_id: string | null
+          after_value: Json | null
+          before_value: Json | null
+          created_at: string
+          entity: string
+          entity_id: string | null
+          id: string
+        }
+        Insert: {
+          action: string
+          actor_email?: string | null
+          actor_id?: string | null
+          after_value?: Json | null
+          before_value?: Json | null
+          created_at?: string
+          entity: string
+          entity_id?: string | null
+          id?: string
+        }
+        Update: {
+          action?: string
+          actor_email?: string | null
+          actor_id?: string | null
+          after_value?: Json | null
+          before_value?: Json | null
+          created_at?: string
+          entity?: string
+          entity_id?: string | null
+          id?: string
+        }
+        Relationships: []
+      }
       companies: {
         Row: {
+          cover_url: string | null
           created_at: string
           description: string
           id: string
           industry: string
           is_active: boolean
           link: string | null
+          logo_url: string | null
           name: string
           slug: string
+          socials: Json
           sort_order: number
           status: string
         }
         Insert: {
+          cover_url?: string | null
           created_at?: string
           description: string
           id?: string
           industry: string
           is_active?: boolean
           link?: string | null
+          logo_url?: string | null
           name: string
           slug: string
+          socials?: Json
           sort_order?: number
           status?: string
         }
         Update: {
+          cover_url?: string | null
           created_at?: string
           description?: string
           id?: string
           industry?: string
           is_active?: boolean
           link?: string | null
+          logo_url?: string | null
           name?: string
           slug?: string
+          socials?: Json
           sort_order?: number
           status?: string
         }
         Relationships: []
       }
+      documents: {
+        Row: {
+          created_at: string
+          id: string
+          inquiry_id: string | null
+          kind: string
+          name: string
+          owner_id: string | null
+          path: string
+          project_id: string | null
+          size_bytes: number | null
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          inquiry_id?: string | null
+          kind?: string
+          name: string
+          owner_id?: string | null
+          path: string
+          project_id?: string | null
+          size_bytes?: number | null
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          inquiry_id?: string | null
+          kind?: string
+          name?: string
+          owner_id?: string | null
+          path?: string
+          project_id?: string | null
+          size_bytes?: number | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "documents_inquiry_id_fkey"
+            columns: ["inquiry_id"]
+            isOneToOne: false
+            referencedRelation: "inquiries"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "documents_project_id_fkey"
+            columns: ["project_id"]
+            isOneToOne: false
+            referencedRelation: "projects"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      faqs: {
+        Row: {
+          answer: string
+          created_at: string
+          id: string
+          is_active: boolean
+          question: string
+          sort_order: number
+        }
+        Insert: {
+          answer: string
+          created_at?: string
+          id?: string
+          is_active?: boolean
+          question: string
+          sort_order?: number
+        }
+        Update: {
+          answer?: string
+          created_at?: string
+          id?: string
+          is_active?: boolean
+          question?: string
+          sort_order?: number
+        }
+        Relationships: []
+      }
       inquiries: {
         Row: {
+          ai_summary: string | null
           assigned_to: string | null
           budget: string | null
           category: string | null
@@ -66,12 +190,15 @@ export type Database = {
           details: Json
           email: string
           estimated_value: number | null
+          follow_up_date: string | null
           full_name: string
           id: string
           kind: string
           last_contact: string | null
+          lead_quality: string | null
           next_action: string | null
           phone: string | null
+          priority: string | null
           reference: string
           service: string | null
           source: string | null
@@ -81,6 +208,7 @@ export type Database = {
           user_id: string | null
         }
         Insert: {
+          ai_summary?: string | null
           assigned_to?: string | null
           budget?: string | null
           category?: string | null
@@ -92,12 +220,15 @@ export type Database = {
           details?: Json
           email: string
           estimated_value?: number | null
+          follow_up_date?: string | null
           full_name: string
           id?: string
           kind?: string
           last_contact?: string | null
+          lead_quality?: string | null
           next_action?: string | null
           phone?: string | null
+          priority?: string | null
           reference: string
           service?: string | null
           source?: string | null
@@ -107,6 +238,7 @@ export type Database = {
           user_id?: string | null
         }
         Update: {
+          ai_summary?: string | null
           assigned_to?: string | null
           budget?: string | null
           category?: string | null
@@ -118,12 +250,15 @@ export type Database = {
           details?: Json
           email?: string
           estimated_value?: number | null
+          follow_up_date?: string | null
           full_name?: string
           id?: string
           kind?: string
           last_contact?: string | null
+          lead_quality?: string | null
           next_action?: string | null
           phone?: string | null
+          priority?: string | null
           reference?: string
           service?: string | null
           source?: string | null
@@ -166,6 +301,92 @@ export type Database = {
           },
         ]
       }
+      invoices: {
+        Row: {
+          amount: number
+          client_id: string | null
+          created_at: string
+          currency: string
+          due_date: string | null
+          id: string
+          number: string
+          paid_at: string | null
+          proposal_id: string | null
+          status: string
+        }
+        Insert: {
+          amount?: number
+          client_id?: string | null
+          created_at?: string
+          currency?: string
+          due_date?: string | null
+          id?: string
+          number: string
+          paid_at?: string | null
+          proposal_id?: string | null
+          status?: string
+        }
+        Update: {
+          amount?: number
+          client_id?: string | null
+          created_at?: string
+          currency?: string
+          due_date?: string | null
+          id?: string
+          number?: string
+          paid_at?: string | null
+          proposal_id?: string | null
+          status?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "invoices_proposal_id_fkey"
+            columns: ["proposal_id"]
+            isOneToOne: false
+            referencedRelation: "proposals"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      media_assets: {
+        Row: {
+          category: string
+          content_type: string | null
+          created_at: string
+          id: string
+          name: string
+          path: string
+          size_bytes: number | null
+          uploaded_by: string | null
+          url: string
+          usage_note: string | null
+        }
+        Insert: {
+          category?: string
+          content_type?: string | null
+          created_at?: string
+          id?: string
+          name: string
+          path: string
+          size_bytes?: number | null
+          uploaded_by?: string | null
+          url: string
+          usage_note?: string | null
+        }
+        Update: {
+          category?: string
+          content_type?: string | null
+          created_at?: string
+          id?: string
+          name?: string
+          path?: string
+          size_bytes?: number | null
+          uploaded_by?: string | null
+          url?: string
+          usage_note?: string | null
+        }
+        Relationships: []
+      }
       messages: {
         Row: {
           body: string
@@ -193,6 +414,39 @@ export type Database = {
           read_at?: string | null
           sender_id?: string
           thread_user_id?: string
+        }
+        Relationships: []
+      }
+      notifications: {
+        Row: {
+          body: string | null
+          created_at: string
+          entity: string | null
+          entity_id: string | null
+          id: string
+          kind: string
+          read_at: string | null
+          title: string
+        }
+        Insert: {
+          body?: string | null
+          created_at?: string
+          entity?: string | null
+          entity_id?: string | null
+          id?: string
+          kind?: string
+          read_at?: string | null
+          title: string
+        }
+        Update: {
+          body?: string | null
+          created_at?: string
+          entity?: string | null
+          entity_id?: string | null
+          id?: string
+          kind?: string
+          read_at?: string | null
+          title?: string
         }
         Relationships: []
       }
@@ -226,6 +480,165 @@ export type Database = {
         }
         Relationships: []
       }
+      project_milestones: {
+        Row: {
+          created_at: string
+          due_date: string | null
+          id: string
+          is_complete: boolean
+          project_id: string
+          sort_order: number
+          title: string
+        }
+        Insert: {
+          created_at?: string
+          due_date?: string | null
+          id?: string
+          is_complete?: boolean
+          project_id: string
+          sort_order?: number
+          title: string
+        }
+        Update: {
+          created_at?: string
+          due_date?: string | null
+          id?: string
+          is_complete?: boolean
+          project_id?: string
+          sort_order?: number
+          title?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "project_milestones_project_id_fkey"
+            columns: ["project_id"]
+            isOneToOne: false
+            referencedRelation: "projects"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      projects: {
+        Row: {
+          budget: number | null
+          client_id: string | null
+          created_at: string
+          deadline: string | null
+          id: string
+          inquiry_id: string | null
+          is_archived: boolean
+          kind: string
+          notes: string | null
+          platform: string | null
+          progress: number
+          status: string
+          summary: string | null
+          title: string
+          updated_at: string
+        }
+        Insert: {
+          budget?: number | null
+          client_id?: string | null
+          created_at?: string
+          deadline?: string | null
+          id?: string
+          inquiry_id?: string | null
+          is_archived?: boolean
+          kind?: string
+          notes?: string | null
+          platform?: string | null
+          progress?: number
+          status?: string
+          summary?: string | null
+          title: string
+          updated_at?: string
+        }
+        Update: {
+          budget?: number | null
+          client_id?: string | null
+          created_at?: string
+          deadline?: string | null
+          id?: string
+          inquiry_id?: string | null
+          is_archived?: boolean
+          kind?: string
+          notes?: string | null
+          platform?: string | null
+          progress?: number
+          status?: string
+          summary?: string | null
+          title?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "projects_inquiry_id_fkey"
+            columns: ["inquiry_id"]
+            isOneToOne: false
+            referencedRelation: "inquiries"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      proposals: {
+        Row: {
+          amount: number | null
+          client_id: string | null
+          created_at: string
+          currency: string
+          id: string
+          inquiry_id: string | null
+          items: Json
+          scope: string | null
+          status: string
+          terms: string | null
+          timeline: string | null
+          title: string
+          updated_at: string
+          valid_until: string | null
+        }
+        Insert: {
+          amount?: number | null
+          client_id?: string | null
+          created_at?: string
+          currency?: string
+          id?: string
+          inquiry_id?: string | null
+          items?: Json
+          scope?: string | null
+          status?: string
+          terms?: string | null
+          timeline?: string | null
+          title: string
+          updated_at?: string
+          valid_until?: string | null
+        }
+        Update: {
+          amount?: number | null
+          client_id?: string | null
+          created_at?: string
+          currency?: string
+          id?: string
+          inquiry_id?: string | null
+          items?: Json
+          scope?: string | null
+          status?: string
+          terms?: string | null
+          timeline?: string | null
+          title?: string
+          updated_at?: string
+          valid_until?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "proposals_inquiry_id_fkey"
+            columns: ["inquiry_id"]
+            isOneToOne: false
+            referencedRelation: "inquiries"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       services: {
         Row: {
           category: string
@@ -233,8 +646,11 @@ export type Database = {
           cta: string
           description: string
           id: string
+          image_url: string | null
           is_active: boolean
+          is_featured: boolean
           name: string
+          pricing_info: string | null
           slug: string
           sort_order: number
         }
@@ -244,8 +660,11 @@ export type Database = {
           cta?: string
           description: string
           id?: string
+          image_url?: string | null
           is_active?: boolean
+          is_featured?: boolean
           name: string
+          pricing_info?: string | null
           slug: string
           sort_order?: number
         }
@@ -255,31 +674,61 @@ export type Database = {
           cta?: string
           description?: string
           id?: string
+          image_url?: string | null
           is_active?: boolean
+          is_featured?: boolean
           name?: string
+          pricing_info?: string | null
           slug?: string
           sort_order?: number
+        }
+        Relationships: []
+      }
+      site_content: {
+        Row: {
+          key: string
+          updated_at: string
+          value: Json
+        }
+        Insert: {
+          key: string
+          updated_at?: string
+          value?: Json
+        }
+        Update: {
+          key?: string
+          updated_at?: string
+          value?: Json
         }
         Relationships: []
       }
       site_visits: {
         Row: {
           created_at: string
+          device: string | null
           id: string
           path: string
+          referrer: string | null
           user_id: string | null
+          visitor_key: string | null
         }
         Insert: {
           created_at?: string
+          device?: string | null
           id?: string
           path: string
+          referrer?: string | null
           user_id?: string | null
+          visitor_key?: string | null
         }
         Update: {
           created_at?: string
+          device?: string | null
           id?: string
           path?: string
+          referrer?: string | null
           user_id?: string | null
+          visitor_key?: string | null
         }
         Relationships: []
       }
@@ -318,7 +767,15 @@ export type Database = {
       }
     }
     Enums: {
-      app_role: "admin" | "user"
+      app_role:
+        | "admin"
+        | "user"
+        | "super_admin"
+        | "sales"
+        | "project_manager"
+        | "content_manager"
+        | "analyst"
+        | "support"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -446,7 +903,16 @@ export type CompositeTypes<
 export const Constants = {
   public: {
     Enums: {
-      app_role: ["admin", "user"],
+      app_role: [
+        "admin",
+        "user",
+        "super_admin",
+        "sales",
+        "project_manager",
+        "content_manager",
+        "analyst",
+        "support",
+      ],
     },
   },
 } as const
