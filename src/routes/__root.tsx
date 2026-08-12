@@ -13,6 +13,7 @@ import { useEffect, type ReactNode } from "react";
 import appCss from "../styles.css?url";
 import { reportLovableError } from "../lib/lovable-error-reporting";
 import { AuthProvider } from "@/hooks/useAuth";
+import { ThemeProvider, themeBootstrapScript } from "@/hooks/useTheme";
 import { Header } from "@/components/site/Header";
 import { Footer } from "@/components/site/Footer";
 import { WhatsAppButton } from "@/components/site/WhatsAppButton";
@@ -84,11 +85,11 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "Lovable App" },
-      { name: "description", content: "Lovable Generated Project" },
-      { name: "author", content: "Lovable" },
-      { property: "og:title", content: "Lovable App" },
-      { property: "og:description", content: "Lovable Generated Project" },
+      { title: "FRAN-X Holdings | Business, Technology & Investment Group" },
+      { name: "description", content: "FRAN-X Holdings builds businesses, connects opportunities and delivers technology, consulting and investment solutions." },
+      { name: "author", content: "FRAN-X Holdings" },
+      { property: "og:title", content: "FRAN-X Holdings" },
+      { property: "og:description", content: "Building Businesses. Connecting Opportunities. Creating the Future." },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
       { name: "twitter:site", content: "@Lovable" },
@@ -117,6 +118,7 @@ function RootShell({ children }: { children: ReactNode }) {
   return (
     <html lang="en">
       <head>
+        <script dangerouslySetInnerHTML={{ __html: themeBootstrapScript }} />
         <HeadContent />
       </head>
       <body>
@@ -132,6 +134,7 @@ function RootComponent() {
 
   return (
     <QueryClientProvider client={queryClient}>
+      <ThemeProvider>
       <AuthProvider>
         <VisitLogger />
         <div className="flex min-h-screen flex-col">
@@ -145,6 +148,7 @@ function RootComponent() {
         <WhatsAppButton />
         <Toaster position="top-center" />
       </AuthProvider>
+      </ThemeProvider>
     </QueryClientProvider>
   );
 }

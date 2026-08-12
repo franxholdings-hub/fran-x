@@ -2,6 +2,7 @@ import { Link } from "@tanstack/react-router";
 import { Mail, Phone, MapPin, MessageCircle } from "lucide-react";
 import { SITE, WHATSAPP_URL, MAILTO_URL, TEL_URL, COMPLIANCE_NOTE } from "@/lib/site";
 import { PHOTO_CREDITS } from "@/lib/photos";
+import { LogoMark } from "@/components/site/Logo";
 
 const COLUMNS: { title: string; links: { to: string; label: string; hash: string }[] }[] = [
   {
@@ -54,8 +55,11 @@ export function Footer() {
       <div className="container-x py-14">
         <div className="grid gap-10 lg:grid-cols-[1.3fr_repeat(4,minmax(0,1fr))]">
           <div>
-            <p className="font-display text-lg font-semibold">
-              FRAN-X <span className="text-metal">HOLDINGS</span>
+            <p className="flex items-center gap-3 font-display text-lg font-semibold">
+              <LogoMark className="h-11 w-11" />
+              <span>
+                FRAN-X <span className="text-metal">HOLDINGS</span>
+              </span>
             </p>
             <p className="mt-3 max-w-xs text-sm text-muted-foreground">{SITE.tagline}</p>
             <p className="mt-4 text-xs uppercase tracking-[0.2em] text-primary/80">

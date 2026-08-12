@@ -1,7 +1,10 @@
+import { LogoSplice } from "@/components/site/Logo";
+
 export function HeroBackground() {
   return (
     <div aria-hidden="true" className="pointer-events-none absolute inset-0 overflow-hidden">
       <div className="hero-veil absolute inset-0" />
+      <LogoSplice />
       <div
         className="grid-drift absolute inset-x-0 -top-1/2 h-[200%] opacity-[0.14]"
         style={{
