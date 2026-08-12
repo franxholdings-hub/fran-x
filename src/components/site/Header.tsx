@@ -4,6 +4,8 @@ import { Menu, ShieldCheck, LayoutGrid, LogOut, UserRound } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTitle, SheetTrigger } from "@/components/ui/sheet";
 import { useAuth } from "@/hooks/useAuth";
+import { LogoLockup, LogoMark } from "@/components/site/Logo";
+import { ThemeToggle } from "@/components/site/ThemeToggle";
 
 const NAV = [
   { to: "/", label: "Home" },
@@ -29,18 +31,8 @@ export function Header() {
   return (
     <header className="sticky top-0 z-50 border-b border-border/70 bg-background/80 backdrop-blur-xl">
       <div className="container-x grid grid-cols-[minmax(0,1fr)_auto] items-center gap-4 py-3.5 lg:flex lg:justify-between">
-        <Link to="/" className="flex min-w-0 items-center gap-2.5">
-          <span className="grid h-9 w-9 shrink-0 place-items-center rounded-md border border-primary/40 bg-surface font-display text-sm font-bold text-primary">
-            FX
-          </span>
-          <span className="min-w-0">
-            <span className="block truncate font-display text-sm font-semibold tracking-tight">
-              FRAN-X <span className="text-metal">HOLDINGS</span>
-            </span>
-            <span className="hidden text-[10px] uppercase tracking-[0.22em] text-muted-foreground sm:block">
-              Business Group
-            </span>
-          </span>
+        <Link to="/" className="min-w-0">
+          <LogoLockup />
         </Link>
 
         <nav className="hidden items-center gap-1 lg:flex">
@@ -59,6 +51,7 @@ export function Header() {
         </nav>
 
         <div className="hidden items-center gap-2 lg:flex">
+          <ThemeToggle />
           {user ? (
             <>
               <Button asChild variant="ghost" size="sm">
@@ -99,7 +92,9 @@ export function Header() {
             </Button>
           </SheetTrigger>
           <SheetContent side="right" className="w-[86vw] max-w-sm overflow-y-auto bg-surface">
-            <SheetTitle className="font-display text-base">FRAN-X Holdings</SheetTitle>
+            <SheetTitle className="flex items-center gap-2 font-display text-base">
+              <LogoMark className="h-8 w-8" /> FRAN-X Holdings
+            </SheetTitle>
             <nav className="mt-6 flex flex-col gap-1">
               {NAV.map((item) => (
                 <Link
@@ -121,6 +116,10 @@ export function Header() {
               <Button asChild variant="outline" onClick={() => setOpen(false)}>
                 <Link to="/contact">Start an Inquiry</Link>
               </Button>
+              <div className="flex items-center justify-between rounded-md border border-border/60 px-4 py-2 text-sm">
+                <span className="text-muted-foreground">Appearance</span>
+                <ThemeToggle />
+              </div>
               {user ? (
                 <>
                   <Button asChild variant="ghost" onClick={() => setOpen(false)}>
