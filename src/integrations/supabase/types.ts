@@ -14,6 +14,227 @@ export type Database = {
   }
   public: {
     Tables: {
+      ai_agents: {
+        Row: {
+          description: string
+          domains: string[]
+          id: string
+          is_enabled: boolean
+          model: string
+          name: string
+          slug: string
+          sort_order: number
+          system_prompt: string
+          updated_at: string
+        }
+        Insert: {
+          description?: string
+          domains?: string[]
+          id?: string
+          is_enabled?: boolean
+          model?: string
+          name: string
+          slug: string
+          sort_order?: number
+          system_prompt?: string
+          updated_at?: string
+        }
+        Update: {
+          description?: string
+          domains?: string[]
+          id?: string
+          is_enabled?: boolean
+          model?: string
+          name?: string
+          slug?: string
+          sort_order?: number
+          system_prompt?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      ai_conversations: {
+        Row: {
+          agent_slug: string
+          category: string | null
+          classification: string | null
+          collected: Json
+          contact_email: string | null
+          contact_name: string | null
+          contact_phone: string | null
+          created_at: string
+          escalated: boolean
+          escalation_reason: string | null
+          id: string
+          inquiry_id: string | null
+          lead_score: number | null
+          message_count: number
+          risk_flags: string[]
+          status: string
+          summary: Json
+          updated_at: string
+          user_id: string | null
+          visitor_id: string | null
+        }
+        Insert: {
+          agent_slug?: string
+          category?: string | null
+          classification?: string | null
+          collected?: Json
+          contact_email?: string | null
+          contact_name?: string | null
+          contact_phone?: string | null
+          created_at?: string
+          escalated?: boolean
+          escalation_reason?: string | null
+          id?: string
+          inquiry_id?: string | null
+          lead_score?: number | null
+          message_count?: number
+          risk_flags?: string[]
+          status?: string
+          summary?: Json
+          updated_at?: string
+          user_id?: string | null
+          visitor_id?: string | null
+        }
+        Update: {
+          agent_slug?: string
+          category?: string | null
+          classification?: string | null
+          collected?: Json
+          contact_email?: string | null
+          contact_name?: string | null
+          contact_phone?: string | null
+          created_at?: string
+          escalated?: boolean
+          escalation_reason?: string | null
+          id?: string
+          inquiry_id?: string | null
+          lead_score?: number | null
+          message_count?: number
+          risk_flags?: string[]
+          status?: string
+          summary?: Json
+          updated_at?: string
+          user_id?: string | null
+          visitor_id?: string | null
+        }
+        Relationships: []
+      }
+      ai_messages: {
+        Row: {
+          agent_slug: string | null
+          content: string
+          conversation_id: string
+          created_at: string
+          id: string
+          role: string
+        }
+        Insert: {
+          agent_slug?: string | null
+          content: string
+          conversation_id: string
+          created_at?: string
+          id?: string
+          role: string
+        }
+        Update: {
+          agent_slug?: string | null
+          content?: string
+          conversation_id?: string
+          created_at?: string
+          id?: string
+          role?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "ai_messages_conversation_id_fkey"
+            columns: ["conversation_id"]
+            isOneToOne: false
+            referencedRelation: "ai_conversations"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      ai_settings: {
+        Row: {
+          ai_enabled: boolean
+          allowed_services: string[]
+          base_instructions: string
+          business_hours: string
+          cold_threshold: number
+          escalation_rules: string
+          hot_threshold: number
+          id: boolean
+          scoring_rules: Json
+          show_score_to_user: boolean
+          tone: string
+          updated_at: string
+          warm_threshold: number
+        }
+        Insert: {
+          ai_enabled?: boolean
+          allowed_services?: string[]
+          base_instructions?: string
+          business_hours?: string
+          cold_threshold?: number
+          escalation_rules?: string
+          hot_threshold?: number
+          id?: boolean
+          scoring_rules?: Json
+          show_score_to_user?: boolean
+          tone?: string
+          updated_at?: string
+          warm_threshold?: number
+        }
+        Update: {
+          ai_enabled?: boolean
+          allowed_services?: string[]
+          base_instructions?: string
+          business_hours?: string
+          cold_threshold?: number
+          escalation_rules?: string
+          hot_threshold?: number
+          id?: boolean
+          scoring_rules?: Json
+          show_score_to_user?: boolean
+          tone?: string
+          updated_at?: string
+          warm_threshold?: number
+        }
+        Relationships: []
+      }
+      ai_unknown_questions: {
+        Row: {
+          category: string | null
+          conversation_id: string | null
+          created_at: string
+          id: string
+          question: string
+          resolved: boolean
+          times_asked: number
+        }
+        Insert: {
+          category?: string | null
+          conversation_id?: string | null
+          created_at?: string
+          id?: string
+          question: string
+          resolved?: boolean
+          times_asked?: number
+        }
+        Update: {
+          category?: string | null
+          conversation_id?: string | null
+          created_at?: string
+          id?: string
+          question?: string
+          resolved?: boolean
+          times_asked?: number
+        }
+        Relationships: []
+      }
       audit_log: {
         Row: {
           action: string
@@ -47,6 +268,51 @@ export type Database = {
           entity?: string
           entity_id?: string | null
           id?: string
+        }
+        Relationships: []
+      }
+      callback_requests: {
+        Row: {
+          contact_method: string | null
+          contact_value: string | null
+          conversation_id: string | null
+          created_at: string
+          full_name: string | null
+          id: string
+          inquiry_id: string | null
+          preferred_date: string | null
+          preferred_time: string | null
+          reason: string | null
+          status: string
+          timezone: string | null
+        }
+        Insert: {
+          contact_method?: string | null
+          contact_value?: string | null
+          conversation_id?: string | null
+          created_at?: string
+          full_name?: string | null
+          id?: string
+          inquiry_id?: string | null
+          preferred_date?: string | null
+          preferred_time?: string | null
+          reason?: string | null
+          status?: string
+          timezone?: string | null
+        }
+        Update: {
+          contact_method?: string | null
+          contact_value?: string | null
+          conversation_id?: string | null
+          created_at?: string
+          full_name?: string | null
+          id?: string
+          inquiry_id?: string | null
+          preferred_date?: string | null
+          preferred_time?: string | null
+          reason?: string | null
+          status?: string
+          timezone?: string | null
         }
         Relationships: []
       }
@@ -95,6 +361,30 @@ export type Database = {
           socials?: Json
           sort_order?: number
           status?: string
+        }
+        Relationships: []
+      }
+      departments: {
+        Row: {
+          created_at: string
+          description: string
+          id: string
+          name: string
+          routing_keywords: string[]
+        }
+        Insert: {
+          created_at?: string
+          description?: string
+          id?: string
+          name: string
+          routing_keywords?: string[]
+        }
+        Update: {
+          created_at?: string
+          description?: string
+          id?: string
+          name?: string
+          routing_keywords?: string[]
         }
         Relationships: []
       }
@@ -347,6 +637,57 @@ export type Database = {
             referencedColumns: ["id"]
           },
         ]
+      }
+      knowledge_base: {
+        Row: {
+          category: string
+          content: string
+          created_at: string
+          created_by: string | null
+          id: string
+          is_active: boolean
+          is_confidential: boolean
+          is_verified: boolean
+          metadata: Json
+          reference_code: string | null
+          tags: string[]
+          title: string
+          updated_at: string
+          valid_until: string | null
+        }
+        Insert: {
+          category: string
+          content: string
+          created_at?: string
+          created_by?: string | null
+          id?: string
+          is_active?: boolean
+          is_confidential?: boolean
+          is_verified?: boolean
+          metadata?: Json
+          reference_code?: string | null
+          tags?: string[]
+          title: string
+          updated_at?: string
+          valid_until?: string | null
+        }
+        Update: {
+          category?: string
+          content?: string
+          created_at?: string
+          created_by?: string | null
+          id?: string
+          is_active?: boolean
+          is_confidential?: boolean
+          is_verified?: boolean
+          metadata?: Json
+          reference_code?: string | null
+          tags?: string[]
+          title?: string
+          updated_at?: string
+          valid_until?: string | null
+        }
+        Relationships: []
       }
       media_assets: {
         Row: {
@@ -731,6 +1072,38 @@ export type Database = {
           visitor_key?: string | null
         }
         Relationships: []
+      }
+      staff_assignments: {
+        Row: {
+          created_at: string
+          department_id: string | null
+          id: string
+          title: string | null
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          department_id?: string | null
+          id?: string
+          title?: string | null
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          department_id?: string | null
+          id?: string
+          title?: string | null
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "staff_assignments_department_id_fkey"
+            columns: ["department_id"]
+            isOneToOne: false
+            referencedRelation: "departments"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       user_roles: {
         Row: {
