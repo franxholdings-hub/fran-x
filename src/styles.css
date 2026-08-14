@@ -260,3 +260,16 @@
     transparent 12px
   );
 }
+
+/* Hide the third-party "Edit with Lovable" floating badge on the published site */
+#lovable-badge,
+a[href*="lovable.dev/projects"],
+a[aria-label*="Edit with Lovable"],
+[data-lovable-badge],
+[id*="lovable-badge"],
+[class*="lovable-badge"] {
+  display: none !important;
+  visibility: hidden !important;
+  pointer-events: none !important;
+  opacity: 0 !important;
+}
