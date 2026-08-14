@@ -17,6 +17,7 @@ import { ThemeProvider, themeBootstrapScript } from "@/hooks/useTheme";
 import { Header } from "@/components/site/Header";
 import { Footer } from "@/components/site/Footer";
 import { WhatsAppButton } from "@/components/site/WhatsAppButton";
+import { FrixWidget } from "@/components/site/FrixWidget";
 import { Toaster } from "@/components/ui/sonner";
 import { supabase } from "@/integrations/supabase/client";
 
@@ -146,6 +147,7 @@ function RootComponent() {
           <Footer />
         </div>
         <WhatsAppButton />
+        <FrixWidget />
         <Toaster position="top-center" />
       </AuthProvider>
       </ThemeProvider>
