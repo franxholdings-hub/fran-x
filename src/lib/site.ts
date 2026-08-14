@@ -7,8 +7,8 @@ export const SITE = {
   email: "franxholdings@gmail.com",
   phoneDisplay: "08025441050",
   phoneTel: "+2348025441050",
-  whatsappDisplay: "+234 706 341 4752",
-  whatsappNumber: "2347063414752",
+  whatsappDisplay: "+234 705 581 9584",
+  whatsappNumber: "2347055819584",
   address: "Festac Town, Lagos, Nigeria",
 } as const;
 
