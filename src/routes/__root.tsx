@@ -159,7 +159,19 @@ function VisitLogger() {
   const pathname = useRouterState({ select: (s) => s.location.pathname });
 
   useEffect(() => {
-    void supabase.from("site_visits").insert({ path: pathname });
+    const ua = navigator.userAgent;
+    const device = /iPad|Tablet/i.test(ua) ? "tablet" : /Mobi|Android|iPhone/i.test(ua) ? "mobile" : "desktop";
+    let visitorKey = window.localStorage.getItem("franx.visitor");
+    if (!visitorKey) {
+      visitorKey = crypto.randomUUID();
+      window.localStorage.setItem("franx.visitor", visitorKey);
+    }
+    void supabase.from("site_visits").insert({
+      path: pathname,
+      device,
+      referrer: document.referrer || null,
+      visitor_key: visitorKey,
+    });
   }, [pathname]);
 
   return null;
