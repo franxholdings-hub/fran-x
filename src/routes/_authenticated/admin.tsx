@@ -236,7 +236,7 @@ function Crm() {
 
   const patch = useMutation({
     mutationFn: async ({ id, values }: { id: string; values: Record<string, unknown> }) => {
-      const { error } = await supabase.from("inquiries").update(values).eq("id", id);
+      const { error } = await supabase.from("inquiries").update(values as never).eq("id", id);
       if (error) throw error;
       await supabase.from("audit_log").insert({
         actor_id: user?.id ?? null,
@@ -434,7 +434,7 @@ function Projects() {
 
   const patch = useMutation({
     mutationFn: async ({ id, values }: { id: string; values: Record<string, unknown> }) => {
-      const { error } = await supabase.from("projects").update(values).eq("id", id);
+      const { error } = await supabase.from("projects").update(values as never).eq("id", id);
       if (error) throw error;
     },
     onSuccess: () => void qc.invalidateQueries({ queryKey: ["cc-projects"] }),
@@ -637,7 +637,7 @@ function Frix() {
 
   const saveSettings = useMutation({
     mutationFn: async (values: Record<string, unknown>) => {
-      const { error } = await supabase.from("ai_settings").update(values).eq("id", true);
+      const { error } = await supabase.from("ai_settings").update(values as never).eq("id", true);
       if (error) throw error;
     },
     onSuccess: () => {
@@ -818,7 +818,7 @@ function Knowledge() {
 
   const patch = useMutation({
     mutationFn: async ({ id, values }: { id: string; values: Record<string, unknown> }) => {
-      const { error } = await supabase.from("knowledge_base").update(values).eq("id", id);
+      const { error } = await supabase.from("knowledge_base").update(values as never).eq("id", id);
       if (error) throw error;
     },
     onSuccess: () => void qc.invalidateQueries({ queryKey: ["cc-kb"] }),
@@ -910,14 +910,14 @@ function Cms() {
 
   const patchService = useMutation({
     mutationFn: async ({ id, values }: { id: string; values: Record<string, unknown> }) => {
-      const { error } = await supabase.from("services").update(values).eq("id", id);
+      const { error } = await supabase.from("services").update(values as never).eq("id", id);
       if (error) throw error;
     },
     onSuccess: () => void qc.invalidateQueries({ queryKey: ["cc-services"] }),
   });
   const patchCompany = useMutation({
     mutationFn: async ({ id, values }: { id: string; values: Record<string, unknown> }) => {
-      const { error } = await supabase.from("companies").update(values).eq("id", id);
+      const { error } = await supabase.from("companies").update(values as never).eq("id", id);
       if (error) throw error;
     },
     onSuccess: () => void qc.invalidateQueries({ queryKey: ["cc-companies"] }),
