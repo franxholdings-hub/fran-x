@@ -28,6 +28,9 @@ import { Route as LegalDisclaimerRouteImport } from './routes/legal/disclaimer'
 import { Route as LegalPrivacyRouteImport } from './routes/legal/privacy'
 import { Route as LegalTermsRouteImport } from './routes/legal/terms'
 import { Route as ServicesSlugRouteImport } from './routes/services.$slug'
+import { Route as ApiPaystackInitializeRouteImport } from './routes/api/paystack/initialize'
+import { Route as ApiPaystackVerifyRouteImport } from './routes/api/paystack/verify'
+import { Route as ApiPaystackWebhookRouteImport } from './routes/api/paystack/webhook'
 import { Route as ApiPublicFrixRouteImport } from './routes/api/public/frix'
 
 const IndexRoute = IndexRouteImport.update({
@@ -124,6 +127,21 @@ const ServicesSlugRoute = ServicesSlugRouteImport.update({
   path: '/$slug',
   getParentRoute: () => ServicesRoute,
 } as any)
+const ApiPaystackInitializeRoute = ApiPaystackInitializeRouteImport.update({
+  id: '/api/paystack/initialize',
+  path: '/api/paystack/initialize',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApiPaystackVerifyRoute = ApiPaystackVerifyRouteImport.update({
+  id: '/api/paystack/verify',
+  path: '/api/paystack/verify',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApiPaystackWebhookRoute = ApiPaystackWebhookRouteImport.update({
+  id: '/api/paystack/webhook',
+  path: '/api/paystack/webhook',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ApiPublicFrixRoute = ApiPublicFrixRouteImport.update({
   id: '/api/public/frix',
   path: '/api/public/frix',
@@ -149,6 +167,9 @@ export interface FileRoutesByFullPath {
   '/legal/terms': typeof LegalTermsRoute
   '/services/$slug': typeof ServicesSlugRoute
   '/build/': typeof BuildIndexRoute
+  '/api/paystack/initialize': typeof ApiPaystackInitializeRoute
+  '/api/paystack/verify': typeof ApiPaystackVerifyRoute
+  '/api/paystack/webhook': typeof ApiPaystackWebhookRoute
   '/api/public/frix': typeof ApiPublicFrixRoute
 }
 export interface FileRoutesByTo {
@@ -170,6 +191,9 @@ export interface FileRoutesByTo {
   '/legal/terms': typeof LegalTermsRoute
   '/services/$slug': typeof ServicesSlugRoute
   '/build': typeof BuildIndexRoute
+  '/api/paystack/initialize': typeof ApiPaystackInitializeRoute
+  '/api/paystack/verify': typeof ApiPaystackVerifyRoute
+  '/api/paystack/webhook': typeof ApiPaystackWebhookRoute
   '/api/public/frix': typeof ApiPublicFrixRoute
 }
 export interface FileRoutesById {
@@ -193,6 +217,9 @@ export interface FileRoutesById {
   '/legal/terms': typeof LegalTermsRoute
   '/services/$slug': typeof ServicesSlugRoute
   '/build/': typeof BuildIndexRoute
+  '/api/paystack/initialize': typeof ApiPaystackInitializeRoute
+  '/api/paystack/verify': typeof ApiPaystackVerifyRoute
+  '/api/paystack/webhook': typeof ApiPaystackWebhookRoute
   '/api/public/frix': typeof ApiPublicFrixRoute
 }
 export interface FileRouteTypes {
@@ -216,6 +243,9 @@ export interface FileRouteTypes {
     | '/legal/terms'
     | '/services/$slug'
     | '/build/'
+    | '/api/paystack/initialize'
+    | '/api/paystack/verify'
+    | '/api/paystack/webhook'
     | '/api/public/frix'
   fileRoutesByTo: FileRoutesByTo
   to:
@@ -237,6 +267,9 @@ export interface FileRouteTypes {
     | '/legal/terms'
     | '/services/$slug'
     | '/build'
+    | '/api/paystack/initialize'
+    | '/api/paystack/verify'
+    | '/api/paystack/webhook'
     | '/api/public/frix'
   id:
     | '__root__'
@@ -259,6 +292,9 @@ export interface FileRouteTypes {
     | '/legal/terms'
     | '/services/$slug'
     | '/build/'
+    | '/api/paystack/initialize'
+    | '/api/paystack/verify'
+    | '/api/paystack/webhook'
     | '/api/public/frix'
   fileRoutesById: FileRoutesById
 }
@@ -279,6 +315,9 @@ export interface RootRouteChildren {
   LegalPrivacyRoute: typeof LegalPrivacyRoute
   LegalTermsRoute: typeof LegalTermsRoute
   BuildIndexRoute: typeof BuildIndexRoute
+  ApiPaystackInitializeRoute: typeof ApiPaystackInitializeRoute
+  ApiPaystackVerifyRoute: typeof ApiPaystackVerifyRoute
+  ApiPaystackWebhookRoute: typeof ApiPaystackWebhookRoute
   ApiPublicFrixRoute: typeof ApiPublicFrixRoute
 }
 
@@ -417,6 +456,27 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ServicesSlugRouteImport
       parentRoute: typeof ServicesRoute
     }
+    '/api/paystack/initialize': {
+      id: '/api/paystack/initialize'
+      path: '/api/paystack/initialize'
+      fullPath: '/api/paystack/initialize'
+      preLoaderRoute: typeof ApiPaystackInitializeRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/paystack/verify': {
+      id: '/api/paystack/verify'
+      path: '/api/paystack/verify'
+      fullPath: '/api/paystack/verify'
+      preLoaderRoute: typeof ApiPaystackVerifyRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/paystack/webhook': {
+      id: '/api/paystack/webhook'
+      path: '/api/paystack/webhook'
+      fullPath: '/api/paystack/webhook'
+      preLoaderRoute: typeof ApiPaystackWebhookRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/api/public/frix': {
       id: '/api/public/frix'
       path: '/api/public/frix'
@@ -469,6 +529,9 @@ const rootRouteChildren: RootRouteChildren = {
   LegalPrivacyRoute: LegalPrivacyRoute,
   LegalTermsRoute: LegalTermsRoute,
   BuildIndexRoute: BuildIndexRoute,
+  ApiPaystackInitializeRoute: ApiPaystackInitializeRoute,
+  ApiPaystackVerifyRoute: ApiPaystackVerifyRoute,
+  ApiPaystackWebhookRoute: ApiPaystackWebhookRoute,
   ApiPublicFrixRoute: ApiPublicFrixRoute,
 }
 export const routeTree = rootRouteImport
