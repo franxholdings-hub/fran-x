@@ -18,6 +18,22 @@ export const SUBSCRIPTION_STATUSES = [
   "active",
   "past_due",
   "cancelled",
+  "expired",
+  "suspended",
+] as const;
+
+export const BILLING_INTERVALS = ["monthly", "yearly", "one_time", "free"] as const;
+
+export const PLAN_PRODUCT_TYPES = ["platform", "ai_integration"] as const;
+
+export const PAYMENT_VERIFICATION_STATUSES = ["unverified", "verified"] as const;
+
+export const PAYMENT_STATUSES_FULL = [
+  "pending",
+  "successful",
+  "failed",
+  "abandoned",
+  "refunded",
 ] as const;
 
 // Centralized revenue categories — free text in the DB so future FRAN-X

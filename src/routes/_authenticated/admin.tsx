@@ -95,6 +95,9 @@ function Admin() {
           <TabsContent value="frix"><Frix /></TabsContent>
           <TabsContent value="knowledge"><Knowledge /></TabsContent>
           <TabsContent value="ai-integration"><AiClients /></TabsContent>
+          <TabsContent value="plans"><Plans /></TabsContent>
+          <TabsContent value="subscriptions"><Subscriptions /></TabsContent>
+          <TabsContent value="payments"><Payments /></TabsContent>
           <TabsContent value="revenue"><Revenue /></TabsContent>
           <TabsContent value="cms"><Cms /></TabsContent>
           <TabsContent value="analytics"><Analytics /></TabsContent>
