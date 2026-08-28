@@ -12,4 +12,11 @@ export default defineConfig({
     // nitro/vite builds from this
     server: { entry: "server" },
   },
+  vite: {
+    server: {
+      // The preview is served through an external proxy hostname that changes
+      // whenever the environment is recreated, so allow all hosts.
+      allowedHosts: true,
+    },
+  },
 });

@@ -7,10 +7,12 @@ import {
   Bot,
   Boxes,
   Brain,
+  CircleDollarSign,
   ClipboardList,
   Image as ImageIcon,
   LayoutDashboard,
   MessageSquare,
+  Sparkles,
   Users,
 } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
@@ -21,6 +23,8 @@ import { Switch } from "@/components/ui/switch";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { PageHero } from "@/components/site/PageHero";
 import { ChatPanel } from "@/components/site/ChatPanel";
+import { AiClients } from "@/components/admin/ai-clients";
+import { Revenue } from "@/components/admin/revenue";
 import { Empty, Loading, PanelSection, StatCard, toneForStatus } from "@/components/admin/kit";
 import { useAuth } from "@/hooks/useAuth";
 import { supabase } from "@/integrations/supabase/client";
@@ -77,6 +81,8 @@ function Admin() {
             <TabsTrigger value="messages"><MessageSquare className="h-4 w-4" /> Messages</TabsTrigger>
             <TabsTrigger value="frix"><Bot className="h-4 w-4" /> FRIX AI</TabsTrigger>
             <TabsTrigger value="knowledge"><Brain className="h-4 w-4" /> Knowledge</TabsTrigger>
+            <TabsTrigger value="ai-integration"><Sparkles className="h-4 w-4" /> AI Integration</TabsTrigger>
+            <TabsTrigger value="revenue"><CircleDollarSign className="h-4 w-4" /> Revenue</TabsTrigger>
             <TabsTrigger value="cms"><ImageIcon className="h-4 w-4" /> Content</TabsTrigger>
             <TabsTrigger value="analytics"><Activity className="h-4 w-4" /> Analytics</TabsTrigger>
           </TabsList>
@@ -88,6 +94,11 @@ function Admin() {
           <TabsContent value="messages">{user ? <Messages currentUserId={user.id} /> : null}</TabsContent>
           <TabsContent value="frix"><Frix /></TabsContent>
           <TabsContent value="knowledge"><Knowledge /></TabsContent>
+          <TabsContent value="ai-integration"><AiClients /></TabsContent>
+          <TabsContent value="plans"><Plans /></TabsContent>
+          <TabsContent value="subscriptions"><Subscriptions /></TabsContent>
+          <TabsContent value="payments"><Payments /></TabsContent>
+          <TabsContent value="revenue"><Revenue /></TabsContent>
           <TabsContent value="cms"><Cms /></TabsContent>
           <TabsContent value="analytics"><Analytics /></TabsContent>
         </Tabs>

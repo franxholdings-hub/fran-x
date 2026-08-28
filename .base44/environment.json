@@ -1,0 +1,17 @@
+{
+  "previewPort": 3000,
+  "healthPath": "/",
+  "startCommand": "docker compose -f docker-compose.base44.yml up -d",
+  "secrets": [
+    {
+      "name": "SUPABASE_SERVICE_ROLE_KEY",
+      "description": "Supabase service role key (sb_secret_...) for server-side admin DB writes (FRIX chat, admin portal). Not required to boot.",
+      "requiredAtBoot": false
+    },
+    {
+      "name": "LOVABLE_API_KEY",
+      "description": "Lovable AI gateway key for the FRIX AI chat widget. Not required to boot.",
+      "requiredAtBoot": false
+    }
+  ]
+}

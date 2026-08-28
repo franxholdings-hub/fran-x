@@ -1,0 +1,20 @@
+services:
+  web:
+    image: oven/bun:1.2
+    working_dir: /app
+    volumes:
+      - ./:/app
+      - /app/node_modules
+    # Bind-mount the platform-managed secrets file (outside the repo) so the
+    # running app receives user-supplied credentials without baking them in.
+    env_file:
+      - /run/base44/app.env
+    environment:
+      # Lets the app derive its public preview origin at runtime.
+      - BASE44_PUBLIC_HOST_SUFFIX=${BASE44_PUBLIC_HOST_SUFFIX}
+    # `bun run dev` runs `vite dev`. We force host/port so the preview can
+    # reach the dev server through its external proxy hostname.
+    command: sh -c "bun install && bun run dev --host 0.0.0.0 --port 3000"
+    ports:
+      - "3000:3000"
+    restart: unless-stopped
