@@ -83,7 +83,7 @@ function Pref({ icon: Icon, label, desc, defaultChecked }: { icon: typeof Bell; 
           <span className="block text-xs text-muted-foreground">{desc}</span>
         </span>
       </span>
-      <Switch defaultChecked={defaultChecked} />
+      <Switch defaultChecked={defaultChecked ?? false} />
     </label>
   );
 }

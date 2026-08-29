@@ -157,6 +157,63 @@ export type Database = {
           },
         ]
       }
+      ai_packages: {
+        Row: {
+          billing_interval: string
+          code: string
+          currency: string
+          description: string
+          features: Json
+          id: string
+          is_active: boolean
+          monthly_price: number
+          name: string
+          paystack_plan_code: string | null
+          product_type: string
+          setup_fee: number
+          sort_order: number
+          trial_days: number
+          updated_at: string
+          usage_limit: number
+        }
+        Insert: {
+          billing_interval?: string
+          code: string
+          currency?: string
+          description?: string
+          features?: Json
+          id?: string
+          is_active?: boolean
+          monthly_price?: number
+          name: string
+          paystack_plan_code?: string | null
+          product_type?: string
+          setup_fee?: number
+          sort_order?: number
+          trial_days?: number
+          updated_at?: string
+          usage_limit?: number
+        }
+        Update: {
+          billing_interval?: string
+          code?: string
+          currency?: string
+          description?: string
+          features?: Json
+          id?: string
+          is_active?: boolean
+          monthly_price?: number
+          name?: string
+          paystack_plan_code?: string | null
+          product_type?: string
+          setup_fee?: number
+          sort_order?: number
+          trial_days?: number
+          updated_at?: string
+          usage_limit?: number
+        }
+        Relationships: []
+      }
       ai_settings: {
         Row: {
           ai_enabled: boolean
@@ -1101,6 +1158,62 @@ export type Database = {
             columns: ["department_id"]
             isOneToOne: false
             referencedRelation: "departments"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      subscriptions: {
+        Row: {
+          cancelled_at: string | null
+          created_at: string
+          current_period_end: string | null
+          id: string
+          paystack_customer_code: string | null
+          paystack_plan_code: string | null
+          paystack_subscription_code: string | null
+          plan_id: string | null
+          started_at: string
+          status: string
+          trial_ends_at: string | null
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          cancelled_at?: string | null
+          created_at?: string
+          current_period_end?: string | null
+          id?: string
+          paystack_customer_code?: string | null
+          paystack_plan_code?: string | null
+          paystack_subscription_code?: string | null
+          plan_id?: string | null
+          started_at?: string
+          status?: string
+          trial_ends_at?: string | null
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          cancelled_at?: string | null
+          created_at?: string
+          current_period_end?: string | null
+          id?: string
+          paystack_customer_code?: string | null
+          paystack_plan_code?: string | null
+          paystack_subscription_code?: string | null
+          plan_id?: string | null
+          started_at?: string
+          status?: string
+          trial_ends_at?: string | null
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "subscriptions_plan_id_fkey"
+            columns: ["plan_id"]
+            isOneToOne: false
+            referencedRelation: "ai_packages"
             referencedColumns: ["id"]
           },
         ]

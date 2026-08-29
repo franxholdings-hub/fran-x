@@ -16,9 +16,11 @@ type Plan = {
   code: string;
   name: string;
   billing_interval: string;
+  monthly_price: number;
   trial_days: number;
   usage_limit: number;
   product_type: string;
+  features: string[] | string;
 };
 
 type Subscription = {
