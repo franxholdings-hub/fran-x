@@ -21,7 +21,9 @@ const RECOMMENDED = [
   { title: "Honda Civic 2020 (foreign used)", sector: "Automotive", value: "₦11,200,000", icon: Car },
 ];
 
-function OppRow({ o, meta }: { o: typeof SAVED[number]; meta?: string }) {
+type OppItem = { title: string; sector: string; value: string; icon: typeof Building2; saved?: string };
+
+function OppRow({ o, meta }: { o: OppItem; meta?: string }) {
   return (
     <div className="flex items-center gap-3 rounded-lg border border-border bg-surface/40 p-4">
       <span className="grid h-10 w-10 shrink-0 place-items-center rounded-lg border border-primary/30 text-primary">
