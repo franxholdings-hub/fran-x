@@ -57,7 +57,7 @@ export function Header() {
             <>
               <Button asChild variant="ghost" size="sm">
                 <Link to="/portal">
-                  <LayoutGrid /> Portal
+                  <LayoutGrid /> Dashboard
                 </Link>
               </Button>
               {isAdmin ? (
