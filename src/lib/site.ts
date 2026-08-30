@@ -5,8 +5,8 @@ export const SITE = {
     "FRAN-X provides technology, business, consulting, investment, and commercial solutions designed to help individuals and organizations build, operate, connect, and scale.",
   founder: "Francis Ejimkeonye",
   email: "franxholdings@gmail.com",
-  phoneDisplay: "08025441050",
-  phoneTel: "+2348025441050",
+  phoneDisplay: "07063414752",
+  phoneTel: "+2347063414752",
   whatsappDisplay: "+234 705 581 9584",
   whatsappNumber: "2347055819584",
   address: "Festac Town, Lagos, Nigeria",
@@ -18,6 +18,19 @@ export const WHATSAPP_URL = `https://wa.me/${SITE.whatsappNumber}?text=${encodeU
 
 export const MAILTO_URL = `mailto:${SITE.email}`;
 export const TEL_URL = `tel:${SITE.phoneTel}`;
+
+/** WhatsApp deep-link prefilled with an inquiry about a specific listing. */
+export function listingWhatsAppUrl(title: string) {
+  const text = `Hello FRAN-X, I'm interested in "${title}" listed on the FRAN-X Marketplace and would like more details.`;
+  return `https://wa.me/${SITE.whatsappNumber}?text=${encodeURIComponent(text)}`;
+}
+
+/** Email deep-link prefilled with an inquiry about a specific listing. */
+export function listingEmailUrl(title: string) {
+  const subject = `Inquiry: ${title}`;
+  const body = `Hello FRAN-X,\n\nI'm interested in "${title}" listed on the FRAN-X Marketplace and would like more details.\n\nThank you.`;
+  return `mailto:${SITE.email}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+}
 
 export const COMPLIANCE_NOTE =
   "Certain services, transactions, and activities may be subject to applicable Nigerian and international laws, licensing requirements, regulatory approvals, due diligence, and/or execution through appropriately licensed partners.";

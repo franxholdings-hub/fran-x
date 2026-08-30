@@ -28,6 +28,8 @@ import { Route as LegalCookiesRouteImport } from './routes/legal/cookies'
 import { Route as LegalDisclaimerRouteImport } from './routes/legal/disclaimer'
 import { Route as LegalPrivacyRouteImport } from './routes/legal/privacy'
 import { Route as LegalTermsRouteImport } from './routes/legal/terms'
+import { Route as MarketplaceIndexRouteImport } from './routes/marketplace.index'
+import { Route as MarketplaceSlugRouteImport } from './routes/marketplace.$slug'
 import { Route as ServicesSlugRouteImport } from './routes/services.$slug'
 import { Route as ApiPaystackInitializeRouteImport } from './routes/api/paystack/initialize'
 import { Route as ApiPaystackStatusRouteImport } from './routes/api/paystack/status'
@@ -130,6 +132,16 @@ const LegalTermsRoute = LegalTermsRouteImport.update({
   path: '/legal/terms',
   getParentRoute: () => rootRouteImport,
 } as any)
+const MarketplaceIndexRoute = MarketplaceIndexRouteImport.update({
+  id: '/marketplace/',
+  path: '/marketplace/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const MarketplaceSlugRoute = MarketplaceSlugRouteImport.update({
+  id: '/marketplace/$slug',
+  path: '/marketplace/$slug',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ServicesSlugRoute = ServicesSlugRouteImport.update({
   id: '/$slug',
   path: '/$slug',
@@ -185,8 +197,10 @@ export interface FileRoutesByFullPath {
   '/legal/disclaimer': typeof LegalDisclaimerRoute
   '/legal/privacy': typeof LegalPrivacyRoute
   '/legal/terms': typeof LegalTermsRoute
+  '/marketplace/$slug': typeof MarketplaceSlugRoute
   '/services/$slug': typeof ServicesSlugRoute
   '/build/': typeof BuildIndexRoute
+  '/marketplace/': typeof MarketplaceIndexRoute
   '/api/paystack/initialize': typeof ApiPaystackInitializeRoute
   '/api/paystack/status': typeof ApiPaystackStatusRoute
   '/api/paystack/verify': typeof ApiPaystackVerifyRoute
@@ -212,8 +226,10 @@ export interface FileRoutesByTo {
   '/legal/disclaimer': typeof LegalDisclaimerRoute
   '/legal/privacy': typeof LegalPrivacyRoute
   '/legal/terms': typeof LegalTermsRoute
+  '/marketplace/$slug': typeof MarketplaceSlugRoute
   '/services/$slug': typeof ServicesSlugRoute
   '/build': typeof BuildIndexRoute
+  '/marketplace': typeof MarketplaceIndexRoute
   '/api/paystack/initialize': typeof ApiPaystackInitializeRoute
   '/api/paystack/status': typeof ApiPaystackStatusRoute
   '/api/paystack/verify': typeof ApiPaystackVerifyRoute
@@ -241,8 +257,10 @@ export interface FileRoutesById {
   '/legal/disclaimer': typeof LegalDisclaimerRoute
   '/legal/privacy': typeof LegalPrivacyRoute
   '/legal/terms': typeof LegalTermsRoute
+  '/marketplace/$slug': typeof MarketplaceSlugRoute
   '/services/$slug': typeof ServicesSlugRoute
   '/build/': typeof BuildIndexRoute
+  '/marketplace/': typeof MarketplaceIndexRoute
   '/api/paystack/initialize': typeof ApiPaystackInitializeRoute
   '/api/paystack/status': typeof ApiPaystackStatusRoute
   '/api/paystack/verify': typeof ApiPaystackVerifyRoute
@@ -270,8 +288,10 @@ export interface FileRouteTypes {
     | '/legal/disclaimer'
     | '/legal/privacy'
     | '/legal/terms'
+    | '/marketplace/$slug'
     | '/services/$slug'
     | '/build/'
+    | '/marketplace/'
     | '/api/paystack/initialize'
     | '/api/paystack/status'
     | '/api/paystack/verify'
@@ -297,8 +317,10 @@ export interface FileRouteTypes {
     | '/legal/disclaimer'
     | '/legal/privacy'
     | '/legal/terms'
+    | '/marketplace/$slug'
     | '/services/$slug'
     | '/build'
+    | '/marketplace'
     | '/api/paystack/initialize'
     | '/api/paystack/status'
     | '/api/paystack/verify'
@@ -325,8 +347,10 @@ export interface FileRouteTypes {
     | '/legal/disclaimer'
     | '/legal/privacy'
     | '/legal/terms'
+    | '/marketplace/$slug'
     | '/services/$slug'
     | '/build/'
+    | '/marketplace/'
     | '/api/paystack/initialize'
     | '/api/paystack/status'
     | '/api/paystack/verify'
@@ -352,7 +376,9 @@ export interface RootRouteChildren {
   LegalDisclaimerRoute: typeof LegalDisclaimerRoute
   LegalPrivacyRoute: typeof LegalPrivacyRoute
   LegalTermsRoute: typeof LegalTermsRoute
+  MarketplaceSlugRoute: typeof MarketplaceSlugRoute
   BuildIndexRoute: typeof BuildIndexRoute
+  MarketplaceIndexRoute: typeof MarketplaceIndexRoute
   ApiPaystackInitializeRoute: typeof ApiPaystackInitializeRoute
   ApiPaystackStatusRoute: typeof ApiPaystackStatusRoute
   ApiPaystackVerifyRoute: typeof ApiPaystackVerifyRoute
@@ -496,6 +522,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof LegalTermsRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/marketplace/': {
+      id: '/marketplace/'
+      path: '/marketplace'
+      fullPath: '/marketplace/'
+      preLoaderRoute: typeof MarketplaceIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/marketplace/$slug': {
+      id: '/marketplace/$slug'
+      path: '/marketplace/$slug'
+      fullPath: '/marketplace/$slug'
+      preLoaderRoute: typeof MarketplaceSlugRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/services/$slug': {
       id: '/services/$slug'
       path: '/$slug'
@@ -590,7 +630,9 @@ const rootRouteChildren: RootRouteChildren = {
   LegalDisclaimerRoute: LegalDisclaimerRoute,
   LegalPrivacyRoute: LegalPrivacyRoute,
   LegalTermsRoute: LegalTermsRoute,
+  MarketplaceSlugRoute: MarketplaceSlugRoute,
   BuildIndexRoute: BuildIndexRoute,
+  MarketplaceIndexRoute: MarketplaceIndexRoute,
   ApiPaystackInitializeRoute: ApiPaystackInitializeRoute,
   ApiPaystackStatusRoute: ApiPaystackStatusRoute,
   ApiPaystackVerifyRoute: ApiPaystackVerifyRoute,

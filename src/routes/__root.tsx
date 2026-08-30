@@ -18,6 +18,7 @@ import { Header } from "@/components/site/Header";
 import { Footer } from "@/components/site/Footer";
 import { WhatsAppButton } from "@/components/site/WhatsAppButton";
 import { FrixWidget } from "@/components/site/FrixWidget";
+import { CitySkylineBackground } from "@/components/site/CitySkylineBackground";
 import { Toaster } from "@/components/ui/sonner";
 import { supabase } from "@/integrations/supabase/client";
 
@@ -138,6 +139,7 @@ function RootComponent() {
       <ThemeProvider>
       <AuthProvider>
         <VisitLogger />
+        <CitySkylineBackground />
         <div className="flex min-h-screen flex-col">
           <Header />
           <main className="flex-1">
