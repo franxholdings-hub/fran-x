@@ -17,6 +17,9 @@ export default defineConfig({
       // The preview is served through an external proxy hostname that changes
       // whenever the environment is recreated, so allow all hosts.
       allowedHosts: true,
+      // Bind mounts in the sandbox don't reliably fire inotify events, so
+      // poll the filesystem for changes to keep live reload working.
+      watch: { usePolling: true, interval: 500 },
     },
   },
 });

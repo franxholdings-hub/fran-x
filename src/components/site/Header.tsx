@@ -13,6 +13,7 @@ const NAV = [
   { to: "/services", label: "Services" },
   { to: "/group", label: "FRAN-X Group" },
   { to: "/opportunities", label: "Opportunities" },
+  { to: "/marketplace", label: "Marketplace" },
   { to: "/pricing", label: "Pricing" },
   { to: "/build", label: "Build With Us" },
   { to: "/contact", label: "Contact" },
