@@ -20,3 +20,16 @@
   - `LOVABLE_API_KEY` — Lovable AI gateway for the FRIX chat widget (`/api/public/frix`).
   - Without these the site renders normally; the FRIX chat returns "AI is not configured" and admin DB writes fail.
 - The lovable vite config bundles its own plugins (TanStack devtools, nitro, tailwind, tsConfigPaths, VITE_* env injection, sandbox detection). Do not re-add those manually.
+
+## App-like navigation system
+
+- **`src/components/navigation/`** contains the app-like navigation system, wired into `__root.tsx` via `AppShell`.
+- **Desktop:** `AppSidebar.tsx` — collapsible left sidebar (persisted in `localStorage` key `franx.sidebar.collapsed`), icons + tooltips when collapsed, active highlighting, search trigger, CTA buttons, theme toggle.
+- **Mobile:** `MobileHeader.tsx` (compact sticky header with logo/search/notifications/profile) + `MobileNav.tsx` (fixed bottom nav with 5 items + "More" bottom sheet). Safe-area aware via `env(safe-area-inset-bottom)`.
+- **Global search:** `GlobalSearch.tsx` — cmdk command palette, opens with `Ctrl+K` / `⌘+K` or `window.dispatchEvent(new CustomEvent("franx:search:open"))`. Searches pages, marketplace categories, quick actions, account items. Recent searches in `localStorage` key `franx.search.recent`.
+- **Page transitions:** `animate-page-enter` CSS utility (fade+slide, 0.25s) applied via `key={pathname}` on the Outlet wrapper in `AppShell`.
+- **Contextual FAB:** `ContextualFAB.tsx` — shows on marketplace/portal/opportunities pages, positioned bottom-left to avoid FrixWidget (bottom-right).
+- **Nav config:** `navConfig.tsx` — single source of truth for all nav items, icons, auth/admin/guest filtering.
+- **FrixWidget / WhatsApp button** positions adjusted (`bottom-40` / `bottom-24` on mobile) to clear the mobile bottom nav.
+- **DashboardShell** reads URL hash on mount + `hashchange` to sync sidebar deep-links (e.g. `/portal#notifications`).
+- The old `Header.tsx` is preserved but no longer rendered; `Footer` is conditionally shown by `AppShell` (hidden on `/portal` and `/admin`).

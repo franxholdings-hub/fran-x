@@ -125,6 +125,37 @@ function Marketplace() {
           title={browsing ? "All listings" : "Latest listings"}
           subtitle="Search and filter across the FRAN-X Marketplace."
         />
+
+        {/* Horizontal category chips — scrollable on mobile */}
+        <div className="mt-5 flex gap-2 overflow-x-auto pb-2 lg:flex-wrap lg:overflow-visible">
+          <button
+            type="button"
+            onClick={() => { setFilters(emptyFilters()); setBrowsing(true); }}
+            className={`flex shrink-0 items-center gap-2 rounded-full border px-4 py-2 text-sm font-medium transition-colors ${
+              !filters.category
+                ? "border-primary bg-primary text-primary-foreground"
+                : "border-border bg-background text-muted-foreground hover:border-primary/40 hover:text-foreground"
+            }`}
+          >
+            All
+          </button>
+          {CATEGORIES.map((c) => (
+            <button
+              key={c.id}
+              type="button"
+              onClick={() => { setFilters({ ...emptyFilters(), category: c.id }); setBrowsing(true); }}
+              className={`flex shrink-0 items-center gap-2 rounded-full border px-4 py-2 text-sm font-medium transition-colors ${
+                filters.category === c.id
+                  ? "border-primary bg-primary text-primary-foreground"
+                  : "border-border bg-background text-muted-foreground hover:border-primary/40 hover:text-foreground"
+              }`}
+            >
+              <CategoryIcon id={c.id} className="h-4 w-4" />
+              {c.shortLabel}
+            </button>
+          ))}
+        </div>
+
         <div className="mt-6">
           <FiltersBar filters={filters} onChange={onChange} resultCount={results.length} />
         </div>

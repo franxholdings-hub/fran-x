@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import {
   LayoutDashboard,
   UserRound,
@@ -44,11 +44,29 @@ export type SectionKey = (typeof NAV)[number]["key"];
 
 export function DashboardShell() {
   const { user } = useAuth();
-  const [active, setActive] = useState<SectionKey>("home");
+  const [active, setActive] = useState<SectionKey>(() => {
+    if (typeof window !== "undefined") {
+      const hash = window.location.hash.slice(1) as SectionKey;
+      if (NAV.some((n) => n.key === hash)) return hash;
+    }
+    return "home";
+  });
   const name =
     (user?.user_metadata as { full_name?: string } | undefined)?.full_name ||
     user?.email?.split("@")[0] ||
     "there";
+
+  // Sync active section with URL hash changes (from sidebar links)
+  useEffect(() => {
+    const handler = () => {
+      const hash = window.location.hash.slice(1) as SectionKey;
+      if (NAV.some((n) => n.key === hash)) {
+        setActive(hash);
+      }
+    };
+    window.addEventListener("hashchange", handler);
+    return () => window.removeEventListener("hashchange", handler);
+  }, []);
 
   return (
     <>

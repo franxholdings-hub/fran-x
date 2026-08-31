@@ -142,7 +142,7 @@ export function FrixWidget() {
           type="button"
           onClick={() => setOpen(true)}
           aria-label="Talk to FRAN-X — FRIX AI Business Concierge"
-          className="group fixed right-4 bottom-24 z-[90] flex items-center gap-3 sm:right-6 sm:bottom-28"
+          className="group fixed right-4 bottom-40 z-[90] flex items-center gap-3 sm:right-6 lg:bottom-28"
         >
           <span className="pointer-events-none hidden rounded-full border border-border bg-surface px-3 py-1.5 text-xs font-medium opacity-0 shadow-lg transition-opacity duration-200 group-hover:opacity-100 sm:block">
             Talk to FRAN-X

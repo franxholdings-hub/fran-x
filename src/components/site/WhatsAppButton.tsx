@@ -8,7 +8,7 @@ export function WhatsAppButton() {
       rel="noopener noreferrer"
       aria-label="Chat with FRAN-X on WhatsApp"
       title="Chat with FRAN-X"
-      className="group fixed right-4 bottom-4 z-[90] flex items-center gap-3 sm:right-6 sm:bottom-6"
+      className="group fixed right-4 bottom-24 z-[90] flex items-center gap-3 sm:right-6 lg:bottom-6"
     >
       <span className="pointer-events-none hidden rounded-full border border-border bg-surface px-3 py-1.5 text-xs font-medium opacity-0 shadow-lg transition-opacity duration-200 group-hover:opacity-100 sm:block">
         Chat with FRAN-X
