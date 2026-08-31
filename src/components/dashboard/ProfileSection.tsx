@@ -101,7 +101,7 @@ export function ProfileSection() {
         </div>
       </PanelSection>
 
-      <div className="grid grid-cols-2 gap-3 sm:gap-4 sm:grid-cols-3">
+      <div className="grid grid-cols-2 gap-2 overflow-y-auto sm:gap-4 sm:grid-cols-3 max-h-[40vh] sm:max-h-none">
         <StatCard label="Member since" value={p ? new Date(p.created_at).toLocaleDateString() : "—"} />
         <StatCard label="Account status" value={sub.data?.isTrial ? "Trial" : "Active"} />
         <StatCard label="Plan" value={sub.data?.plan?.name ?? "Explorer"} />
@@ -132,7 +132,7 @@ export function ProfileSection() {
             </div>
           </div>
         ) : (
-          <dl className="grid gap-3 sm:grid-cols-2">
+          <dl className="grid grid-cols-2 gap-2 overflow-y-auto sm:gap-3 max-h-[45vh] sm:max-h-none">
             <Info label="Full name" value={p?.full_name} />
             <Info label="Email" value={p?.email ?? user?.email} />
             <Info label="Phone" value={p?.phone} />

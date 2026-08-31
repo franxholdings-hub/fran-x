@@ -78,19 +78,19 @@ export function DashboardShell() {
       <section className="container-x py-6 sm:py-10">
         <div className="grid gap-4 sm:gap-6 lg:grid-cols-[220px_minmax(0,1fr)]">
           <aside className="lg:sticky lg:top-24 lg:self-start">
-            <nav className="flex gap-1 overflow-x-auto rounded-xl border border-border bg-surface/40 p-1.5 sm:p-2 lg:flex-col lg:overflow-visible">
+            <nav className="grid grid-cols-2 gap-1.5 overflow-y-auto rounded-xl border border-border bg-surface/40 p-1.5 sm:p-2 max-h-[55vh] lg:max-h-none lg:flex lg:flex-col lg:gap-1 lg:overflow-visible">
               {NAV.map((item) => (
                 <button
                   key={item.key}
                   onClick={() => setActive(item.key)}
-                  className={`flex shrink-0 items-center gap-2 rounded-lg px-2.5 py-2 text-xs font-medium sm:px-3 sm:py-2.5 sm:text-sm transition-colors ${
+                  className={`flex w-full items-center gap-2 rounded-lg px-2 py-1.5 text-xs font-medium sm:px-3 sm:py-2.5 sm:text-sm transition-colors lg:w-auto ${
                     active === item.key
                       ? "bg-primary text-primary-foreground"
                       : "text-muted-foreground hover:bg-surface hover:text-foreground"
                   }`}
                 >
-                  <item.icon className="h-4 w-4" />
-                  {item.label}
+                  <item.icon className="h-4 w-4 shrink-0" />
+                  <span className="truncate">{item.label}</span>
                 </button>
               ))}
             </nav>
