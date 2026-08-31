@@ -29,12 +29,13 @@ export function CategoryPage({ categoryId }: { categoryId: StoreCategoryId }) {
     );
   }, [all, query]);
 
+  // Hero photo is chosen so it never repeats a product cover on the same page.
   const photoKey =
     categoryId === "templates"
-      ? "data"
+      ? "realEstate"
       : categoryId === "ebooks"
         ? "consulting"
-        : "capital";
+        : "marketing";
 
   return (
     <>

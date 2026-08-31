@@ -147,15 +147,15 @@ export function FrixWidget() {
           <span className="pointer-events-none hidden rounded-full border border-border bg-surface px-3 py-1.5 text-xs font-medium opacity-0 shadow-lg transition-opacity duration-200 group-hover:opacity-100 sm:block">
             Talk to FRAN-X
           </span>
-          <span className="relative grid h-14 w-14 place-items-center rounded-full border border-primary/40 bg-background shadow-[0_18px_40px_-16px_var(--primary)] transition-transform duration-200 hover:scale-105">
+          <span className="relative grid h-11 w-11 place-items-center rounded-full border border-primary/40 bg-background shadow-[0_18px_40px_-16px_var(--primary)] transition-transform duration-200 hover:scale-105 sm:h-14 sm:w-14">
             <span className="pulse-ring absolute inset-0 rounded-full bg-primary/25" />
-            <LogoMark className="relative h-8 w-8" />
+            <LogoMark className="relative h-6 w-6 sm:h-8 sm:w-8" />
           </span>
         </button>
       ) : null}
 
       {open ? (
-        <div className="fixed inset-x-3 bottom-3 z-[95] flex max-h-[85vh] flex-col overflow-hidden rounded-2xl border border-border bg-background shadow-2xl sm:inset-x-auto sm:right-6 sm:bottom-6 sm:h-[36rem] sm:w-[26rem]">
+        <div className="fixed right-3 bottom-3 z-[95] flex max-h-[68vh] w-[calc(100%-1.5rem)] max-w-[20rem] flex-col overflow-hidden rounded-2xl border border-border bg-background shadow-2xl sm:inset-x-auto sm:right-6 sm:bottom-6 sm:h-[36rem] sm:w-[26rem] sm:max-w-none">
           <div className="flex items-center gap-3 border-b border-border/70 bg-surface/70 px-4 py-3">
             <LogoMark className="h-9 w-9" />
             <div className="min-w-0 flex-1">

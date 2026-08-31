@@ -3,7 +3,6 @@ import { ServiceCard } from "@/components/store/ServiceCard";
 import { StoreSectionHeading } from "@/components/store/ProductCard";
 import { PageHero } from "@/components/site/PageHero";
 import { getServiceGroups } from "@/lib/digital-store/catalog";
-import { PHOTOS } from "@/lib/photos";
 import { COMPLIANCE_NOTE } from "@/lib/site";
 
 const TITLE = "Digital Services | Websites, Marketing, Branding & Automation | FRAN-X";
@@ -31,7 +30,6 @@ function ServicesPage() {
         eyebrow="FRAN-X Digital Services"
         title="Professional services to build and grow your business"
         subtitle="Websites, digital marketing, branding and automation. Prices shown are starting prices — complex projects are quoted individually."
-        photo={PHOTOS.realEstate}
       />
 
       <section className="container-x py-10 sm:py-14">

@@ -51,7 +51,7 @@ function ResourcePass() {
         eyebrow="FRAN-X Resource Pass"
         title="Unlock the premium resource library"
         subtitle="Recurring access to a rotating library of premium business templates, selected e-books and financial guides — plus member discounts."
-        photo={PHOTOS.capital}
+        photo={PHOTOS.opportunities}
       />
 
       <section className="container-x py-12 sm:py-16">
