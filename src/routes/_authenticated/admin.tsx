@@ -12,6 +12,7 @@ import {
   Image as ImageIcon,
   LayoutDashboard,
   MessageSquare,
+  ShoppingBag,
   Sparkles,
   Users,
 } from "lucide-react";
@@ -25,6 +26,9 @@ import { PageHero } from "@/components/site/PageHero";
 import { ChatPanel } from "@/components/site/ChatPanel";
 import { AiClients } from "@/components/admin/ai-clients";
 import { Revenue } from "@/components/admin/revenue";
+import { DigitalProducts } from "@/components/admin/digital-products";
+import { DigitalServices, DigitalPlans } from "@/components/admin/digital-services";
+import { DigitalAnalytics } from "@/components/admin/digital-analytics";
 import { Empty, Loading, PanelSection, StatCard, toneForStatus } from "@/components/admin/kit";
 import { useAuth } from "@/hooks/useAuth";
 import { supabase } from "@/integrations/supabase/client";
@@ -75,6 +79,7 @@ function Admin() {
         <Tabs defaultValue="overview" className="w-full">
           <TabsList className="mb-8 flex h-auto w-full flex-wrap justify-start gap-1">
             <TabsTrigger value="overview"><LayoutDashboard className="h-4 w-4" /> Overview</TabsTrigger>
+            <TabsTrigger value="digital-store"><ShoppingBag className="h-4 w-4" /> Digital Store</TabsTrigger>
             <TabsTrigger value="crm"><ClipboardList className="h-4 w-4" /> Leads &amp; CRM</TabsTrigger>
             <TabsTrigger value="projects"><Boxes className="h-4 w-4" /> Projects</TabsTrigger>
             <TabsTrigger value="clients"><Users className="h-4 w-4" /> Clients</TabsTrigger>
@@ -88,6 +93,7 @@ function Admin() {
           </TabsList>
 
           <TabsContent value="overview"><Overview /></TabsContent>
+          <TabsContent value="digital-store"><DigitalStore /></TabsContent>
           <TabsContent value="crm"><Crm /></TabsContent>
           <TabsContent value="projects"><Projects /></TabsContent>
           <TabsContent value="clients"><Clients /></TabsContent>
@@ -212,6 +218,19 @@ function Overview() {
           )}
         </PanelSection>
       </div>
+    </div>
+  );
+}
+
+/* ---------------- Digital Store ---------------- */
+
+function DigitalStore() {
+  return (
+    <div className="space-y-6">
+      <DigitalAnalytics />
+      <DigitalProducts />
+      <DigitalServices />
+      <DigitalPlans />
     </div>
   );
 }

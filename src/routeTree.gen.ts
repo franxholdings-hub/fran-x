@@ -19,6 +19,7 @@ import { Route as OpportunitiesRouteImport } from './routes/opportunities'
 import { Route as PricingRouteImport } from './routes/pricing'
 import { Route as RequestRouteImport } from './routes/request'
 import { Route as ServicesRouteImport } from './routes/services'
+import { Route as StoreRouteRouteImport } from './routes/store/route'
 import { Route as AuthenticatedAdminRouteImport } from './routes/_authenticated/admin'
 import { Route as AuthenticatedPortalRouteImport } from './routes/_authenticated/portal'
 import { Route as BuildIndexRouteImport } from './routes/build.index'
@@ -31,12 +32,23 @@ import { Route as LegalTermsRouteImport } from './routes/legal/terms'
 import { Route as MarketplaceIndexRouteImport } from './routes/marketplace.index'
 import { Route as MarketplaceSlugRouteImport } from './routes/marketplace.$slug'
 import { Route as ServicesSlugRouteImport } from './routes/services.$slug'
+import { Route as StoreIndexRouteImport } from './routes/store/index'
+import { Route as StoreSlugRouteImport } from './routes/store/$slug'
+import { Route as StoreCheckoutRouteImport } from './routes/store/checkout'
+import { Route as StoreEbooksRouteImport } from './routes/store/ebooks'
+import { Route as StoreFinanceRouteImport } from './routes/store/finance'
+import { Route as StoreFrixAiRouteImport } from './routes/store/frix-ai'
+import { Route as StoreResourcePassRouteImport } from './routes/store/resource-pass'
+import { Route as StoreTemplatesRouteImport } from './routes/store/templates'
 import { Route as ApiPaystackInitializeRouteImport } from './routes/api/paystack/initialize'
 import { Route as ApiPaystackStatusRouteImport } from './routes/api/paystack/status'
 import { Route as ApiPaystackVerifyRouteImport } from './routes/api/paystack/verify'
 import { Route as ApiPaystackWebhookRouteImport } from './routes/api/paystack/webhook'
 import { Route as ApiPublicFrixRouteImport } from './routes/api/public/frix'
+import { Route as ApiStoreCheckoutRouteImport } from './routes/api/store/checkout'
 import { Route as ApiSubscriptionStartTrialRouteImport } from './routes/api/subscription/start-trial'
+import { Route as StoreServicesIndexRouteImport } from './routes/store/services/index'
+import { Route as StoreServicesSlugRouteImport } from './routes/store/services/$slug'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -85,6 +97,11 @@ const RequestRoute = RequestRouteImport.update({
 const ServicesRoute = ServicesRouteImport.update({
   id: '/services',
   path: '/services',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const StoreRouteRoute = StoreRouteRouteImport.update({
+  id: '/store',
+  path: '/store',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AuthenticatedAdminRoute = AuthenticatedAdminRouteImport.update({
@@ -147,6 +164,46 @@ const ServicesSlugRoute = ServicesSlugRouteImport.update({
   path: '/$slug',
   getParentRoute: () => ServicesRoute,
 } as any)
+const StoreIndexRoute = StoreIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => StoreRouteRoute,
+} as any)
+const StoreSlugRoute = StoreSlugRouteImport.update({
+  id: '/$slug',
+  path: '/$slug',
+  getParentRoute: () => StoreRouteRoute,
+} as any)
+const StoreCheckoutRoute = StoreCheckoutRouteImport.update({
+  id: '/checkout',
+  path: '/checkout',
+  getParentRoute: () => StoreRouteRoute,
+} as any)
+const StoreEbooksRoute = StoreEbooksRouteImport.update({
+  id: '/ebooks',
+  path: '/ebooks',
+  getParentRoute: () => StoreRouteRoute,
+} as any)
+const StoreFinanceRoute = StoreFinanceRouteImport.update({
+  id: '/finance',
+  path: '/finance',
+  getParentRoute: () => StoreRouteRoute,
+} as any)
+const StoreFrixAiRoute = StoreFrixAiRouteImport.update({
+  id: '/frix-ai',
+  path: '/frix-ai',
+  getParentRoute: () => StoreRouteRoute,
+} as any)
+const StoreResourcePassRoute = StoreResourcePassRouteImport.update({
+  id: '/resource-pass',
+  path: '/resource-pass',
+  getParentRoute: () => StoreRouteRoute,
+} as any)
+const StoreTemplatesRoute = StoreTemplatesRouteImport.update({
+  id: '/templates',
+  path: '/templates',
+  getParentRoute: () => StoreRouteRoute,
+} as any)
 const ApiPaystackInitializeRoute = ApiPaystackInitializeRouteImport.update({
   id: '/api/paystack/initialize',
   path: '/api/paystack/initialize',
@@ -172,15 +229,31 @@ const ApiPublicFrixRoute = ApiPublicFrixRouteImport.update({
   path: '/api/public/frix',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ApiStoreCheckoutRoute = ApiStoreCheckoutRouteImport.update({
+  id: '/api/store/checkout',
+  path: '/api/store/checkout',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ApiSubscriptionStartTrialRoute =
   ApiSubscriptionStartTrialRouteImport.update({
     id: '/api/subscription/start-trial',
     path: '/api/subscription/start-trial',
     getParentRoute: () => rootRouteImport,
   } as any)
+const StoreServicesIndexRoute = StoreServicesIndexRouteImport.update({
+  id: '/services/',
+  path: '/services/',
+  getParentRoute: () => StoreRouteRoute,
+} as any)
+const StoreServicesSlugRoute = StoreServicesSlugRouteImport.update({
+  id: '/services/$slug',
+  path: '/services/$slug',
+  getParentRoute: () => StoreRouteRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/store': typeof StoreRouteRouteWithChildren
   '/about': typeof AboutRoute
   '/auth': typeof AuthRoute
   '/contact': typeof ContactRoute
@@ -199,14 +272,25 @@ export interface FileRoutesByFullPath {
   '/legal/terms': typeof LegalTermsRoute
   '/marketplace/$slug': typeof MarketplaceSlugRoute
   '/services/$slug': typeof ServicesSlugRoute
+  '/store/$slug': typeof StoreSlugRoute
+  '/store/checkout': typeof StoreCheckoutRoute
+  '/store/ebooks': typeof StoreEbooksRoute
+  '/store/finance': typeof StoreFinanceRoute
+  '/store/frix-ai': typeof StoreFrixAiRoute
+  '/store/resource-pass': typeof StoreResourcePassRoute
+  '/store/templates': typeof StoreTemplatesRoute
   '/build/': typeof BuildIndexRoute
   '/marketplace/': typeof MarketplaceIndexRoute
+  '/store/': typeof StoreIndexRoute
   '/api/paystack/initialize': typeof ApiPaystackInitializeRoute
   '/api/paystack/status': typeof ApiPaystackStatusRoute
   '/api/paystack/verify': typeof ApiPaystackVerifyRoute
   '/api/paystack/webhook': typeof ApiPaystackWebhookRoute
   '/api/public/frix': typeof ApiPublicFrixRoute
+  '/api/store/checkout': typeof ApiStoreCheckoutRoute
   '/api/subscription/start-trial': typeof ApiSubscriptionStartTrialRoute
+  '/store/services/$slug': typeof StoreServicesSlugRoute
+  '/store/services/': typeof StoreServicesIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -228,19 +312,31 @@ export interface FileRoutesByTo {
   '/legal/terms': typeof LegalTermsRoute
   '/marketplace/$slug': typeof MarketplaceSlugRoute
   '/services/$slug': typeof ServicesSlugRoute
+  '/store/$slug': typeof StoreSlugRoute
+  '/store/checkout': typeof StoreCheckoutRoute
+  '/store/ebooks': typeof StoreEbooksRoute
+  '/store/finance': typeof StoreFinanceRoute
+  '/store/frix-ai': typeof StoreFrixAiRoute
+  '/store/resource-pass': typeof StoreResourcePassRoute
+  '/store/templates': typeof StoreTemplatesRoute
   '/build': typeof BuildIndexRoute
   '/marketplace': typeof MarketplaceIndexRoute
+  '/store': typeof StoreIndexRoute
   '/api/paystack/initialize': typeof ApiPaystackInitializeRoute
   '/api/paystack/status': typeof ApiPaystackStatusRoute
   '/api/paystack/verify': typeof ApiPaystackVerifyRoute
   '/api/paystack/webhook': typeof ApiPaystackWebhookRoute
   '/api/public/frix': typeof ApiPublicFrixRoute
+  '/api/store/checkout': typeof ApiStoreCheckoutRoute
   '/api/subscription/start-trial': typeof ApiSubscriptionStartTrialRoute
+  '/store/services/$slug': typeof StoreServicesSlugRoute
+  '/store/services': typeof StoreServicesIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/_authenticated': typeof AuthenticatedRouteRouteWithChildren
+  '/store': typeof StoreRouteRouteWithChildren
   '/about': typeof AboutRoute
   '/auth': typeof AuthRoute
   '/contact': typeof ContactRoute
@@ -259,19 +355,31 @@ export interface FileRoutesById {
   '/legal/terms': typeof LegalTermsRoute
   '/marketplace/$slug': typeof MarketplaceSlugRoute
   '/services/$slug': typeof ServicesSlugRoute
+  '/store/$slug': typeof StoreSlugRoute
+  '/store/checkout': typeof StoreCheckoutRoute
+  '/store/ebooks': typeof StoreEbooksRoute
+  '/store/finance': typeof StoreFinanceRoute
+  '/store/frix-ai': typeof StoreFrixAiRoute
+  '/store/resource-pass': typeof StoreResourcePassRoute
+  '/store/templates': typeof StoreTemplatesRoute
   '/build/': typeof BuildIndexRoute
   '/marketplace/': typeof MarketplaceIndexRoute
+  '/store/': typeof StoreIndexRoute
   '/api/paystack/initialize': typeof ApiPaystackInitializeRoute
   '/api/paystack/status': typeof ApiPaystackStatusRoute
   '/api/paystack/verify': typeof ApiPaystackVerifyRoute
   '/api/paystack/webhook': typeof ApiPaystackWebhookRoute
   '/api/public/frix': typeof ApiPublicFrixRoute
+  '/api/store/checkout': typeof ApiStoreCheckoutRoute
   '/api/subscription/start-trial': typeof ApiSubscriptionStartTrialRoute
+  '/store/services/$slug': typeof StoreServicesSlugRoute
+  '/store/services/': typeof StoreServicesIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
+    | '/store'
     | '/about'
     | '/auth'
     | '/contact'
@@ -290,14 +398,25 @@ export interface FileRouteTypes {
     | '/legal/terms'
     | '/marketplace/$slug'
     | '/services/$slug'
+    | '/store/$slug'
+    | '/store/checkout'
+    | '/store/ebooks'
+    | '/store/finance'
+    | '/store/frix-ai'
+    | '/store/resource-pass'
+    | '/store/templates'
     | '/build/'
     | '/marketplace/'
+    | '/store/'
     | '/api/paystack/initialize'
     | '/api/paystack/status'
     | '/api/paystack/verify'
     | '/api/paystack/webhook'
     | '/api/public/frix'
+    | '/api/store/checkout'
     | '/api/subscription/start-trial'
+    | '/store/services/$slug'
+    | '/store/services/'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -319,18 +438,30 @@ export interface FileRouteTypes {
     | '/legal/terms'
     | '/marketplace/$slug'
     | '/services/$slug'
+    | '/store/$slug'
+    | '/store/checkout'
+    | '/store/ebooks'
+    | '/store/finance'
+    | '/store/frix-ai'
+    | '/store/resource-pass'
+    | '/store/templates'
     | '/build'
     | '/marketplace'
+    | '/store'
     | '/api/paystack/initialize'
     | '/api/paystack/status'
     | '/api/paystack/verify'
     | '/api/paystack/webhook'
     | '/api/public/frix'
+    | '/api/store/checkout'
     | '/api/subscription/start-trial'
+    | '/store/services/$slug'
+    | '/store/services'
   id:
     | '__root__'
     | '/'
     | '/_authenticated'
+    | '/store'
     | '/about'
     | '/auth'
     | '/contact'
@@ -349,19 +480,31 @@ export interface FileRouteTypes {
     | '/legal/terms'
     | '/marketplace/$slug'
     | '/services/$slug'
+    | '/store/$slug'
+    | '/store/checkout'
+    | '/store/ebooks'
+    | '/store/finance'
+    | '/store/frix-ai'
+    | '/store/resource-pass'
+    | '/store/templates'
     | '/build/'
     | '/marketplace/'
+    | '/store/'
     | '/api/paystack/initialize'
     | '/api/paystack/status'
     | '/api/paystack/verify'
     | '/api/paystack/webhook'
     | '/api/public/frix'
+    | '/api/store/checkout'
     | '/api/subscription/start-trial'
+    | '/store/services/$slug'
+    | '/store/services/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AuthenticatedRouteRoute: typeof AuthenticatedRouteRouteWithChildren
+  StoreRouteRoute: typeof StoreRouteRouteWithChildren
   AboutRoute: typeof AboutRoute
   AuthRoute: typeof AuthRoute
   ContactRoute: typeof ContactRoute
@@ -384,6 +527,7 @@ export interface RootRouteChildren {
   ApiPaystackVerifyRoute: typeof ApiPaystackVerifyRoute
   ApiPaystackWebhookRoute: typeof ApiPaystackWebhookRoute
   ApiPublicFrixRoute: typeof ApiPublicFrixRoute
+  ApiStoreCheckoutRoute: typeof ApiStoreCheckoutRoute
   ApiSubscriptionStartTrialRoute: typeof ApiSubscriptionStartTrialRoute
 }
 
@@ -457,6 +601,13 @@ declare module '@tanstack/react-router' {
       path: '/services'
       fullPath: '/services'
       preLoaderRoute: typeof ServicesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/store': {
+      id: '/store'
+      path: '/store'
+      fullPath: '/store'
+      preLoaderRoute: typeof StoreRouteRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/_authenticated/admin': {
@@ -543,6 +694,62 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ServicesSlugRouteImport
       parentRoute: typeof ServicesRoute
     }
+    '/store/': {
+      id: '/store/'
+      path: '/'
+      fullPath: '/store/'
+      preLoaderRoute: typeof StoreIndexRouteImport
+      parentRoute: typeof StoreRouteRoute
+    }
+    '/store/$slug': {
+      id: '/store/$slug'
+      path: '/$slug'
+      fullPath: '/store/$slug'
+      preLoaderRoute: typeof StoreSlugRouteImport
+      parentRoute: typeof StoreRouteRoute
+    }
+    '/store/checkout': {
+      id: '/store/checkout'
+      path: '/checkout'
+      fullPath: '/store/checkout'
+      preLoaderRoute: typeof StoreCheckoutRouteImport
+      parentRoute: typeof StoreRouteRoute
+    }
+    '/store/ebooks': {
+      id: '/store/ebooks'
+      path: '/ebooks'
+      fullPath: '/store/ebooks'
+      preLoaderRoute: typeof StoreEbooksRouteImport
+      parentRoute: typeof StoreRouteRoute
+    }
+    '/store/finance': {
+      id: '/store/finance'
+      path: '/finance'
+      fullPath: '/store/finance'
+      preLoaderRoute: typeof StoreFinanceRouteImport
+      parentRoute: typeof StoreRouteRoute
+    }
+    '/store/frix-ai': {
+      id: '/store/frix-ai'
+      path: '/frix-ai'
+      fullPath: '/store/frix-ai'
+      preLoaderRoute: typeof StoreFrixAiRouteImport
+      parentRoute: typeof StoreRouteRoute
+    }
+    '/store/resource-pass': {
+      id: '/store/resource-pass'
+      path: '/resource-pass'
+      fullPath: '/store/resource-pass'
+      preLoaderRoute: typeof StoreResourcePassRouteImport
+      parentRoute: typeof StoreRouteRoute
+    }
+    '/store/templates': {
+      id: '/store/templates'
+      path: '/templates'
+      fullPath: '/store/templates'
+      preLoaderRoute: typeof StoreTemplatesRouteImport
+      parentRoute: typeof StoreRouteRoute
+    }
     '/api/paystack/initialize': {
       id: '/api/paystack/initialize'
       path: '/api/paystack/initialize'
@@ -578,12 +785,33 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ApiPublicFrixRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/api/store/checkout': {
+      id: '/api/store/checkout'
+      path: '/api/store/checkout'
+      fullPath: '/api/store/checkout'
+      preLoaderRoute: typeof ApiStoreCheckoutRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/api/subscription/start-trial': {
       id: '/api/subscription/start-trial'
       path: '/api/subscription/start-trial'
       fullPath: '/api/subscription/start-trial'
       preLoaderRoute: typeof ApiSubscriptionStartTrialRouteImport
       parentRoute: typeof rootRouteImport
+    }
+    '/store/services/': {
+      id: '/store/services/'
+      path: '/services'
+      fullPath: '/store/services/'
+      preLoaderRoute: typeof StoreServicesIndexRouteImport
+      parentRoute: typeof StoreRouteRoute
+    }
+    '/store/services/$slug': {
+      id: '/store/services/$slug'
+      path: '/services/$slug'
+      fullPath: '/store/services/$slug'
+      preLoaderRoute: typeof StoreServicesSlugRouteImport
+      parentRoute: typeof StoreRouteRoute
     }
   }
 }
@@ -601,6 +829,36 @@ const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
 const AuthenticatedRouteRouteWithChildren =
   AuthenticatedRouteRoute._addFileChildren(AuthenticatedRouteRouteChildren)
 
+interface StoreRouteRouteChildren {
+  StoreSlugRoute: typeof StoreSlugRoute
+  StoreCheckoutRoute: typeof StoreCheckoutRoute
+  StoreEbooksRoute: typeof StoreEbooksRoute
+  StoreFinanceRoute: typeof StoreFinanceRoute
+  StoreFrixAiRoute: typeof StoreFrixAiRoute
+  StoreResourcePassRoute: typeof StoreResourcePassRoute
+  StoreTemplatesRoute: typeof StoreTemplatesRoute
+  StoreIndexRoute: typeof StoreIndexRoute
+  StoreServicesSlugRoute: typeof StoreServicesSlugRoute
+  StoreServicesIndexRoute: typeof StoreServicesIndexRoute
+}
+
+const StoreRouteRouteChildren: StoreRouteRouteChildren = {
+  StoreSlugRoute: StoreSlugRoute,
+  StoreCheckoutRoute: StoreCheckoutRoute,
+  StoreEbooksRoute: StoreEbooksRoute,
+  StoreFinanceRoute: StoreFinanceRoute,
+  StoreFrixAiRoute: StoreFrixAiRoute,
+  StoreResourcePassRoute: StoreResourcePassRoute,
+  StoreTemplatesRoute: StoreTemplatesRoute,
+  StoreIndexRoute: StoreIndexRoute,
+  StoreServicesSlugRoute: StoreServicesSlugRoute,
+  StoreServicesIndexRoute: StoreServicesIndexRoute,
+}
+
+const StoreRouteRouteWithChildren = StoreRouteRoute._addFileChildren(
+  StoreRouteRouteChildren,
+)
+
 interface ServicesRouteChildren {
   ServicesSlugRoute: typeof ServicesSlugRoute
 }
@@ -616,6 +874,7 @@ const ServicesRouteWithChildren = ServicesRoute._addFileChildren(
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AuthenticatedRouteRoute: AuthenticatedRouteRouteWithChildren,
+  StoreRouteRoute: StoreRouteRouteWithChildren,
   AboutRoute: AboutRoute,
   AuthRoute: AuthRoute,
   ContactRoute: ContactRoute,
@@ -638,6 +897,7 @@ const rootRouteChildren: RootRouteChildren = {
   ApiPaystackVerifyRoute: ApiPaystackVerifyRoute,
   ApiPaystackWebhookRoute: ApiPaystackWebhookRoute,
   ApiPublicFrixRoute: ApiPublicFrixRoute,
+  ApiStoreCheckoutRoute: ApiStoreCheckoutRoute,
   ApiSubscriptionStartTrialRoute: ApiSubscriptionStartTrialRoute,
 }
 export const routeTree = rootRouteImport

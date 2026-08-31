@@ -11,6 +11,8 @@ import {
   Settings as SettingsIcon,
   Store,
   Briefcase,
+  Package,
+  Wrench,
 } from "lucide-react";
 import { PageHero } from "@/components/site/PageHero";
 import { useAuth } from "@/hooks/useAuth";
@@ -25,6 +27,8 @@ import { SubscriptionSection } from "@/components/dashboard/SubscriptionSection"
 import { SettingsSection } from "@/components/dashboard/SettingsSection";
 import { MarketplaceSection } from "@/components/dashboard/MarketplaceSection";
 import { VendorSection } from "@/components/dashboard/VendorSection";
+import { DigitalLibrarySection } from "@/components/dashboard/DigitalLibrarySection";
+import { ServicesSection } from "@/components/dashboard/ServicesSection";
 
 const NAV = [
   { key: "home", label: "Dashboard", icon: LayoutDashboard },
@@ -32,6 +36,8 @@ const NAV = [
   { key: "opportunities", label: "My Opportunities", icon: Compass },
   { key: "marketplace", label: "Marketplace", icon: Store },
   { key: "vendor", label: "Vendor Hub", icon: Briefcase },
+  { key: "library", label: "My Digital Products", icon: Package },
+  { key: "myservices", label: "My Services", icon: Wrench },
   { key: "inquiries", label: "My Inquiries", icon: ClipboardList },
   { key: "assessment", label: "Business Assessment", icon: ClipboardCheck },
   { key: "frix", label: "FRIX AI", icon: Bot },
@@ -101,6 +107,8 @@ export function DashboardShell() {
             {active === "opportunities" && <OpportunitiesSection />}
             {active === "marketplace" && <MarketplaceSection />}
             {active === "vendor" && <VendorSection />}
+            {active === "library" && <DigitalLibrarySection />}
+            {active === "myservices" && <ServicesSection />}
             {active === "inquiries" && <InquiriesSection />}
             {active === "assessment" && <AssessmentSection />}
             {active === "frix" && <FrixSection />}
