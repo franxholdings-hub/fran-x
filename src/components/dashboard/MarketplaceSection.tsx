@@ -33,7 +33,7 @@ export function MarketplaceSection() {
   const browse = useMemo(() => getRecommended(catalog, {}, 6), [catalog]);
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-4 sm:space-y-6">
       <PanelSection
         title="Marketplace"
         description="Browse, save and inquire on approved FRAN-X assets and business opportunities."

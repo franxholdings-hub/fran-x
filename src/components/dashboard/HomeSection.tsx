@@ -42,9 +42,9 @@ export function HomeSection({ onNavigate }: { onNavigate: (k: SectionKey) => voi
   const isTrial = sub.data?.isTrial;
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-4 sm:space-y-6">
       {/* Current plan / trial */}
-      <div className="glass-panel flex flex-wrap items-center justify-between gap-4 rounded-xl p-6">
+      <div className="glass-panel flex flex-wrap items-center justify-between gap-4 rounded-xl p-4 sm:p-6">
         <div>
           <p className="eyebrow">Current plan</p>
           <p className="mt-2 font-display text-2xl font-semibold">{planName}</p>
@@ -67,7 +67,7 @@ export function HomeSection({ onNavigate }: { onNavigate: (k: SectionKey) => voi
       </div>
 
       {/* Quick stats */}
-      <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+      <div className="grid grid-cols-2 gap-3 sm:gap-4 lg:grid-cols-4">
         <StatCard label="My inquiries" value={inquiries.isLoading ? "—" : inquiries.data ?? 0} />
         <StatCard label="Saved opportunities" value={3} hint="mock" />
         <StatCard label="AI conversations" value={2} hint="mock" />
@@ -76,7 +76,7 @@ export function HomeSection({ onNavigate }: { onNavigate: (k: SectionKey) => voi
 
       {/* Quick actions */}
       <PanelSection title="Quick actions" description="Jump straight into the most common FRAN-X actions.">
-        <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
+        <div className="grid grid-cols-2 gap-3 lg:grid-cols-4">
           <Button asChild variant="outline" className="justify-start">
             <Link to="/request"><Send className="h-4 w-4" /> Request a service</Link>
           </Button>
@@ -92,14 +92,14 @@ export function HomeSection({ onNavigate }: { onNavigate: (k: SectionKey) => voi
         </div>
       </PanelSection>
 
-      <div className="grid gap-6 lg:grid-cols-2">
+      <div className="grid gap-4 sm:gap-6 lg:grid-cols-2">
         {/* Recent activity */}
         <PanelSection title="Recent activity" description="What has happened across your account.">
           <ul className="space-y-3">
             {ACTIVITY.map((a, i) => (
-              <li key={i} className="flex items-center justify-between gap-3 rounded-lg border border-border bg-surface/40 px-4 py-3 text-sm">
-                <span>{a.label}</span>
-                <Badge variant="outline" className={toneForStatus(a.tone)}>{a.time}</Badge>
+              <li key={i} className="flex items-center justify-between gap-2 rounded-lg border border-border bg-surface/40 px-3 py-2.5 text-sm sm:px-4 sm:py-3">
+                <span className="min-w-0">{a.label}</span>
+                <Badge variant="outline" className={`shrink-0 ${toneForStatus(a.tone)}`}>{a.time}</Badge>
               </li>
             ))}
           </ul>
@@ -117,7 +117,7 @@ export function HomeSection({ onNavigate }: { onNavigate: (k: SectionKey) => voi
         >
           <div className="space-y-3">
             {RECOMMENDED.map((o) => (
-              <div key={o.title} className="flex items-center gap-3 rounded-lg border border-border bg-surface/40 p-4">
+              <div key={o.title} className="flex items-center gap-3 rounded-lg border border-border bg-surface/40 p-3 sm:p-4">
                 <span className="grid h-10 w-10 shrink-0 place-items-center rounded-lg border border-primary/30 text-primary">
                   <o.icon className="h-5 w-5" />
                 </span>

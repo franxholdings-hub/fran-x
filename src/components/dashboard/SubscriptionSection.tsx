@@ -48,7 +48,7 @@ export function SubscriptionSection() {
   const isTrial = sub.data?.isTrial;
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-4 sm:space-y-6">
       <PanelSection title="Current plan" description="Your active FRAN-X subscription (display only).">
         <div className="flex flex-wrap items-center justify-between gap-4">
           <div>
@@ -94,11 +94,11 @@ export function SubscriptionSection() {
           </Button>
         }
       >
-        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+        <div className="grid grid-cols-2 gap-3 sm:gap-4 lg:grid-cols-4">
           {(plans.data ?? []).map((p) => {
             const isCurrent = plan?.code === p.code;
             return (
-              <div key={p.id} className={`rounded-xl border p-5 ${isCurrent ? "border-primary bg-primary/5" : "border-border bg-surface/40"}`}>
+              <div key={p.id} className={`rounded-xl border p-4 sm:p-5 ${isCurrent ? "border-primary bg-primary/5" : "border-border bg-surface/40"}`}>
                 <p className="font-display text-sm font-semibold">{p.name}</p>
                 <p className="mt-1 text-lg font-semibold">
                   {p.billing_interval === "free" ? "Free" : `₦${Number(p.monthly_price).toLocaleString()}`}

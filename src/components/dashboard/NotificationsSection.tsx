@@ -27,12 +27,12 @@ function Group({ icon: Icon, title, items }: { icon: typeof Bell; title: string;
       {items.length ? (
         <ul className="space-y-3">
           {items.map((n) => (
-            <li key={n.title} className="flex items-center justify-between gap-3 rounded-lg border border-border bg-surface/40 px-4 py-3 text-sm">
-              <span className="flex items-center gap-3">
-                <Icon className="h-4 w-4 text-primary" />
-                {n.title}
+            <li key={n.title} className="flex items-center justify-between gap-2 rounded-lg border border-border bg-surface/40 px-3 py-2.5 text-sm sm:px-4 sm:py-3">
+              <span className="flex items-center gap-2.5 min-w-0 sm:gap-3">
+                <Icon className="h-4 w-4 shrink-0 text-primary" />
+                <span className="min-w-0">{n.title}</span>
               </span>
-              <Badge variant="outline" className={toneForStatus(n.tone)}>{n.time}</Badge>
+              <Badge variant="outline" className={`shrink-0 ${toneForStatus(n.tone)}`}>{n.time}</Badge>
             </li>
           ))}
         </ul>
@@ -45,7 +45,7 @@ function Group({ icon: Icon, title, items }: { icon: typeof Bell; title: string;
 
 export function NotificationsSection() {
   return (
-    <div className="space-y-6">
+    <div className="space-y-4 sm:space-y-6">
       <Group icon={Bell} title="Account notifications" items={ACCOUNT} />
       <Group icon={Compass} title="Opportunity alerts" items={OPPORTUNITY_ALERTS} />
       <Group icon={ClipboardList} title="Inquiry updates" items={INQUIRY_UPDATES} />
