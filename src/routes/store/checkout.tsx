@@ -112,7 +112,7 @@ function CheckoutPage() {
         eyebrow="Checkout"
         title="Complete your purchase"
         subtitle="Secure payment via Paystack. Every payment is verified server-side before access is granted."
-        photo={PHOTOS.capital}
+        photo={PHOTOS.technology}
       />
 
       <section className="container-x py-10 sm:py-14">

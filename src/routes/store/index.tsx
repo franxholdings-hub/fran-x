@@ -29,44 +29,15 @@ export const Route = createFileRoute("/store/")({
   component: StoreHome,
 });
 
-// Bento-grid tiles for the main store navigation.
+// Category tiles for the main store navigation — styled as compact bordered
+// cards (matching the Profile section card style), with no background images.
 const BENTO = [
-  {
-    cat: STORE_CATEGORIES[0], // templates
-    href: "/store/templates" as const,
-    span: "sm:col-span-2 lg:row-span-2",
-    photo: "data" as const,
-  },
-  {
-    cat: STORE_CATEGORIES[1], // ebooks
-    href: "/store/ebooks" as const,
-    span: "",
-    photo: "consulting" as const,
-  },
-  {
-    cat: STORE_CATEGORIES[2], // finance
-    href: "/store/finance" as const,
-    span: "",
-    photo: "capital" as const,
-  },
-  {
-    cat: STORE_CATEGORIES[3], // frix-ai
-    href: "/store/frix-ai" as const,
-    span: "sm:col-span-2",
-    photo: "ai" as const,
-  },
-  {
-    cat: STORE_CATEGORIES[4], // services
-    href: "/store/services" as const,
-    span: "lg:col-span-2",
-    photo: "realEstate" as const,
-  },
-  {
-    cat: STORE_CATEGORIES[5], // automation
-    href: "/store/services" as const,
-    span: "",
-    photo: "technology" as const,
-  },
+  { cat: STORE_CATEGORIES[0], href: "/store/templates" as const },
+  { cat: STORE_CATEGORIES[1], href: "/store/ebooks" as const },
+  { cat: STORE_CATEGORIES[2], href: "/store/finance" as const },
+  { cat: STORE_CATEGORIES[3], href: "/store/frix-ai" as const },
+  { cat: STORE_CATEGORIES[4], href: "/store/services" as const },
+  { cat: STORE_CATEGORIES[5], href: "/store/services" as const },
 ];
 
 function StoreHome() {
@@ -91,37 +62,27 @@ function StoreHome() {
         </div>
       </PageHero>
 
-      {/* Bento grid navigation */}
+      {/* Category navigation — compact bordered cards (Profile-section style) */}
       <section className="container-x py-10 sm:py-14">
         <StoreSectionHeading
           eyebrow="Explore the store"
           title="Everything you need to build and grow"
         />
-        <div className="mt-8 grid auto-rows-[minmax(9rem,auto)] gap-4 sm:grid-cols-2 lg:grid-cols-3">
-          {BENTO.map(({ cat, href, span, photo }) => (
+        <div className="mt-8 grid grid-cols-2 gap-3 sm:grid-cols-3 sm:gap-4">
+          {BENTO.map(({ cat, href }) => (
             <Link
               key={cat.id}
               to={href}
-              className={`group relative overflow-hidden rounded-xl border border-border bg-surface/40 transition-all duration-300 hover:-translate-y-1 hover:border-primary/40 ${span}`}
+              className="group flex flex-col rounded-xl border border-border bg-surface/40 p-4 transition-all duration-300 hover:-translate-y-1 hover:border-primary/40 hover:shadow-lg hover:shadow-primary/5 sm:p-5"
             >
-              <img
-                src={PHOTOS[photo].src}
-                alt={PHOTOS[photo].alt}
-                loading="lazy"
-                decoding="async"
-                className="absolute inset-0 h-full w-full object-cover opacity-25 transition-opacity duration-500 group-hover:opacity-35"
-              />
-              <div aria-hidden className="absolute inset-0 bg-gradient-to-t from-background via-background/70 to-background/30" />
-              <div className="relative flex h-full flex-col justify-end p-5">
-                <span className="grid h-10 w-10 place-items-center rounded-lg border border-primary/30 bg-background/60 text-primary">
-                  <cat.icon className="h-5 w-5" />
-                </span>
-                <p className="mt-4 font-display text-lg font-semibold">{cat.label}</p>
-                <p className="mt-1 text-sm text-muted-foreground">{cat.blurb}</p>
-                <span className="mt-3 inline-flex items-center gap-1 text-sm font-medium text-primary">
-                  Explore <ArrowRight className="h-3.5 w-3.5 transition-transform group-hover:translate-x-1" />
-                </span>
-              </div>
+              <span className="grid h-10 w-10 place-items-center rounded-lg border border-primary/30 bg-primary/10 text-primary">
+                <cat.icon className="h-5 w-5" />
+              </span>
+              <p className="mt-3 font-display text-sm font-semibold leading-snug sm:text-base">{cat.label}</p>
+              <p className="mt-1 line-clamp-2 text-xs leading-relaxed text-muted-foreground sm:text-sm">{cat.blurb}</p>
+              <span className="mt-3 inline-flex items-center gap-1 text-xs font-medium text-primary sm:text-sm">
+                Explore <ArrowRight className="h-3.5 w-3.5 transition-transform group-hover:translate-x-1" />
+              </span>
             </Link>
           ))}
         </div>
