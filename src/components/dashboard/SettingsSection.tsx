@@ -20,7 +20,7 @@ export function SettingsSection() {
   };
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-4 sm:space-y-6">
       <PanelSection title="Account settings" description="Manage your account details.">
         <div className="grid gap-4 sm:grid-cols-2">
           <div>
@@ -44,14 +44,14 @@ export function SettingsSection() {
 
       <PanelSection title="Security" description="Protect your account.">
         <div className="space-y-3">
-          <div className="flex items-center justify-between rounded-lg border border-border bg-surface/40 px-4 py-3">
-            <span className="flex items-center gap-3 text-sm"><Lock className="h-4 w-4 text-primary" /> Change password</span>
+          <div className="flex items-center justify-between rounded-lg border border-border bg-surface/40 px-3 py-2.5 sm:px-4 sm:py-3">
+            <span className="flex items-center gap-2.5 text-sm sm:gap-3"><Lock className="h-4 w-4 text-primary" /> Change password</span>
             <Button size="sm" variant="outline" onClick={() => toast.message("Password reset link will be emailed.")}>
               Send reset link
             </Button>
           </div>
-          <div className="flex items-center justify-between rounded-lg border border-border bg-surface/40 px-4 py-3">
-            <span className="flex items-center gap-3 text-sm"><Shield className="h-4 w-4 text-primary" /> Two-factor authentication</span>
+          <div className="flex items-center justify-between rounded-lg border border-border bg-surface/40 px-3 py-2.5 sm:px-4 sm:py-3">
+            <span className="flex items-center gap-2.5 text-sm sm:gap-3"><Shield className="h-4 w-4 text-primary" /> Two-factor authentication</span>
             <Switch disabled />
           </div>
         </div>
@@ -75,8 +75,8 @@ export function SettingsSection() {
 
 function Pref({ icon: Icon, label, desc, defaultChecked }: { icon: typeof Bell; label: string; desc: string; defaultChecked?: boolean }) {
   return (
-    <label className="flex items-center justify-between rounded-lg border border-border bg-surface/40 px-4 py-3">
-      <span className="flex items-center gap-3">
+    <label className="flex items-center justify-between rounded-lg border border-border bg-surface/40 px-3 py-2.5 sm:px-4 sm:py-3">
+      <span className="flex items-center gap-2.5 sm:gap-3 min-w-0">
         <Icon className="h-4 w-4 text-primary" />
         <span>
           <span className="block text-sm font-medium">{label}</span>

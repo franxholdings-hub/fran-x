@@ -34,7 +34,7 @@ export function AssessmentSection() {
   const canAssess = sub.data?.canUsePremium ?? true;
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-4 sm:space-y-6">
       <PanelSection
         title="Business Assessment"
         description="Get a snapshot of your business position and readiness. One assessment is included with Explorer."
@@ -81,7 +81,7 @@ export function AssessmentSection() {
 
       <PanelSection title="Assessment history" description="Your previous assessment results.">
         {HISTORY.length ? (
-          <div className="grid gap-4 sm:grid-cols-2">
+          <div className="grid grid-cols-2 gap-3 sm:gap-4">
             {HISTORY.map((h) => (
               <StatCard key={h.date} label={h.date} value={h.score} hint={h.label} />
             ))}

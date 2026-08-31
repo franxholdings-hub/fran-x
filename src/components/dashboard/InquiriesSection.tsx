@@ -47,7 +47,7 @@ export function InquiriesSection() {
   });
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-4 sm:space-y-6">
       <PanelSection
         title="My Inquiries"
         description="Every request you have submitted to FRAN-X, with live status."
@@ -75,7 +75,7 @@ export function InquiriesSection() {
             {data!.map((row) => {
               const status = displayStatus(row.status);
               return (
-                <article key={row.id} className="rounded-xl border border-border bg-surface/40 p-5">
+                <article key={row.id} className="rounded-xl border border-border bg-surface/40 p-4 sm:p-5">
                   <div className="flex flex-wrap items-center justify-between gap-2">
                     <p className="font-mono text-xs text-primary">{row.reference}</p>
                     <Badge variant="outline" className={toneForStatus(status)}>{status}</Badge>

@@ -25,7 +25,7 @@ type OppItem = { title: string; sector: string; value: string; icon: typeof Buil
 
 function OppRow({ o, meta }: { o: OppItem; meta?: string }) {
   return (
-    <div className="flex items-center gap-3 rounded-lg border border-border bg-surface/40 p-4">
+    <div className="flex items-center gap-3 rounded-lg border border-border bg-surface/40 p-3 sm:p-4">
       <span className="grid h-10 w-10 shrink-0 place-items-center rounded-lg border border-primary/30 text-primary">
         <o.icon className="h-5 w-5" />
       </span>
@@ -40,7 +40,7 @@ function OppRow({ o, meta }: { o: OppItem; meta?: string }) {
 
 export function OpportunitiesSection() {
   return (
-    <div className="space-y-6">
+    <div className="space-y-4 sm:space-y-6">
       <PanelSection
         title="My Opportunities"
         description="Saved, recently viewed and recommended FRAN-X opportunities."
@@ -57,7 +57,7 @@ export function OpportunitiesSection() {
         </div>
       </PanelSection>
 
-      <div className="grid gap-6 lg:grid-cols-2">
+      <div className="grid gap-4 sm:gap-6 lg:grid-cols-2">
         <PanelSection title="Recently viewed">
           <div className="space-y-3">
             {RECENTLY_VIEWED.map((o) => (

@@ -23,7 +23,7 @@ export function FrixSection() {
   const canUsePremium = sub.data?.canUsePremium ?? false;
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-4 sm:space-y-6">
       <PanelSection
         title="FRIX AI Workspace"
         description="Your AI business concierge — conversations, tools and insights."
@@ -33,7 +33,7 @@ export function FrixSection() {
           </Button>
         }
       >
-        <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
+        <div className="grid grid-cols-2 gap-3 lg:grid-cols-4">
           {TOOLS.map((t) => (
             <div key={t.name} className="rounded-xl border border-border bg-surface/40 p-4">
               <span className="grid h-10 w-10 place-items-center rounded-lg border border-primary/30 text-primary">
@@ -50,7 +50,7 @@ export function FrixSection() {
         {RECENT.length ? (
           <ul className="space-y-3">
             {RECENT.map((c) => (
-              <li key={c.title} className="flex items-center justify-between gap-3 rounded-lg border border-border bg-surface/40 px-4 py-3">
+              <li key={c.title} className="flex items-center justify-between gap-2 rounded-lg border border-border bg-surface/40 px-3 py-2.5 sm:px-4 sm:py-3">
                 <div>
                   <p className="text-sm font-medium">{c.title}</p>
                   <p className="text-xs text-muted-foreground">{c.agent} · {c.time}</p>

@@ -74,7 +74,7 @@ export function VendorSection() {
   };
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-4 sm:space-y-6">
       <PanelSection
         title="Vendor Hub"
         description="Create and manage your FRAN-X Marketplace listings. All listings are reviewed by FRAN-X before publishing."
@@ -102,7 +102,7 @@ export function VendorSection() {
         }
       >
         {/* Performance */}
-        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+        <div className="grid grid-cols-2 gap-3 sm:gap-4 lg:grid-cols-4">
           <StatCard label="Total listings" value={listings.length} />
           <StatCard label="Published" value={counts["published"] ?? 0} />
           <StatCard label="Pending review" value={counts["pending"] ?? 0} />

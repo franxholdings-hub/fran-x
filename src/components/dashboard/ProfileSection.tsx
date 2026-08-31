@@ -79,10 +79,10 @@ export function ProfileSection() {
   const initials = ((p?.full_name || user?.email || "?").trim().slice(0, 2)).toUpperCase();
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-4 sm:space-y-6">
       <PanelSection title="My Profile" description="Your personal information and account status.">
-        <div className="flex flex-wrap items-center gap-5">
-          <div className="grid h-20 w-20 shrink-0 place-items-center rounded-full border border-primary/30 bg-primary/10 font-display text-2xl font-semibold text-primary">
+        <div className="flex flex-wrap items-center gap-4 sm:gap-5">
+          <div className="grid h-16 w-16 shrink-0 place-items-center rounded-full border border-primary/30 bg-primary/10 font-display text-xl font-semibold text-primary sm:h-20 sm:w-20 sm:text-2xl">
             {initials}
           </div>
           <div className="flex-1">
@@ -101,7 +101,7 @@ export function ProfileSection() {
         </div>
       </PanelSection>
 
-      <div className="grid gap-4 sm:grid-cols-3">
+      <div className="grid grid-cols-2 gap-3 sm:gap-4 sm:grid-cols-3">
         <StatCard label="Member since" value={p ? new Date(p.created_at).toLocaleDateString() : "—"} />
         <StatCard label="Account status" value={sub.data?.isTrial ? "Trial" : "Active"} />
         <StatCard label="Plan" value={sub.data?.plan?.name ?? "Explorer"} />

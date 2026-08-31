@@ -75,15 +75,15 @@ export function DashboardShell() {
         title={`Welcome back, ${name}`}
         subtitle="Your FRAN-X workspace — requests, opportunities, AI, subscription and account, in one place."
       />
-      <section className="container-x py-10">
-        <div className="grid gap-6 lg:grid-cols-[220px_minmax(0,1fr)]">
+      <section className="container-x py-6 sm:py-10">
+        <div className="grid gap-4 sm:gap-6 lg:grid-cols-[220px_minmax(0,1fr)]">
           <aside className="lg:sticky lg:top-24 lg:self-start">
-            <nav className="flex gap-1 overflow-x-auto rounded-xl border border-border bg-surface/40 p-2 lg:flex-col lg:overflow-visible">
+            <nav className="flex gap-1 overflow-x-auto rounded-xl border border-border bg-surface/40 p-1.5 sm:p-2 lg:flex-col lg:overflow-visible">
               {NAV.map((item) => (
                 <button
                   key={item.key}
                   onClick={() => setActive(item.key)}
-                  className={`flex shrink-0 items-center gap-2 rounded-lg px-3 py-2.5 text-sm font-medium transition-colors ${
+                  className={`flex shrink-0 items-center gap-2 rounded-lg px-2.5 py-2 text-xs font-medium sm:px-3 sm:py-2.5 sm:text-sm transition-colors ${
                     active === item.key
                       ? "bg-primary text-primary-foreground"
                       : "text-muted-foreground hover:bg-surface hover:text-foreground"

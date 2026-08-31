@@ -3,9 +3,9 @@ import { Skeleton } from "@/components/ui/skeleton";
 
 export function StatCard({ label, value, hint }: { label: string; value: ReactNode; hint?: string }) {
   return (
-    <div className="glass-panel rounded-xl p-5">
+    <div className="glass-panel rounded-xl p-4 sm:p-5">
       <p className="text-[11px] uppercase tracking-[0.18em] text-muted-foreground">{label}</p>
-      <p className="mt-2 font-display text-3xl font-semibold">{value ?? "—"}</p>
+      <p className="mt-2 font-display text-2xl font-semibold sm:text-3xl">{value ?? "—"}</p>
       {hint ? <p className="mt-1 text-xs text-muted-foreground">{hint}</p> : null}
     </div>
   );
@@ -23,7 +23,7 @@ export function PanelSection({
   children: ReactNode;
 }) {
   return (
-    <section className="glass-panel rounded-xl p-6">
+    <section className="glass-panel rounded-xl p-4 sm:p-6">
       <div className="flex flex-wrap items-start justify-between gap-3">
         <div>
           <h3 className="font-display text-lg font-semibold">{title}</h3>
