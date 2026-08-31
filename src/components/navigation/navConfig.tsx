@@ -4,6 +4,7 @@ import {
   Compass,
   Bot,
   Bell,
+  ShoppingBag,
   Heart,
   MessageSquare,
   LayoutDashboard,
@@ -40,6 +41,7 @@ export type NavItem = {
 export const PRIMARY_NAV: NavItem[] = [
   { to: "/", label: "Home", icon: Home, exact: true },
   { to: "/marketplace", label: "Marketplace", icon: Store },
+  { to: "/store", label: "Digital Store", icon: ShoppingBag },
   { to: "/opportunities", label: "Opportunities", icon: Compass },
   { label: "FRIX AI", icon: Bot, action: "frix" },
   { to: "/portal", label: "Dashboard", icon: LayoutDashboard, authOnly: true },
@@ -76,6 +78,7 @@ export const FOOTER_NAV: NavItem[] = [
 export const MOBILE_BOTTOM_NAV: NavItem[] = [
   { to: "/", label: "Home", icon: Home, exact: true },
   { to: "/marketplace", label: "Market", icon: Store },
+  { to: "/store", label: "Store", icon: ShoppingBag },
   { to: "/opportunities", label: "Deals", icon: Compass },
   { label: "FRIX AI", icon: Bot, action: "frix" },
 ];

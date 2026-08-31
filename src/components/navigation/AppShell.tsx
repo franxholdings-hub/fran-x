@@ -7,6 +7,8 @@ import { MobileNav } from "./MobileNav";
 import { GlobalSearch } from "./GlobalSearch";
 import { ContextualFAB } from "./ContextualFAB";
 import { Footer } from "@/components/site/Footer";
+import { CartProvider } from "@/hooks/useCart";
+import { CartDrawer } from "@/components/store/CartDrawer";
 
 export function AppShell({ children }: { children: ReactNode }) {
   const pathname = useRouterState({ select: (s) => s.location.pathname });
@@ -15,20 +17,23 @@ export function AppShell({ children }: { children: ReactNode }) {
   return (
     <TooltipProvider delayDuration={300}>
       <GlobalSearch />
-      <div className="flex min-h-screen">
-        <AppSidebar />
-        <div className="flex min-h-screen flex-1 flex-col">
-          <MobileHeader />
-          <main className="flex-1 pb-16 lg:pb-0">
-            <div key={pathname} className="animate-page-enter">
-              {children}
-            </div>
-          </main>
-          {!isAppArea && <Footer />}
+      <CartProvider>
+        <div className="flex min-h-screen">
+          <AppSidebar />
+          <div className="flex min-h-screen flex-1 flex-col">
+            <MobileHeader />
+            <main className="flex-1 pb-16 lg:pb-0">
+              <div key={pathname} className="animate-page-enter">
+                {children}
+              </div>
+            </main>
+            {!isAppArea && <Footer />}
+          </div>
         </div>
-      </div>
-      <MobileNav />
-      <ContextualFAB />
+        <MobileNav />
+        <ContextualFAB />
+        <CartDrawer />
+      </CartProvider>
     </TooltipProvider>
   );
 }
