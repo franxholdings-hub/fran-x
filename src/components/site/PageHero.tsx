@@ -23,7 +23,7 @@ export function PageHero({
             alt={photo.alt}
             loading="eager"
             decoding="async"
-            className="absolute inset-0 h-full w-full object-cover opacity-25"
+            className="absolute inset-0 h-full w-full object-cover opacity-20 sm:opacity-25"
           />
           <div
             aria-hidden="true"
@@ -31,17 +31,17 @@ export function PageHero({
           />
         </>
       ) : null}
-      <div className="container-x relative py-16 sm:py-20">
+      <div className="container-x relative py-8 sm:py-16 lg:py-20">
         <p className="eyebrow animate-rise">{eyebrow}</p>
-        <h1 className="animate-rise mt-4 max-w-4xl text-3xl font-semibold leading-[1.08] sm:text-4xl lg:text-5xl">
+        <h1 className="animate-rise mt-3 max-w-4xl text-2xl font-semibold leading-[1.1] sm:mt-4 sm:text-4xl lg:text-5xl">
           {title}
         </h1>
         {subtitle ? (
-          <p className="animate-rise mt-5 max-w-2xl text-base leading-relaxed text-muted-foreground">
+          <p className="animate-rise mt-3 max-w-2xl text-sm leading-relaxed text-muted-foreground sm:mt-5 sm:text-base">
             {subtitle}
           </p>
         ) : null}
-        {children ? <div className="mt-8">{children}</div> : null}
+        {children ? <div className="mt-6 sm:mt-8">{children}</div> : null}
       </div>
     </section>
   );

@@ -46,7 +46,7 @@ export function CategoryPage({ categoryId }: { categoryId: StoreCategoryId }) {
         photo={PHOTOS[photoKey]}
       />
 
-      <section className="container-x py-10 sm:py-14">
+      <section className="container-x py-8 sm:py-14">
         <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
           <StoreSectionHeading
             subtitle={
@@ -70,7 +70,7 @@ export function CategoryPage({ categoryId }: { categoryId: StoreCategoryId }) {
           <Badge variant="outline">{filtered.length} products</Badge>
         </div>
 
-        <div className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+        <div className="mt-6 grid gap-3 sm:gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
           {filtered.map((product) => (
             <ProductCard key={product.id} product={product} />
           ))}

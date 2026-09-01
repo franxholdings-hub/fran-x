@@ -19,11 +19,11 @@ export function ProductCard({ product }: { product: DigitalProduct }) {
   const savings = product.bundle ? getBundleOriginalTotal(product) - product.price : 0;
 
   return (
-    <article className="group flex flex-col overflow-hidden rounded-xl border border-border bg-surface/40 transition-all duration-300 hover:-translate-y-1 hover:border-primary/40 hover:shadow-lg hover:shadow-primary/5">
+    <article className="group flex flex-row overflow-hidden rounded-xl border border-border bg-surface/40 transition-all duration-300 hover:border-primary/40 hover:shadow-lg hover:shadow-primary/5 sm:flex-col sm:hover:-translate-y-1">
       <Link
         to="/store/$slug"
         params={{ slug: product.slug }}
-        className="relative block aspect-[4/3] overflow-hidden"
+        className="relative block shrink-0 w-20 overflow-hidden sm:w-full sm:aspect-[4/3]"
       >
         <img
           src={photo.src}
@@ -32,36 +32,36 @@ export function ProductCard({ product }: { product: DigitalProduct }) {
           decoding="async"
           className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
         />
-        <div aria-hidden className="absolute inset-0 bg-gradient-to-t from-background/80 via-background/10 to-transparent" />
-        <div className="absolute top-3 left-3 flex flex-wrap gap-1.5">
+        <div aria-hidden className="absolute inset-0 bg-gradient-to-t from-background/40 via-background/5 to-transparent sm:from-background/80 sm:via-background/10" />
+        <div className="absolute top-2 left-2 flex flex-wrap gap-1 sm:top-3 sm:left-3">
           {product.bundle && (
-            <Badge className="border-0 bg-primary text-primary-foreground">
+            <Badge className="border-0 bg-primary px-1.5 py-0 text-[10px] text-primary-foreground sm:px-2 sm:py-0.5 sm:text-xs">
               <Package className="mr-1 h-3 w-3" /> Bundle
             </Badge>
           )}
           {product.featured && !product.bundle && (
-            <Badge variant="outline" className="border-metal/50 bg-background/80 text-metal">
+            <Badge variant="outline" className="border-metal/50 bg-background/80 px-1.5 py-0 text-[10px] text-metal sm:px-2 sm:py-0.5 sm:text-xs">
               <Sparkles className="mr-1 h-3 w-3" /> Featured
             </Badge>
           )}
         </div>
       </Link>
 
-      <div className="flex flex-1 flex-col p-5">
+      <div className="flex flex-1 flex-col p-3 sm:p-5">
         <Link to="/store/$slug" params={{ slug: product.slug }}>
-          <h3 className="font-display text-base font-semibold leading-snug transition-colors group-hover:text-primary">
+          <h3 className="font-display text-sm font-semibold leading-snug transition-colors group-hover:text-primary sm:text-base">
             {product.name}
           </h3>
         </Link>
-        <p className="mt-2 line-clamp-2 flex-1 text-sm leading-relaxed text-muted-foreground">
+        <p className="mt-1 line-clamp-1 flex-1 text-xs leading-relaxed text-muted-foreground sm:mt-2 sm:line-clamp-2 sm:text-sm">
           {product.description}
         </p>
 
-        <div className="mt-4 flex items-end justify-between gap-2">
+        <div className="mt-2 flex items-end justify-between gap-2 sm:mt-4">
           <div>
-            <p className="font-display text-xl font-semibold">{formatNaira(product.price)}</p>
+            <p className="font-display text-base font-semibold sm:text-xl">{formatNaira(product.price)}</p>
             {savings > 0 && (
-              <p className="text-xs text-emerald-600 dark:text-emerald-400">
+              <p className="text-[11px] text-emerald-600 dark:text-emerald-400 sm:text-xs">
                 Save {formatNaira(savings)}
               </p>
             )}
@@ -71,7 +71,7 @@ export function ProductCard({ product }: { product: DigitalProduct }) {
           </Badge>
         </div>
 
-        <div className="mt-4 flex gap-2">
+        <div className="mt-3 flex gap-2 sm:mt-4">
           <Button asChild size="sm" className="flex-1">
             <Link to="/store/$slug" params={{ slug: product.slug }}>
               View <ArrowRight className="h-3.5 w-3.5" />
