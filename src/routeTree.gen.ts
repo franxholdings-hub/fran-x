@@ -28,6 +28,7 @@ import { Route as LegalCookiesRouteImport } from './routes/legal/cookies'
 import { Route as LegalDisclaimerRouteImport } from './routes/legal/disclaimer'
 import { Route as LegalPrivacyRouteImport } from './routes/legal/privacy'
 import { Route as LegalTermsRouteImport } from './routes/legal/terms'
+import { Route as ServicesIndexRouteImport } from './routes/services.index'
 import { Route as ServicesSlugRouteImport } from './routes/services.$slug'
 import { Route as ApiPaystackInitializeRouteImport } from './routes/api/paystack/initialize'
 import { Route as ApiPaystackStatusRouteImport } from './routes/api/paystack/status'
@@ -130,6 +131,11 @@ const LegalTermsRoute = LegalTermsRouteImport.update({
   path: '/legal/terms',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ServicesIndexRoute = ServicesIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => ServicesRoute,
+} as any)
 const ServicesSlugRoute = ServicesSlugRouteImport.update({
   id: '/$slug',
   path: '/$slug',
@@ -187,6 +193,7 @@ export interface FileRoutesByFullPath {
   '/legal/terms': typeof LegalTermsRoute
   '/services/$slug': typeof ServicesSlugRoute
   '/build/': typeof BuildIndexRoute
+  '/services/': typeof ServicesIndexRoute
   '/api/paystack/initialize': typeof ApiPaystackInitializeRoute
   '/api/paystack/status': typeof ApiPaystackStatusRoute
   '/api/paystack/verify': typeof ApiPaystackVerifyRoute
@@ -203,7 +210,6 @@ export interface FileRoutesByTo {
   '/opportunities': typeof OpportunitiesRoute
   '/pricing': typeof PricingRoute
   '/request': typeof RequestRoute
-  '/services': typeof ServicesRouteWithChildren
   '/admin': typeof AuthenticatedAdminRoute
   '/portal': typeof AuthenticatedPortalRoute
   '/build/app': typeof BuildAppRoute
@@ -214,6 +220,7 @@ export interface FileRoutesByTo {
   '/legal/terms': typeof LegalTermsRoute
   '/services/$slug': typeof ServicesSlugRoute
   '/build': typeof BuildIndexRoute
+  '/services': typeof ServicesIndexRoute
   '/api/paystack/initialize': typeof ApiPaystackInitializeRoute
   '/api/paystack/status': typeof ApiPaystackStatusRoute
   '/api/paystack/verify': typeof ApiPaystackVerifyRoute
@@ -243,6 +250,7 @@ export interface FileRoutesById {
   '/legal/terms': typeof LegalTermsRoute
   '/services/$slug': typeof ServicesSlugRoute
   '/build/': typeof BuildIndexRoute
+  '/services/': typeof ServicesIndexRoute
   '/api/paystack/initialize': typeof ApiPaystackInitializeRoute
   '/api/paystack/status': typeof ApiPaystackStatusRoute
   '/api/paystack/verify': typeof ApiPaystackVerifyRoute
@@ -272,6 +280,7 @@ export interface FileRouteTypes {
     | '/legal/terms'
     | '/services/$slug'
     | '/build/'
+    | '/services/'
     | '/api/paystack/initialize'
     | '/api/paystack/status'
     | '/api/paystack/verify'
@@ -288,7 +297,6 @@ export interface FileRouteTypes {
     | '/opportunities'
     | '/pricing'
     | '/request'
-    | '/services'
     | '/admin'
     | '/portal'
     | '/build/app'
@@ -299,6 +307,7 @@ export interface FileRouteTypes {
     | '/legal/terms'
     | '/services/$slug'
     | '/build'
+    | '/services'
     | '/api/paystack/initialize'
     | '/api/paystack/status'
     | '/api/paystack/verify'
@@ -327,6 +336,7 @@ export interface FileRouteTypes {
     | '/legal/terms'
     | '/services/$slug'
     | '/build/'
+    | '/services/'
     | '/api/paystack/initialize'
     | '/api/paystack/status'
     | '/api/paystack/verify'
@@ -496,6 +506,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof LegalTermsRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/services/': {
+      id: '/services/'
+      path: '/'
+      fullPath: '/services/'
+      preLoaderRoute: typeof ServicesIndexRouteImport
+      parentRoute: typeof ServicesRoute
+    }
     '/services/$slug': {
       id: '/services/$slug'
       path: '/$slug'
@@ -563,10 +580,12 @@ const AuthenticatedRouteRouteWithChildren =
 
 interface ServicesRouteChildren {
   ServicesSlugRoute: typeof ServicesSlugRoute
+  ServicesIndexRoute: typeof ServicesIndexRoute
 }
 
 const ServicesRouteChildren: ServicesRouteChildren = {
   ServicesSlugRoute: ServicesSlugRoute,
+  ServicesIndexRoute: ServicesIndexRoute,
 }
 
 const ServicesRouteWithChildren = ServicesRoute._addFileChildren(
