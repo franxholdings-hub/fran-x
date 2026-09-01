@@ -31,7 +31,7 @@ function ProductDetail() {
 
   if (!product) {
     return (
-      <div className="container-x py-24 text-center">
+      <div className="container-x py-12 text-center">
         <h1 className="text-2xl font-semibold">Product not found</h1>
         <Button asChild className="mt-4">
           <Link to="/store">Back to store</Link>
@@ -78,7 +78,7 @@ function ProductDetail() {
         photo={photo}
       />
 
-      <section className="container-x py-10 sm:py-14">
+      <section className="container-x py-8 sm:py-10">
         <div className="grid gap-8 lg:grid-cols-[1fr_1fr]">
           {/* Document previewer — blurred glimpse */}
           <div className="relative overflow-hidden rounded-xl border border-border bg-surface/40">
@@ -127,7 +127,7 @@ function ProductDetail() {
             </div>
 
             <div className="mt-5 flex items-end gap-3">
-              <span className="font-display text-4xl font-semibold">{formatNaira(product.price)}</span>
+              <span className="font-display text-3xl font-semibold">{formatNaira(product.price)}</span>
               {savings > 0 && (
                 <span className="mb-1 text-sm text-muted-foreground line-through">
                   {formatNaira(getBundleOriginalTotal(product))}
@@ -175,7 +175,7 @@ function ProductDetail() {
 
         {/* Related products — "You may also like" */}
         {related.length > 0 && (
-          <div className="mt-16">
+          <div className="mt-6">
             <StoreSectionHeading eyebrow="You may also like" title="Related resources" />
             <div className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
               {related.map((p) => (
@@ -185,7 +185,7 @@ function ProductDetail() {
           </div>
         )}
 
-        <Button asChild variant="ghost" size="sm" className="mt-10">
+        <Button asChild variant="ghost" size="sm" className="mt-6">
           <Link to="/store"><ArrowLeft className="h-4 w-4" /> Back to store</Link>
         </Button>
       </section>

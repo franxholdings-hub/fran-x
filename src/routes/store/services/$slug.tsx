@@ -48,7 +48,7 @@ function ServiceDetail() {
 
   if (!service) {
     return (
-      <div className="container-x py-24 text-center">
+      <div className="container-x py-12 text-center">
         <h1 className="text-2xl font-semibold">Service not found</h1>
         <Button asChild className="mt-4">
           <Link to="/store/services">Back to services</Link>
@@ -93,8 +93,8 @@ function ServiceDetail() {
 
   if (reference) {
     return (
-      <div className="container-x py-20">
-        <div className="glass-panel mx-auto max-w-lg rounded-xl p-8 text-center">
+      <div className="container-x py-8">
+        <div className="glass-panel mx-auto max-w-lg rounded-xl p-6 text-center">
           <span className="mx-auto grid h-12 w-12 place-items-center rounded-full border border-emerald-500/30 bg-emerald-500/10 text-emerald-600 dark:text-emerald-400">
             <Check className="h-6 w-6" />
           </span>
@@ -124,7 +124,7 @@ function ServiceDetail() {
         photo={photo}
       />
 
-      <section className="container-x py-10 sm:py-14">
+      <section className="container-x py-8 sm:py-10">
         <div className="grid gap-8 lg:grid-cols-[1.4fr_1fr]">
           {/* Scope of work */}
           <div>
@@ -149,7 +149,7 @@ function ServiceDetail() {
                   <p className="text-[11px] uppercase tracking-wide text-muted-foreground">
                     {service.billingLabel}
                   </p>
-                  <p className="font-display text-3xl font-semibold">{formatNaira(service.priceFrom)}</p>
+                  <p className="font-display text-2xl font-semibold">{formatNaira(service.priceFrom)}</p>
                 </div>
                 {isCustom && <Badge variant="outline" className="border-metal/50 text-metal">Custom quote</Badge>}
               </div>

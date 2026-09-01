@@ -52,9 +52,9 @@ function BuildIndex() {
         subtitle="Choose a track and we will scope, price and deliver it."
         photo={PHOTOS.technology}
       />
-      <section className="container-x grid gap-5 py-14 md:grid-cols-3">
+      <section className="container-x grid gap-5 py-8 sm:py-10 md:grid-cols-3">
         {OPTIONS.map((o) => (
-          <div key={o.title} className="glass-panel flex flex-col rounded-xl p-7">
+          <div key={o.title} className="glass-panel flex flex-col rounded-xl p-5 sm:p-7">
             <o.icon className="h-6 w-6 text-primary" />
             <h2 className="mt-5 font-display text-lg font-semibold">{o.title}</h2>
             <p className="mt-3 flex-1 text-sm text-muted-foreground">{o.body}</p>

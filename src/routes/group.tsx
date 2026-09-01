@@ -74,7 +74,7 @@ function GroupPage() {
         subtitle="A growing portfolio of businesses across multiple industries. Each venture is listed with its accurate current status."
         photo={PHOTOS.capital}
       />
-      <section className="container-x py-14">
+      <section className="container-x py-8 sm:py-10">
         {isLoading ? (
           <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
             {Array.from({ length: 6 }).map((_, i) => (
@@ -125,7 +125,7 @@ function GroupPage() {
             })}
           </div>
         )}
-        <p className="mt-10 rounded-lg border border-border/60 bg-surface/40 p-4 text-xs text-muted-foreground">
+        <p className="mt-6 rounded-lg border border-border/60 bg-surface/40 p-4 text-xs text-muted-foreground">
           Statuses are accurate at time of publication. Planned and future ventures are not
           represented as currently operating.
         </p>

@@ -30,7 +30,7 @@ function BuildWebsite() {
         subtitle="Tell us the type of website, the features you need and your timeline."
         photo={PHOTOS.technology}
       />
-      <section className="container-x max-w-3xl py-14">
+      <section className="container-x max-w-3xl py-8 sm:py-10">
         <QuickInquiryForm
           kind="website"
           category="Website"

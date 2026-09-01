@@ -98,7 +98,7 @@ function AuthPage() {
   };
 
   return (
-    <section className="container-x flex min-h-[80vh] max-w-md flex-col justify-center py-16">
+    <section className="container-x flex min-h-[80vh] max-w-md flex-col justify-center py-10">
       <div className="glass-panel rounded-2xl p-8">
         <p className="eyebrow">Client access</p>
         <h1 className="mt-3 text-2xl font-semibold">

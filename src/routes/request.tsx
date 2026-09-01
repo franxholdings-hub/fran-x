@@ -121,11 +121,11 @@ function RequestPage() {
         photo={PHOTOS.consulting}
       />
 
-      <section className="container-x max-w-3xl py-14">
+      <section className="container-x max-w-3xl py-8 sm:py-10">
         {loading ? null : !user ? (
           <AuthGateNotice action="submit a service request" />
         ) : reference ? (
-          <div className="glass-panel rounded-xl p-8 text-center">
+          <div className="glass-panel rounded-xl p-6 text-center">
             <span className="mx-auto grid h-12 w-12 place-items-center rounded-full border border-primary/40 text-primary">
               <Check className="h-5 w-5" />
             </span>

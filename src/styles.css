@@ -193,8 +193,14 @@
 @utility container-x {
   width: 100%;
   margin-inline: auto;
-  max-width: 80rem;
-  padding-inline: 1.25rem;
+  max-width: 72rem;
+  padding-inline: 1rem;
+}
+
+@media (min-width: 1024px) {
+  .container-x {
+    padding-inline: 1.5rem;
+  }
 }
 
 @utility text-metal {

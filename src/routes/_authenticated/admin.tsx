@@ -59,7 +59,7 @@ function Admin() {
   if (loading) return null;
   if (!isAdmin) {
     return (
-      <div className="container-x py-24 text-center">
+      <div className="container-x py-12 text-center">
         <h1 className="text-2xl font-semibold">Restricted area</h1>
         <p className="mt-2 text-sm text-muted-foreground">
           The FRAN-X Command Center is available to authorised administrators only.
@@ -75,7 +75,7 @@ function Admin() {
         title="Run the entire group from one console"
         subtitle="Leads, projects, opportunities, content, media, analytics, security and the FRIX AI system."
       />
-      <section className="container-x py-10">
+      <section className="container-x py-6 sm:py-10">
         <Tabs defaultValue="overview" className="w-full">
           <TabsList className="mb-8 flex h-auto w-full flex-wrap justify-start gap-1">
             <TabsTrigger value="overview"><LayoutDashboard className="h-4 w-4" /> Overview</TabsTrigger>

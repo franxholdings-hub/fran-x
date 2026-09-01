@@ -72,13 +72,13 @@ function Marketplace() {
       </PageHero>
 
       {/* Category navigation */}
-      <section className="container-x py-10">
+      <section className="container-x py-6 sm:py-8">
         <SectionHeading
           eyebrow="Approved categories"
           title="Explore by category"
           subtitle="FRAN-X Marketplace is limited to approved high-value asset and opportunity categories."
         />
-        <div className="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+        <div className="mt-5 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
           {CATEGORIES.map((c) => (
             <button
               key={c.id}
@@ -88,15 +88,15 @@ function Marketplace() {
                 setBrowsing(true);
                 document.getElementById("marketplace-browse")?.scrollIntoView({ behavior: "smooth" });
               }}
-              className="glass-panel group rounded-xl p-5 text-left transition-colors hover:border-primary/50"
+              className="glass-panel group rounded-xl p-4 text-left transition-colors hover:border-primary/50"
             >
-              <span className="grid h-11 w-11 place-items-center rounded-lg border border-primary/30 text-primary">
-                <CategoryIcon id={c.id} className="h-5 w-5" />
+              <span className="grid h-9 w-9 place-items-center rounded-lg border border-primary/30 text-primary">
+                <CategoryIcon id={c.id} className="h-[1.15rem] w-[1.15rem]" />
               </span>
-              <p className="mt-3 font-display text-base font-semibold">{c.shortLabel}</p>
-              <p className="mt-1 text-sm text-muted-foreground">{c.blurb}</p>
-              <span className="mt-3 inline-flex items-center gap-1 text-sm font-medium text-primary">
-                Browse <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" />
+              <p className="mt-2.5 font-display text-sm font-semibold">{c.shortLabel}</p>
+              <p className="mt-1 text-xs leading-relaxed text-muted-foreground">{c.blurb}</p>
+              <span className="mt-2.5 inline-flex items-center gap-1 text-xs font-medium text-primary">
+                Browse <ArrowRight className="h-3.5 w-3.5 transition-transform group-hover:translate-x-0.5" />
               </span>
             </button>
           ))}
@@ -119,7 +119,7 @@ function Marketplace() {
       ) : null}
 
       {/* Browse / search / filter */}
-      <section id="marketplace-browse" className="container-x scroll-mt-24 py-10">
+      <section id="marketplace-browse" className="container-x scroll-mt-20 py-6 sm:py-8">
         <SectionHeading
           eyebrow="Browse"
           title={browsing ? "All listings" : "Latest listings"}
@@ -159,14 +159,14 @@ function Marketplace() {
         <div className="mt-6">
           <FiltersBar filters={filters} onChange={onChange} resultCount={results.length} />
         </div>
-        <div className="mt-6 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+        <div className="mt-5 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
           {results.map((l) => (
             <ListingCard key={l.id} listing={l} saved={isSaved(l.id)} onToggleSave={() => toggle(l.id)} />
           ))}
         </div>
         {results.length === 0 ? (
-          <div className="glass-panel mt-6 rounded-xl p-10 text-center">
-            <p className="font-display text-lg font-semibold">No listings match your filters</p>
+          <div className="glass-panel mt-5 rounded-xl p-8 text-center">
+            <p className="font-display text-base font-semibold">No listings match your filters</p>
             <p className="mt-1 text-sm text-muted-foreground">Try clearing some filters or broadening your search.</p>
             <Button variant="outline" className="mt-4" onClick={() => setFilters(emptyFilters())}>
               Clear filters
@@ -176,23 +176,23 @@ function Marketplace() {
       </section>
 
       {/* Recommended */}
-      <section className="container-x py-10">
+      <section className="container-x py-6 sm:py-8">
         <SectionHeading
           eyebrow="For you"
           title="Recommended opportunities"
           subtitle="Curated based on category and location — structured for future FRIX AI recommendations."
         />
-        <div className="mt-6">
+        <div className="mt-4">
           <ListingCarousel listings={recommended} isSaved={isSaved} toggle={toggle} />
         </div>
       </section>
 
       {/* Vendor CTA */}
-      <section className="container-x py-10">
-        <div className="glass-panel flex flex-col items-start justify-between gap-4 rounded-xl p-6 sm:flex-row sm:items-center">
+      <section className="container-x py-6 sm:py-8">
+        <div className="glass-panel flex flex-col items-start justify-between gap-4 rounded-xl p-5 sm:flex-row sm:items-center">
           <div>
             <p className="eyebrow">For approved vendors</p>
-            <p className="mt-2 font-display text-xl font-semibold">List an asset or opportunity on FRAN-X</p>
+            <p className="mt-1.5 font-display text-lg font-semibold">List an asset or opportunity on FRAN-X</p>
             <p className="mt-1 text-sm text-muted-foreground">
               Create a listing, submit it for FRAN-X review, and receive inquiries once approved.
             </p>

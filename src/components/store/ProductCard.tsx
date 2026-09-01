@@ -126,8 +126,8 @@ export function StoreSectionHeading({
   return (
     <div className="max-w-2xl">
       {eyebrow && <p className="eyebrow">{eyebrow}</p>}
-      <h2 className="mt-2 font-display text-2xl font-semibold sm:text-3xl">{title}</h2>
-      {subtitle && <p className="mt-3 text-sm leading-relaxed text-muted-foreground sm:text-base">{subtitle}</p>}
+      <h2 className="mt-2 font-display text-xl font-semibold sm:text-2xl">{title}</h2>
+      {subtitle && <p className="mt-2 text-sm leading-relaxed text-muted-foreground">{subtitle}</p>}
     </div>
   );
 }

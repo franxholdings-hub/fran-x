@@ -46,7 +46,7 @@ export function ListingCard({
         </div>
       </Link>
 
-      <div className="flex flex-1 flex-col p-4">
+      <div className="flex flex-1 flex-col p-3.5">
         <div className="flex items-center gap-2 text-xs text-muted-foreground">
           <CategoryIcon id={listing.category} className="h-3.5 w-3.5 text-primary" />
           <span className="font-medium text-foreground/80">{cat.shortLabel}</span>
@@ -54,7 +54,7 @@ export function ListingCard({
           <span>{listing.subtype}</span>
         </div>
 
-        <h3 className="mt-2 line-clamp-2 font-display text-base font-semibold leading-snug">
+        <h3 className="mt-1.5 line-clamp-2 font-display text-[0.95rem] font-semibold leading-snug">
           <Link to="/marketplace/$slug" params={{ slug: listing.slug }} className="hover:text-primary">
             {listing.title}
           </Link>
@@ -64,19 +64,19 @@ export function ListingCard({
           <MapPin className="h-3.5 w-3.5" /> {listing.location}
         </p>
 
-        <p className="mt-2 line-clamp-2 text-sm text-muted-foreground">{listing.description}</p>
+        <p className="mt-1.5 line-clamp-2 text-[0.8rem] leading-relaxed text-muted-foreground">{listing.description}</p>
 
-        <div className="mt-3 flex items-center justify-between gap-2">
-          <span className="font-display text-lg font-semibold text-primary">{listing.price}</span>
+        <div className="mt-2.5 flex items-center justify-between gap-2">
+          <span className="font-display text-base font-semibold text-primary">{listing.price}</span>
           <VerifiedBadge verified={listing.verified} />
         </div>
 
-        <div className="mt-3 flex items-center justify-between gap-2 border-t border-border/60 pt-3 text-xs text-muted-foreground">
+        <div className="mt-2.5 flex items-center justify-between gap-2 border-t border-border/60 pt-2.5 text-xs text-muted-foreground">
           <span className="truncate">{listing.vendorName}</span>
           <span>{formatDate(listing.dateListed)}</span>
         </div>
 
-        <div className="mt-4 grid grid-cols-2 gap-2">
+        <div className="mt-3 grid grid-cols-2 gap-2">
           <Button asChild variant="outline" size="sm">
             <Link to="/marketplace/$slug" params={{ slug: listing.slug }}>View Details</Link>
           </Button>

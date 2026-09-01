@@ -44,10 +44,10 @@ export function HomeSection({ onNavigate }: { onNavigate: (k: SectionKey) => voi
   return (
     <div className="space-y-4 sm:space-y-6">
       {/* Current plan / trial */}
-      <div className="glass-panel flex flex-wrap items-center justify-between gap-4 rounded-xl p-4 sm:p-6">
+      <div className="glass-panel flex flex-wrap items-center justify-between gap-4 rounded-xl p-4">
         <div>
           <p className="eyebrow">Current plan</p>
-          <p className="mt-2 font-display text-2xl font-semibold">{planName}</p>
+          <p className="mt-1.5 font-display text-xl font-semibold">{planName}</p>
           <p className="mt-1 text-sm text-muted-foreground">
             {isTrial
               ? `Free trial active — ${trialDays} day${trialDays === 1 ? "" : "s"} remaining.`

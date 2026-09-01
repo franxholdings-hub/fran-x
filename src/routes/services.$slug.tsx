@@ -56,7 +56,7 @@ function ServiceDetail() {
 
   if (isLoading) {
     return (
-      <div className="container-x py-20">
+      <div className="container-x py-8">
         <Skeleton className="h-40 rounded-xl" />
       </div>
     );
@@ -64,7 +64,7 @@ function ServiceDetail() {
 
   if (!data) {
     return (
-      <div className="container-x py-20 text-center">
+      <div className="container-x py-12 text-center">
         <h1 className="text-2xl font-semibold">Service not found</h1>
         <Button asChild className="mt-6">
           <Link to="/services">Back to services</Link>
@@ -92,7 +92,7 @@ function ServiceDetail() {
           </Button>
         </div>
       </PageHero>
-      <section className="container-x max-w-3xl py-14">
+      <section className="container-x max-w-3xl py-8 sm:py-10">
         <h2 className="font-display text-lg font-semibold">What you get</h2>
         <ul className="mt-4 space-y-3 text-sm text-muted-foreground">
           <li>• A structured scoping conversation with the FRAN-X team.</li>
@@ -100,7 +100,7 @@ function ServiceDetail() {
           <li>• A single reference ID so you can track progress in your client portal.</li>
           <li>• Direct communication by portal chat, email, phone or WhatsApp.</li>
         </ul>
-        <p className="mt-10 rounded-lg border border-border/60 bg-surface/40 p-4 text-xs leading-relaxed text-muted-foreground">
+        <p className="mt-6 rounded-lg border border-border/60 bg-surface/40 p-4 text-xs leading-relaxed text-muted-foreground">
           {COMPLIANCE_NOTE}
         </p>
       </section>

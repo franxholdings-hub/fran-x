@@ -134,7 +134,7 @@ export function VendorSection() {
 
         <div className="mt-5 space-y-3">
           {filtered.length === 0 ? (
-            <div className="rounded-xl border border-dashed border-border bg-surface/30 p-10 text-center">
+            <div className="rounded-xl border border-dashed border-border bg-surface/30 p-6 text-center">
               <span className="mx-auto grid h-12 w-12 place-items-center rounded-full border border-border text-muted-foreground">
                 <Store className="h-6 w-6" />
               </span>

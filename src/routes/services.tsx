@@ -86,22 +86,22 @@ function ServicesPage() {
       >
         <div className="max-w-2xl">
           <div className="relative">
-            <Search className="pointer-events-none absolute top-1/2 left-4 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
+            <Search className="pointer-events-none absolute top-1/2 left-3.5 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
             <Input
               value={query}
               onChange={(e) => setQuery(e.target.value)}
               placeholder="e.g. I need a website with online payments"
               aria-label="Search services"
-              className="h-14 rounded-xl border-border bg-surface pl-11 text-base"
+              className="h-11 rounded-lg border-border bg-surface pl-10 text-sm"
             />
           </div>
-          <div className="mt-4 flex flex-wrap gap-2">
+          <div className="mt-3 flex flex-wrap gap-2">
             {EXAMPLES.map((ex) => (
               <button
                 key={ex}
                 type="button"
                 onClick={() => setQuery(ex)}
-                className="rounded-full border border-border bg-background/60 px-3 py-1.5 text-xs text-muted-foreground transition-colors hover:border-primary/50 hover:text-foreground"
+                className="rounded-full border border-border bg-background/60 px-2.5 py-1 text-xs text-muted-foreground transition-colors hover:border-primary/50 hover:text-foreground"
               >
                 {ex}
               </button>
@@ -110,7 +110,7 @@ function ServicesPage() {
         </div>
       </PageHero>
 
-      <section className="container-x py-12">
+      <section className="container-x py-8 sm:py-10">
         <div className="flex flex-wrap gap-2">
           {["All", ...SERVICE_CATEGORIES].map((cat) => (
             <button
@@ -145,9 +145,9 @@ function ServicesPage() {
             </Button>
           </div>
         ) : (
-          <div className="mt-10 space-y-14">
+          <div className="mt-6 space-y-8 sm:space-y-10">
             {grouped.map(([cat, items]) => (
-              <div key={cat} id={categoryAnchor(cat)} className="scroll-mt-24">
+              <div key={cat} id={categoryAnchor(cat)} className="scroll-mt-20">
                 <div className="flex flex-wrap items-center justify-between gap-3">
                   <h2 className="text-xl font-semibold sm:text-2xl">{cat}</h2>
                   <Badge variant="outline">{items.length} services</Badge>
@@ -185,7 +185,7 @@ function ServicesPage() {
           </div>
         )}
 
-        <p className="mt-14 rounded-lg border border-border/60 bg-surface/40 p-4 text-xs leading-relaxed text-muted-foreground">
+        <p className="mt-10 rounded-lg border border-border/60 bg-surface/40 p-4 text-xs leading-relaxed text-muted-foreground">
           {COMPLIANCE_NOTE}
         </p>
       </section>
