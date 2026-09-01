@@ -23,7 +23,7 @@ export function ProductCard({ product }: { product: DigitalProduct }) {
       <Link
         to="/store/$slug"
         params={{ slug: product.slug }}
-        className="relative block shrink-0 w-20 overflow-hidden sm:w-full sm:aspect-[4/3]"
+        className="relative block shrink-0 w-28 overflow-hidden sm:w-full sm:aspect-[4/3]"
       >
         <img
           src={photo.src}
@@ -47,7 +47,7 @@ export function ProductCard({ product }: { product: DigitalProduct }) {
         </div>
       </Link>
 
-      <div className="flex flex-1 flex-col p-3 sm:p-5">
+      <div className="flex flex-1 flex-col p-4 sm:p-5">
         <Link to="/store/$slug" params={{ slug: product.slug }}>
           <h3 className="font-display text-sm font-semibold leading-snug transition-colors group-hover:text-primary sm:text-base">
             {product.name}
@@ -72,7 +72,7 @@ export function ProductCard({ product }: { product: DigitalProduct }) {
         </div>
 
         <div className="mt-3 flex gap-2 sm:mt-4">
-          <Button asChild size="sm" className="flex-1">
+          <Button asChild size="sm" className="w-auto">
             <Link to="/store/$slug" params={{ slug: product.slug }}>
               View <ArrowRight className="h-3.5 w-3.5" />
             </Link>
@@ -80,6 +80,7 @@ export function ProductCard({ product }: { product: DigitalProduct }) {
           <Button
             size="sm"
             variant="outline"
+            className="flex-1"
             onClick={() =>
               add({
                 slug: product.slug,
