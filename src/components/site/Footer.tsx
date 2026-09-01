@@ -52,7 +52,7 @@ const COLUMNS: { title: string; links: { to: string; label: string; hash: string
 export function Footer() {
   return (
     <footer className="mt-16 border-t border-border/70 bg-surface/50">
-      <div className="container-x py-10">
+      <div className="container-x py-8 sm:py-10">
         <div className="grid gap-8 lg:grid-cols-[1.3fr_repeat(4,minmax(0,1fr))]">
           <div>
             <p className="flex items-center gap-2.5 font-display text-base font-semibold">

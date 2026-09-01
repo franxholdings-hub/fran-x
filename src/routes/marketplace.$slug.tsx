@@ -71,7 +71,7 @@ function ListingDetail() {
         subtitle={listing.description}
       />
 
-      <section className="container-x py-10">
+      <section className="container-x py-6 sm:py-10">
         <div className="grid gap-8 lg:grid-cols-[minmax(0,1.4fr)_minmax(0,1fr)]">
           {/* Left: gallery + description */}
           <div className="space-y-6">

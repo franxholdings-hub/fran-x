@@ -75,7 +75,7 @@ function Admin() {
         title="Run the entire group from one console"
         subtitle="Leads, projects, opportunities, content, media, analytics, security and the FRIX AI system."
       />
-      <section className="container-x py-10">
+      <section className="container-x py-6 sm:py-10">
         <Tabs defaultValue="overview" className="w-full">
           <TabsList className="mb-8 flex h-auto w-full flex-wrap justify-start gap-1">
             <TabsTrigger value="overview"><LayoutDashboard className="h-4 w-4" /> Overview</TabsTrigger>

@@ -64,7 +64,7 @@ function ResourcePass() {
             return (
               <div
                 key={plan.id}
-                className={`relative overflow-hidden rounded-2xl border p-8 ${
+                className={`relative overflow-hidden rounded-2xl border p-5 sm:p-8 ${
                   plan.featured
                     ? "border-metal/40 bg-foreground text-background"
                     : "border-border bg-surface/40 text-foreground"

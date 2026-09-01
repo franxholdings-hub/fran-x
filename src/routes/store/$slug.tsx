@@ -78,7 +78,7 @@ function ProductDetail() {
         photo={photo}
       />
 
-      <section className="container-x py-10 sm:py-8 sm:py-10">
+      <section className="container-x py-8 sm:py-10">
         <div className="grid gap-8 lg:grid-cols-[1fr_1fr]">
           {/* Document previewer — blurred glimpse */}
           <div className="relative overflow-hidden rounded-xl border border-border bg-surface/40">

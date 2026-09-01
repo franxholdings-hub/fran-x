@@ -124,7 +124,7 @@ function ServiceDetail() {
         photo={photo}
       />
 
-      <section className="container-x py-10 sm:py-8 sm:py-10">
+      <section className="container-x py-8 sm:py-10">
         <div className="grid gap-8 lg:grid-cols-[1.4fr_1fr]">
           {/* Scope of work */}
           <div>
