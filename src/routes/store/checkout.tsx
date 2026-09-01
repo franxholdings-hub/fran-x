@@ -84,8 +84,8 @@ function CheckoutPage() {
 
   if (done) {
     return (
-      <div className="container-x py-20">
-        <div className="glass-panel mx-auto max-w-lg rounded-xl p-8 text-center">
+      <div className="container-x py-8">
+        <div className="glass-panel mx-auto max-w-lg rounded-xl p-6 text-center">
           <span className="mx-auto grid h-12 w-12 place-items-center rounded-full border border-emerald-500/30 bg-emerald-500/10 text-emerald-600 dark:text-emerald-400">
             <Check className="h-6 w-6" />
           </span>
@@ -115,13 +115,13 @@ function CheckoutPage() {
         photo={PHOTOS.technology}
       />
 
-      <section className="container-x py-10 sm:py-14">
+      <section className="container-x py-10 sm:py-8 sm:py-10">
         <div className="grid gap-8 lg:grid-cols-[1.4fr_1fr]">
           {/* Order summary */}
           <div>
             <h2 className="font-display text-lg font-semibold">Order summary</h2>
             {count === 0 ? (
-              <div className="glass-panel mt-5 rounded-xl p-8 text-center">
+              <div className="glass-panel mt-5 rounded-xl p-6 text-center">
                 <ShoppingBag className="mx-auto h-10 w-10 text-muted-foreground/40" />
                 <p className="mt-3 text-sm text-muted-foreground">Your cart is empty.</p>
                 <Button asChild className="mt-4">

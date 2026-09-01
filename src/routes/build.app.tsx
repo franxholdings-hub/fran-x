@@ -30,7 +30,7 @@ function BuildApp() {
         subtitle="Tell us the platform, core features and how your users will use the app."
         photo={PHOTOS.mobile}
       />
-      <section className="container-x max-w-3xl py-14">
+      <section className="container-x max-w-3xl py-8 sm:py-10">
         <QuickInquiryForm
           kind="app"
           category="Mobile App"

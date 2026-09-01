@@ -64,25 +64,25 @@ function StoreHome() {
       </PageHero>
 
       {/* Category navigation — mirrors the Profile section (PanelSection + compact bordered cards) */}
-      <section className="container-x py-10 sm:py-14">
+      <section className="container-x py-6 sm:py-8">
         <PanelSection
           title="Explore the store"
           description="Everything you need to build and grow — templates, e-books, finance guides, AI, services and automation."
         >
-          <div className="grid grid-cols-2 gap-2 sm:grid-cols-3 sm:gap-4">
+          <div className="grid grid-cols-2 gap-2 sm:grid-cols-3 sm:gap-3">
             {BENTO.map(({ cat, href }) => (
               <Link
                 key={cat.id}
                 to={href}
-                className="group rounded-lg border border-border bg-surface/40 p-4 transition-colors hover:border-primary/40 hover:bg-surface/60"
+                className="group rounded-lg border border-border bg-surface/40 p-3 transition-colors hover:border-primary/40 hover:bg-surface/60"
               >
-                <div className="flex items-center gap-2.5">
-                  <span className="grid h-9 w-9 shrink-0 place-items-center rounded-lg border border-primary/30 bg-primary/10 text-primary">
-                    <cat.icon className="h-5 w-5" />
+                <div className="flex items-center gap-2">
+                  <span className="grid h-8 w-8 shrink-0 place-items-center rounded-lg border border-primary/30 bg-primary/10 text-primary">
+                    <cat.icon className="h-[1.15rem] w-[1.15rem]" />
                   </span>
                   <p className="font-display text-sm font-semibold leading-snug">{cat.shortLabel}</p>
                 </div>
-                <p className="mt-2 line-clamp-2 text-xs leading-relaxed text-muted-foreground">{cat.blurb}</p>
+                <p className="mt-1.5 line-clamp-2 text-xs leading-relaxed text-muted-foreground">{cat.blurb}</p>
               </Link>
             ))}
           </div>
@@ -91,20 +91,20 @@ function StoreHome() {
 
       {/* Featured startup bundle highlight */}
       {startupBundle && (
-        <section className="container-x pb-4">
-          <div className="relative overflow-hidden rounded-2xl border border-metal/30 bg-gradient-to-br from-metal/10 via-surface/40 to-background p-6 sm:p-10">
+        <section className="container-x pb-3">
+          <div className="relative overflow-hidden rounded-2xl border border-metal/30 bg-gradient-to-br from-metal/10 via-surface/40 to-background p-5 sm:p-8">
             <div className="relative max-w-2xl">
               <Badge className="border-0 bg-metal text-background">
                 <Package className="mr-1 h-3 w-3" /> Bundle
               </Badge>
-              <h2 className="mt-4 font-display text-2xl font-semibold sm:text-3xl">
+              <h2 className="mt-3 font-display text-xl font-semibold sm:text-2xl">
                 {startupBundle.name}
               </h2>
-              <p className="mt-3 text-sm leading-relaxed text-muted-foreground sm:text-base">
+              <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
                 {startupBundle.description}
               </p>
-              <div className="mt-5 flex flex-wrap items-center gap-4">
-                <span className="font-display text-3xl font-semibold">
+              <div className="mt-4 flex flex-wrap items-center gap-3">
+                <span className="font-display text-2xl font-semibold">
                   {formatNaira(startupBundle.price)}
                 </span>
                 <span className="text-sm text-muted-foreground line-through">
@@ -114,7 +114,7 @@ function StoreHome() {
                   Save {formatNaira(getBundleOriginalTotal(startupBundle) - startupBundle.price)}
                 </Badge>
               </div>
-              <Button asChild className="mt-6" size="lg">
+              <Button asChild className="mt-4" size="lg">
                 <Link to="/store/$slug" params={{ slug: startupBundle.slug }}>
                   View bundle <ArrowRight />
                 </Link>
@@ -125,14 +125,14 @@ function StoreHome() {
       )}
 
       {/* Featured products */}
-      <section className="container-x py-10 sm:py-14">
+      <section className="container-x py-6 sm:py-8">
         <div className="flex items-center justify-between gap-4">
           <StoreSectionHeading eyebrow="Featured" title="Popular digital products" />
           <Button asChild variant="ghost" size="sm">
             <Link to="/store/templates">View all <ArrowRight className="h-4 w-4" /></Link>
           </Button>
         </div>
-        <div className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+        <div className="mt-5 grid gap-3 sm:gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
           {featured.map((product) => (
             <ProductCard key={product.id} product={product} />
           ))}
@@ -140,11 +140,11 @@ function StoreHome() {
       </section>
 
       {/* Revenue ticker / social proof */}
-      <section className="container-x pb-14">
-        <div className="glass-panel flex flex-col gap-4 rounded-xl p-6 sm:flex-row sm:items-center sm:justify-between">
+      <section className="container-x pb-10">
+        <div className="glass-panel flex flex-col gap-4 rounded-xl p-5 sm:flex-row sm:items-center sm:justify-between">
           <div className="flex items-center gap-3">
-            <span className="grid h-10 w-10 place-items-center rounded-lg border border-emerald-500/30 bg-emerald-500/10 text-emerald-600 dark:text-emerald-400">
-              <TrendingUp className="h-5 w-5" />
+            <span className="grid h-9 w-9 place-items-center rounded-lg border border-emerald-500/30 bg-emerald-500/10 text-emerald-600 dark:text-emerald-400">
+              <TrendingUp className="h-[1.15rem] w-[1.15rem]" />
             </span>
             <div>
               <p className="text-sm font-semibold">Trusted by Nigerian entrepreneurs</p>

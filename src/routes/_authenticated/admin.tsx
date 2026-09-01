@@ -59,7 +59,7 @@ function Admin() {
   if (loading) return null;
   if (!isAdmin) {
     return (
-      <div className="container-x py-24 text-center">
+      <div className="container-x py-12 text-center">
         <h1 className="text-2xl font-semibold">Restricted area</h1>
         <p className="mt-2 text-sm text-muted-foreground">
           The FRAN-X Command Center is available to authorised administrators only.

@@ -25,7 +25,7 @@ export function LegalPage({
   return (
     <>
       <PageHero eyebrow="Legal" title={title} subtitle={updated} />
-      <section className="container-x max-w-3xl py-14">
+      <section className="container-x max-w-3xl py-8 sm:py-10">
         <div className="space-y-8">
           {sections.map((s) => (
             <article key={s.heading}>

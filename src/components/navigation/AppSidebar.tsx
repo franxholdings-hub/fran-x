@@ -136,7 +136,7 @@ export function AppSidebar() {
       {/* Logo */}
       <div
         className={cn(
-          "flex h-16 shrink-0 items-center border-b border-sidebar-border",
+          "flex h-14 shrink-0 items-center border-b border-sidebar-border",
           collapsed ? "justify-center px-0" : "px-4",
         )}
       >

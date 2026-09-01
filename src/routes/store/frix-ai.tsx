@@ -54,18 +54,18 @@ function FrixAiPage() {
         photo={PHOTOS.ai}
       />
 
-      <section className="container-x py-12 sm:py-16">
-        <div className="grid gap-6 md:grid-cols-3">
+      <section className="container-x py-6 sm:py-8">
+        <div className="grid gap-4 md:grid-cols-3">
           {plans.map((plan) => (
             <div
               key={plan.id}
-              className={`glass-panel flex flex-col rounded-xl p-6 ${
+              className={`glass-panel flex flex-col rounded-xl p-5 ${
                 plan.featured ? "ring-2 ring-primary" : ""
               }`}
             >
               <div className="flex items-center justify-between">
-                <span className="grid h-10 w-10 place-items-center rounded-lg border border-violet-500/30 bg-violet-500/10 text-violet-500">
-                  <Bot className="h-5 w-5" />
+                <span className="grid h-9 w-9 place-items-center rounded-lg border border-violet-500/30 bg-violet-500/10 text-violet-500">
+                  <Bot className="h-[1.15rem] w-[1.15rem]" />
                 </span>
                 {plan.badge && (
                   <Badge variant="outline" className={plan.featured ? "border-primary/40 text-primary" : ""}>
@@ -73,9 +73,9 @@ function FrixAiPage() {
                   </Badge>
                 )}
               </div>
-              <h3 className="mt-5 font-display text-lg font-semibold">{plan.name}</h3>
-              <div className="mt-3 flex items-end gap-1">
-                <span className="font-display text-3xl font-semibold">{formatNaira(plan.monthlyPrice)}</span>
+              <h3 className="mt-4 font-display text-base font-semibold">{plan.name}</h3>
+              <div className="mt-2 flex items-end gap-1">
+                <span className="font-display text-2xl font-semibold">{formatNaira(plan.monthlyPrice)}</span>
                 <span className="mb-1 text-sm text-muted-foreground">/month</span>
               </div>
               {plan.usageLimit && (
@@ -84,7 +84,7 @@ function FrixAiPage() {
                 </p>
               )}
 
-              <ul className="mt-5 flex-1 space-y-2.5">
+              <ul className="mt-4 flex-1 space-y-2">
                 {plan.benefits.map((b) => (
                   <li key={b} className="flex items-start gap-2 text-sm">
                     <Check className="mt-0.5 h-4 w-4 shrink-0 text-emerald-500" />
@@ -93,7 +93,7 @@ function FrixAiPage() {
                 ))}
               </ul>
 
-              <div className="mt-6">
+              <div className="mt-5">
                 {user ? (
                   <Button
                     className="w-full"

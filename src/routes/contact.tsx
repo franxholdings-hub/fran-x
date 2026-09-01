@@ -38,7 +38,7 @@ function Contact() {
         subtitle="Reach the team directly, or send a message and we will respond with next steps."
         photo={PHOTOS.consulting}
       />
-      <section className="container-x grid gap-10 py-14 lg:grid-cols-[1fr_1.2fr]">
+      <section className="container-x grid gap-6 py-8 sm:py-10 lg:grid-cols-[1fr_1.2fr]">
         <div className="space-y-4">
           {CHANNELS.map((c) => (
             <a

@@ -148,7 +148,7 @@ function EmptyState({
   cta?: React.ReactNode;
 }) {
   return (
-    <div className="rounded-xl border border-dashed border-border bg-surface/30 p-10 text-center">
+    <div className="rounded-xl border border-dashed border-border bg-surface/30 p-6 text-center">
       <span className="mx-auto grid h-12 w-12 place-items-center rounded-full border border-border text-muted-foreground">
         {icon}
       </span>

@@ -31,7 +31,7 @@ function Opportunities() {
         subtitle="FRAN-X reviews commercial, investment and partnership opportunities across all group industries."
         photo={PHOTOS.opportunities}
       />
-      <section className="container-x max-w-3xl py-14">
+      <section className="container-x max-w-3xl py-8 sm:py-10">
         <QuickInquiryForm
           kind="opportunity"
           gateAction="submit an opportunity"
@@ -50,7 +50,7 @@ function Opportunities() {
             { name: "documentation", label: "Available documentation", type: "textarea" },
           ]}
         />
-        <p className="mt-8 rounded-lg border border-border/60 bg-surface/40 p-4 text-xs leading-relaxed text-muted-foreground">
+        <p className="mt-6 rounded-lg border border-border/60 bg-surface/40 p-4 text-xs leading-relaxed text-muted-foreground">
           Submissions are reviewed for suitability. {COMPLIANCE_NOTE}
         </p>
       </section>

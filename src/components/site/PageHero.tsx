@@ -31,17 +31,17 @@ export function PageHero({
           />
         </>
       ) : null}
-      <div className="container-x relative py-8 sm:py-16 lg:py-20">
+      <div className="container-x relative py-6 sm:py-10 lg:py-12">
         <p className="eyebrow animate-rise">{eyebrow}</p>
-        <h1 className="animate-rise mt-3 max-w-4xl text-2xl font-semibold leading-[1.1] sm:mt-4 sm:text-4xl lg:text-5xl">
+        <h1 className="animate-rise mt-2 max-w-3xl text-xl font-semibold leading-[1.12] sm:mt-3 sm:text-3xl lg:text-4xl">
           {title}
         </h1>
         {subtitle ? (
-          <p className="animate-rise mt-3 max-w-2xl text-sm leading-relaxed text-muted-foreground sm:mt-5 sm:text-base">
+          <p className="animate-rise mt-2 max-w-2xl text-sm leading-relaxed text-muted-foreground sm:mt-3 sm:text-[0.95rem]">
             {subtitle}
           </p>
         ) : null}
-        {children ? <div className="mt-6 sm:mt-8">{children}</div> : null}
+        {children ? <div className="mt-4 sm:mt-5">{children}</div> : null}
       </div>
     </section>
   );

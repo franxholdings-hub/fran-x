@@ -48,7 +48,7 @@ function ListingDetail() {
 
   if (!listing) {
     return (
-      <div className="container-x py-20 text-center">
+      <div className="container-x py-12 text-center">
         <h1 className="text-2xl font-semibold">Listing not found</h1>
         <p className="mt-2 text-sm text-muted-foreground">
           This listing may have been closed or removed.
@@ -116,7 +116,7 @@ function ListingDetail() {
               </div>
 
               <div>
-                <p className="font-display text-3xl font-semibold text-primary">{listing.price}</p>
+                <p className="font-display text-2xl font-semibold text-primary">{listing.price}</p>
                 <p className="mt-1 flex items-center gap-1 text-sm text-muted-foreground">
                   <MapPin className="h-4 w-4" /> {listing.location}
                 </p>
@@ -154,7 +154,7 @@ function ListingDetail() {
 
         {/* Related */}
         {related.length > 0 ? (
-          <div className="mt-12">
+          <div className="mt-8">
             <SectionHeading eyebrow="More like this" title="Related listings" />
             <div className="mt-6">
               <ListingCarousel listings={related} isSaved={isSaved} toggle={toggle} />
@@ -162,7 +162,7 @@ function ListingDetail() {
           </div>
         ) : null}
 
-        <div className="mt-10">
+        <div className="mt-6">
           <Button asChild variant="outline">
             <Link to="/marketplace"><ArrowRight className="h-4 w-4 rotate-180" /> Back to Marketplace</Link>
           </Button>

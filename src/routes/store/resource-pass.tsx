@@ -54,7 +54,7 @@ function ResourcePass() {
         photo={PHOTOS.opportunities}
       />
 
-      <section className="container-x py-12 sm:py-16">
+      <section className="container-x py-6 sm:py-8">
         {/* Dark "premium zone" cards */}
         <div className="grid gap-6 lg:grid-cols-2">
           {plans.map((plan) => {
@@ -84,7 +84,7 @@ function ResourcePass() {
                 </span>
                 <h3 className="mt-5 font-display text-xl font-semibold">{plan.name}</h3>
                 <div className="mt-3 flex items-end gap-1">
-                  <span className="font-display text-4xl font-semibold">{formatNaira(price)}</span>
+                  <span className="font-display text-3xl font-semibold">{formatNaira(price)}</span>
                   <span className={`mb-1 text-sm ${plan.featured ? "text-background/60" : "text-muted-foreground"}`}>
                     {period}
                   </span>
@@ -133,7 +133,7 @@ function ResourcePass() {
         )}
 
         {/* Comparison note */}
-        <div className="glass-panel mt-10 rounded-xl p-6">
+        <div className="glass-panel mt-8 rounded-xl p-5">
           <div className="flex items-start gap-3">
             <Sparkles className="mt-0.5 h-5 w-5 shrink-0 text-metal" />
             <div>

@@ -51,43 +51,43 @@ const COLUMNS: { title: string; links: { to: string; label: string; hash: string
 
 export function Footer() {
   return (
-    <footer className="mt-24 border-t border-border/70 bg-surface/50">
-      <div className="container-x py-14">
-        <div className="grid gap-10 lg:grid-cols-[1.3fr_repeat(4,minmax(0,1fr))]">
+    <footer className="mt-16 border-t border-border/70 bg-surface/50">
+      <div className="container-x py-10">
+        <div className="grid gap-8 lg:grid-cols-[1.3fr_repeat(4,minmax(0,1fr))]">
           <div>
-            <p className="flex items-center gap-3 font-display text-lg font-semibold">
-              <LogoMark className="h-11 w-11" />
+            <p className="flex items-center gap-2.5 font-display text-base font-semibold">
+              <LogoMark className="h-9 w-9" />
               <span>
                 FRAN-X <span className="text-metal">HOLDINGS</span>
               </span>
             </p>
-            <p className="mt-3 max-w-xs text-sm text-muted-foreground">{SITE.tagline}</p>
-            <p className="mt-4 text-xs uppercase tracking-[0.2em] text-primary/80">
+            <p className="mt-2 max-w-xs text-sm text-muted-foreground">{SITE.tagline}</p>
+            <p className="mt-3 text-xs uppercase tracking-[0.2em] text-primary/80">
               Founded by {SITE.founder}
             </p>
-            <div className="mt-6 flex items-center gap-3">
+            <div className="mt-4 flex items-center gap-2.5">
               <a
                 href={MAILTO_URL}
                 aria-label={`Email ${SITE.email}`}
-                className="grid h-11 w-11 place-items-center rounded-full border border-border bg-background transition-colors hover:border-primary hover:text-primary"
+                className="grid h-9 w-9 place-items-center rounded-full border border-border bg-background transition-colors hover:border-primary hover:text-primary"
               >
-                <Mail className="h-5 w-5" />
+                <Mail className="h-[1.15rem] w-[1.15rem]" />
               </a>
               <a
                 href={TEL_URL}
                 aria-label={`Call ${SITE.phoneDisplay}`}
-                className="grid h-11 w-11 place-items-center rounded-full border border-border bg-background transition-colors hover:border-primary hover:text-primary"
+                className="grid h-9 w-9 place-items-center rounded-full border border-border bg-background transition-colors hover:border-primary hover:text-primary"
               >
-                <Phone className="h-5 w-5" />
+                <Phone className="h-[1.15rem] w-[1.15rem]" />
               </a>
               <a
                 href={WHATSAPP_URL}
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-label="Chat on WhatsApp"
-                className="grid h-11 w-11 place-items-center rounded-full border border-border bg-background transition-colors hover:border-primary hover:text-primary"
+                className="grid h-9 w-9 place-items-center rounded-full border border-border bg-background transition-colors hover:border-primary hover:text-primary"
               >
-                <MessageCircle className="h-5 w-5" />
+                <MessageCircle className="h-[1.15rem] w-[1.15rem]" />
               </a>
             </div>
           </div>
@@ -95,7 +95,7 @@ export function Footer() {
           {COLUMNS.map((col) => (
             <div key={col.title}>
               <p className="eyebrow">{col.title}</p>
-              <ul className="mt-4 space-y-2.5">
+              <ul className="mt-3 space-y-2">
                 {col.links.map((link, i) => (
                   <li key={`${link.label}-${i}`}>
                     <Link
@@ -112,7 +112,7 @@ export function Footer() {
           ))}
         </div>
 
-        <div className="mt-12 grid gap-6 border-t border-border/70 pt-8 sm:grid-cols-2 lg:grid-cols-4">
+        <div className="mt-8 grid gap-6 border-t border-border/70 pt-8 sm:grid-cols-2 lg:grid-cols-4">
           <div>
             <p className="eyebrow">Phone</p>
             <a href={TEL_URL} className="mt-2 block text-sm hover:text-primary">
@@ -144,7 +144,7 @@ export function Footer() {
           </div>
         </div>
 
-        <p className="mt-10 rounded-lg border border-border/60 bg-background/50 p-4 text-xs leading-relaxed text-muted-foreground">
+        <p className="mt-8 rounded-lg border border-border/60 bg-background/50 p-4 text-xs leading-relaxed text-muted-foreground">
           {COMPLIANCE_NOTE}
         </p>
 

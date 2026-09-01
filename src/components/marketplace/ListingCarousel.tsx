@@ -27,7 +27,7 @@ export function ListingCarousel({
         {listings.map((l) => (
           <CarouselItem
             key={l.id}
-            className="basis-[85%] pl-4 sm:basis-1/2 lg:basis-1/3"
+            className="basis-[78%] pl-3 sm:basis-1/2 lg:basis-1/3"
           >
             <ListingCard listing={l} saved={isSaved(l.id)} onToggleSave={() => toggle(l.id)} />
           </CarouselItem>

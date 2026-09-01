@@ -148,7 +148,7 @@ function Pricing() {
         title="Choose your FRAN-X plan"
         subtitle="Start free for 7 days. Upgrade anytime to unlock premium services and AI."
       />
-      <section className="container-x py-14">
+      <section className="container-x py-8 sm:py-10">
         {sub.data && sub.data.status !== "none" && (
           <div className="glass-panel mb-8 flex flex-wrap items-center justify-between gap-3 rounded-xl p-5">
             <div>
@@ -167,7 +167,7 @@ function Pricing() {
         )}
 
         {plans.isLoading ? (
-          <div className="flex justify-center py-20">
+          <div className="flex justify-center py-12">
             <Loader2 className="h-6 w-6 animate-spin text-muted-foreground" />
           </div>
         ) : (
@@ -210,7 +210,7 @@ function Pricing() {
                     <p className="mt-1 text-xs text-primary">{plan.trial_days}-day free trial</p>
                   )}
 
-                  <ul className="mt-5 flex-1 space-y-2">
+                  <ul className="mt-4 flex-1 space-y-1.5">
                     {features.map((f) => (
                       <li key={f} className="flex items-start gap-2 text-sm">
                         <Check className="mt-0.5 h-4 w-4 shrink-0 text-emerald-500" />
@@ -219,7 +219,7 @@ function Pricing() {
                     ))}
                   </ul>
 
-                  <div className="mt-6">
+                  <div className="mt-5">
                     {isCurrent ? (
                       <Button variant="outline" disabled className="w-full">Current plan</Button>
                     ) : isFree && user ? (

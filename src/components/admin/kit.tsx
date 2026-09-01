@@ -23,15 +23,15 @@ export function PanelSection({
   children: ReactNode;
 }) {
   return (
-    <section className="glass-panel rounded-xl p-4 sm:p-6">
+    <section className="glass-panel rounded-xl p-3.5 sm:p-5">
       <div className="flex flex-wrap items-start justify-between gap-3">
         <div>
-          <h3 className="font-display text-lg font-semibold">{title}</h3>
+          <h3 className="font-display text-base font-semibold">{title}</h3>
           {description ? <p className="mt-1 text-sm text-muted-foreground">{description}</p> : null}
         </div>
         {action}
       </div>
-      <div className="mt-5">{children}</div>
+      <div className="mt-4">{children}</div>
     </section>
   );
 }

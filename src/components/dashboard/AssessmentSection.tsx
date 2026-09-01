@@ -70,7 +70,7 @@ export function AssessmentSection() {
       {result && (
         <PanelSection title="Your result" description="A demo business score based on your answers.">
           <div className="flex items-center gap-4">
-            <div className="font-display text-4xl font-semibold text-primary">{result.score}</div>
+            <div className="font-display text-3xl font-semibold text-primary">{result.score}</div>
             <div className="flex-1">
               <Badge variant="outline" className="border-primary/40 text-primary">{result.label}</Badge>
               <Progress className="mt-3" value={result.score} />

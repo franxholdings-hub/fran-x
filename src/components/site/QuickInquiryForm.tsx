@@ -120,7 +120,7 @@ export function QuickInquiryForm({
       </div>
 
       {extraFields.length > 0 ? (
-        <div className="grid gap-5 sm:grid-cols-2">
+        <div className="grid gap-4 sm:grid-cols-2">
           {extraFields.map((field) => (
             <Field key={field.name} label={field.label}>
               {field.type === "select" ? (
