@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { ProductCard } from "@/components/store/ProductCard";
 import { StoreSectionHeading } from "@/components/store/ProductCard";
+import { PanelSection } from "@/components/admin/kit";
 import { PageHero } from "@/components/site/PageHero";
 import {
   STORE_CATEGORIES,
@@ -29,8 +30,8 @@ export const Route = createFileRoute("/store/")({
   component: StoreHome,
 });
 
-// Category tiles for the main store navigation — styled as compact bordered
-// cards (matching the Profile section card style), with no background images.
+// Category tiles for the main store navigation — structured to mirror the
+// dashboard Profile section (PanelSection + compact bordered cards).
 const BENTO = [
   { cat: STORE_CATEGORIES[0], href: "/store/templates" as const },
   { cat: STORE_CATEGORIES[1], href: "/store/ebooks" as const },
@@ -62,30 +63,30 @@ function StoreHome() {
         </div>
       </PageHero>
 
-      {/* Category navigation — compact bordered cards (Profile-section style) */}
+      {/* Category navigation — mirrors the Profile section (PanelSection + compact bordered cards) */}
       <section className="container-x py-10 sm:py-14">
-        <StoreSectionHeading
-          eyebrow="Explore the store"
-          title="Everything you need to build and grow"
-        />
-        <div className="mt-8 grid grid-cols-2 gap-3 sm:grid-cols-3 sm:gap-4">
-          {BENTO.map(({ cat, href }) => (
-            <Link
-              key={cat.id}
-              to={href}
-              className="group flex flex-col rounded-xl border border-border bg-surface/40 p-4 transition-all duration-300 hover:-translate-y-1 hover:border-primary/40 hover:shadow-lg hover:shadow-primary/5 sm:p-5"
-            >
-              <span className="grid h-10 w-10 place-items-center rounded-lg border border-primary/30 bg-primary/10 text-primary">
-                <cat.icon className="h-5 w-5" />
-              </span>
-              <p className="mt-3 font-display text-sm font-semibold leading-snug sm:text-base">{cat.label}</p>
-              <p className="mt-1 line-clamp-2 text-xs leading-relaxed text-muted-foreground sm:text-sm">{cat.blurb}</p>
-              <span className="mt-3 inline-flex items-center gap-1 text-xs font-medium text-primary sm:text-sm">
-                Explore <ArrowRight className="h-3.5 w-3.5 transition-transform group-hover:translate-x-1" />
-              </span>
-            </Link>
-          ))}
-        </div>
+        <PanelSection
+          title="Explore the store"
+          description="Everything you need to build and grow — templates, e-books, finance guides, AI, services and automation."
+        >
+          <div className="grid grid-cols-2 gap-2 sm:grid-cols-3 sm:gap-4">
+            {BENTO.map(({ cat, href }) => (
+              <Link
+                key={cat.id}
+                to={href}
+                className="group rounded-lg border border-border bg-surface/40 p-4 transition-colors hover:border-primary/40 hover:bg-surface/60"
+              >
+                <div className="flex items-center gap-2.5">
+                  <span className="grid h-9 w-9 shrink-0 place-items-center rounded-lg border border-primary/30 bg-primary/10 text-primary">
+                    <cat.icon className="h-5 w-5" />
+                  </span>
+                  <p className="font-display text-sm font-semibold leading-snug">{cat.shortLabel}</p>
+                </div>
+                <p className="mt-2 line-clamp-2 text-xs leading-relaxed text-muted-foreground">{cat.blurb}</p>
+              </Link>
+            ))}
+          </div>
+        </PanelSection>
       </section>
 
       {/* Featured startup bundle highlight */}
