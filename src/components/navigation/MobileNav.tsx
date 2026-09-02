@@ -68,15 +68,16 @@ export function MobileNav() {
             type="button"
             onClick={() => setMoreOpen(true)}
             className={cn(
-              "flex flex-1 flex-col items-center gap-0.5 py-2 text-[0.65rem] font-medium transition-colors",
+              "flex flex-1 flex-col items-center gap-1 py-2.5 font-medium transition-colors",
               moreOpen ? "text-primary" : "text-muted-foreground",
             )}
             aria-label="More menu"
           >
-            <span className="relative grid h-6 w-6 place-items-center">
-              <Menu className="h-5 w-5" />
+            <span className="relative grid h-10 w-10 place-items-center rounded-full">
+              <span className="pulse-ring absolute inset-0 rounded-full bg-primary/25" />
+              <Menu className="relative h-5 w-5" />
             </span>
-            More
+            <span className="text-xs">More</span>
           </button>
         </div>
       </nav>
@@ -175,21 +176,22 @@ function BottomNavItem({
   onClick: () => void;
 }) {
   const Icon = item.icon as LucideIcon;
-  const className = "flex flex-1 flex-col items-center gap-0.5 py-2 text-[0.65rem] font-medium transition-colors";
+  const className = "flex flex-1 flex-col items-center gap-1 py-2.5 font-medium transition-colors";
   const inner = (
     <>
       <span
         className={cn(
-          "relative grid h-7 w-7 place-items-center rounded-full transition-all duration-200",
-          active ? "bg-primary text-primary-foreground scale-110" : "text-muted-foreground",
+          "relative grid h-10 w-10 place-items-center rounded-full transition-all duration-200",
+          active ? "bg-primary text-primary-foreground scale-105" : "text-muted-foreground",
         )}
       >
-        <Icon className="h-[1.15rem] w-[1.15rem]" />
+        <span className="pulse-ring absolute inset-0 rounded-full bg-primary/25" />
+        <Icon className="relative h-5 w-5" />
         {active && (
-          <span className="absolute -bottom-0.5 h-1 w-1 rounded-full bg-primary-foreground" />
+          <span className="absolute -bottom-0.5 h-1.5 w-1.5 rounded-full bg-primary-foreground" />
         )}
       </span>
-      <span className={cn(active ? "text-primary" : "text-muted-foreground")}>{item.label}</span>
+      <span className={cn("text-xs", active ? "text-primary" : "text-muted-foreground")}>{item.label}</span>
     </>
   );
 

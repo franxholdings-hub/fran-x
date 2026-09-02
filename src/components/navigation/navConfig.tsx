@@ -74,13 +74,12 @@ export const FOOTER_NAV: NavItem[] = [
   { to: "/auth", label: "Sign in", icon: LogIn, guestOnly: true },
 ];
 
-/** Mobile bottom navigation — 4 primary + More */
+/** Mobile bottom navigation — 4 primary + More (FRIX AI lives in the floating button) */
 export const MOBILE_BOTTOM_NAV: NavItem[] = [
   { to: "/", label: "Home", icon: Home, exact: true },
   { to: "/marketplace", label: "Market", icon: Store },
   { to: "/store", label: "Store", icon: ShoppingBag },
   { to: "/opportunities", label: "Deals", icon: Compass },
-  { label: "FRIX AI", icon: Bot, action: "frix" },
 ];
 
 /** All items for the mobile "More" sheet */

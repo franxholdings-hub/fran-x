@@ -1,6 +1,6 @@
 import { useMemo, useState } from "react";
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { Sparkles, ArrowRight, Store } from "lucide-react";
+import { Sparkles, ArrowRight, Store, LayoutGrid } from "lucide-react";
 import { PageHero } from "@/components/site/PageHero";
 import { SectionHeading } from "@/components/site/SectionHeading";
 import { Button } from "@/components/ui/button";
@@ -126,34 +126,37 @@ function Marketplace() {
           subtitle="Search and filter across the FRAN-X Marketplace."
         />
 
-        {/* Horizontal category chips — scrollable on mobile */}
-        <div className="mt-5 flex gap-2 overflow-x-auto pb-2 lg:flex-wrap lg:overflow-visible">
-          <button
-            type="button"
-            onClick={() => { setFilters(emptyFilters()); setBrowsing(true); }}
-            className={`flex shrink-0 items-center gap-2 rounded-full border px-4 py-2 text-sm font-medium transition-colors ${
-              !filters.category
-                ? "border-primary bg-primary text-primary-foreground"
-                : "border-border bg-background text-muted-foreground hover:border-primary/40 hover:text-foreground"
-            }`}
-          >
-            All
-          </button>
-          {CATEGORIES.map((c) => (
+        {/* Category navigation — two-column glassmorphism icon grid */}
+        <div className="mt-5 rounded-xl border border-white/10 bg-surface/40 p-2.5 backdrop-blur-md">
+          <div className="grid grid-cols-2 gap-1.5">
             <button
-              key={c.id}
               type="button"
-              onClick={() => { setFilters({ ...emptyFilters(), category: c.id }); setBrowsing(true); }}
-              className={`flex shrink-0 items-center gap-2 rounded-full border px-4 py-2 text-sm font-medium transition-colors ${
-                filters.category === c.id
-                  ? "border-primary bg-primary text-primary-foreground"
-                  : "border-border bg-background text-muted-foreground hover:border-primary/40 hover:text-foreground"
+              onClick={() => { setFilters(emptyFilters()); setBrowsing(true); }}
+              className={`flex items-center gap-2 rounded-lg px-3 py-2 text-sm font-medium transition-colors ${
+                !filters.category
+                  ? "bg-primary text-primary-foreground"
+                  : "text-muted-foreground hover:bg-white/5 hover:text-foreground"
               }`}
             >
-              <CategoryIcon id={c.id} className="h-4 w-4" />
-              {c.shortLabel}
+              <LayoutGrid className="h-4 w-4 shrink-0" />
+              <span>All</span>
             </button>
-          ))}
+            {CATEGORIES.map((c) => (
+              <button
+                key={c.id}
+                type="button"
+                onClick={() => { setFilters({ ...emptyFilters(), category: c.id }); setBrowsing(true); }}
+                className={`flex items-center gap-2 rounded-lg px-3 py-2 text-sm font-medium transition-colors ${
+                  filters.category === c.id
+                    ? "bg-primary text-primary-foreground"
+                    : "text-muted-foreground hover:bg-white/5 hover:text-foreground"
+                }`}
+              >
+                <CategoryIcon id={c.id} className="h-4 w-4 shrink-0" />
+                <span>{c.shortLabel}</span>
+              </button>
+            ))}
+          </div>
         </div>
 
         <div className="mt-6">
