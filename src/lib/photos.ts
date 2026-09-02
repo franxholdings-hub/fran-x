@@ -133,6 +133,53 @@ export const PHOTOS = {
     credit: "None \u2014 Unknown (CC0 1.0)",
     source: "https://www.rawpixel.com/image/5944151/free-public-domain-cc0-photo",
   },
+  // --- Business Templates covers ---
+  // Purpose-built professional photography for the FRAN-X Digital Store
+  // Business Templates section. Served from the local public folder so they
+  // render without the external asset CDN. Free Pexels License (real photos,
+  // no AI generation).
+  tplBusinessPlan: {
+    src: "/images/templates/business-plan.jpg",
+    alt: "Business plan documents with a laptop on a desk",
+    credit: "Business Plan and Laptop on a Desk \u2014 Leeloo The First (Pexels)",
+    source: "https://www.pexels.com/photo/business-plan-and-laptop-on-a-desk-8970671/",
+  },
+  tplInvoicePack: {
+    src: "/images/templates/invoice-pack.jpg",
+    alt: "Calculator on financial documents and analysis papers",
+    credit: "Calculator on top of the paper \u2014 Rdne Stock Photography (Pexels)",
+    source: "https://www.pexels.com/photo/calculator-on-top-of-the-paper-7580852/",
+  },
+  tplCompanyProfile: {
+    src: "/images/templates/company-profile.jpg",
+    alt: "Modern glass corporate office building exterior",
+    credit: "Building with glass windows \u2014 Pexels",
+    source: "https://www.pexels.com/photo/building-with-glass-windows-13219418/",
+  },
+  tplMarketingPlan: {
+    src: "/images/templates/marketing-plan.jpg",
+    alt: "Marketing team reviewing analytics on a display in a meeting",
+    credit: "Business Meeting with Analytics Display \u2014 Vitaly Gariev (Pexels)",
+    source: "https://www.pexels.com/photo/business-meeting-with-analytics-display-39190576/",
+  },
+  tplFinancialProjection: {
+    src: "/images/templates/financial-projection.jpg",
+    alt: "Financial growth chart on a monitor screen",
+    credit: "Business data graph on monitor \u2014 Aedrian (Pexels)",
+    source: "https://www.pexels.com/photo/business-data-graph-on-monitor-10653886/",
+  },
+  tplPitchDeck: {
+    src: "/images/templates/pitch-deck.jpg",
+    alt: "Entrepreneur presenting beside a projector screen to an audience",
+    credit: "Presenter beside projector screen \u2014 Pexels",
+    source: "https://www.pexels.com/photo/man-in-black-suit-and-blue-denim-pants-standing-beside-projector-screen-8761336/",
+  },
+  tplStartupBundle: {
+    src: "/images/templates/startup-bundle.jpg",
+    alt: "Flat lay of a business workspace with documents, currency and a calculator",
+    credit: "Business workspace flat lay \u2014 Vlad Deep (Pexels)",
+    source: "https://www.pexels.com/photo/person-holding-a-cup-of-coffee-6939517/",
+  },
 } as const satisfies Record<string, Photo>;
 
 export type PhotoKey = keyof typeof PHOTOS;

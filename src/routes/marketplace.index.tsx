@@ -1,6 +1,6 @@
 import { useMemo, useState } from "react";
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { Sparkles, ArrowRight, Store } from "lucide-react";
+import { Sparkles, ArrowRight, Store, LayoutGrid } from "lucide-react";
 import { PageHero } from "@/components/site/PageHero";
 import { SectionHeading } from "@/components/site/SectionHeading";
 import { Button } from "@/components/ui/button";
@@ -78,28 +78,44 @@ function Marketplace() {
           title="Explore by category"
           subtitle="FRAN-X Marketplace is limited to approved high-value asset and opportunity categories."
         />
-        <div className="mt-5 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
-          {CATEGORIES.map((c) => (
+        <div className="mt-5 rounded-xl border border-white/10 bg-surface/40 p-2.5 backdrop-blur-md">
+          <div className="grid grid-cols-2 gap-1.5">
             <button
-              key={c.id}
               type="button"
               onClick={() => {
-                setFilters({ ...emptyFilters(), category: c.id });
+                setFilters(emptyFilters());
                 setBrowsing(true);
                 document.getElementById("marketplace-browse")?.scrollIntoView({ behavior: "smooth" });
               }}
-              className="glass-panel group rounded-xl p-4 text-left transition-colors hover:border-primary/50"
+              className={`flex items-center gap-2 rounded-lg px-3 py-2.5 text-sm font-medium transition-colors ${
+                !filters.category
+                  ? "bg-primary text-primary-foreground"
+                  : "text-muted-foreground hover:bg-white/5 hover:text-foreground"
+              }`}
             >
-              <span className="grid h-9 w-9 place-items-center rounded-lg border border-primary/30 text-primary">
-                <CategoryIcon id={c.id} className="h-[1.15rem] w-[1.15rem]" />
-              </span>
-              <p className="mt-2.5 font-display text-sm font-semibold">{c.shortLabel}</p>
-              <p className="mt-1 text-xs leading-relaxed text-muted-foreground">{c.blurb}</p>
-              <span className="mt-2.5 inline-flex items-center gap-1 text-xs font-medium text-primary">
-                Browse <ArrowRight className="h-3.5 w-3.5 transition-transform group-hover:translate-x-0.5" />
-              </span>
+              <LayoutGrid className="h-4 w-4 shrink-0" />
+              <span>All</span>
             </button>
-          ))}
+            {CATEGORIES.map((c) => (
+              <button
+                key={c.id}
+                type="button"
+                onClick={() => {
+                  setFilters({ ...emptyFilters(), category: c.id });
+                  setBrowsing(true);
+                  document.getElementById("marketplace-browse")?.scrollIntoView({ behavior: "smooth" });
+                }}
+                className={`flex items-center gap-2 rounded-lg px-3 py-2.5 text-sm font-medium transition-colors ${
+                  filters.category === c.id
+                    ? "bg-primary text-primary-foreground"
+                    : "text-muted-foreground hover:bg-white/5 hover:text-foreground"
+                }`}
+              >
+                <CategoryIcon id={c.id} className="h-4 w-4 shrink-0" />
+                <span>{c.shortLabel}</span>
+              </button>
+            ))}
+          </div>
         </div>
       </section>
 
@@ -126,40 +142,10 @@ function Marketplace() {
           subtitle="Search and filter across the FRAN-X Marketplace."
         />
 
-        {/* Horizontal category chips — scrollable on mobile */}
-        <div className="mt-5 flex gap-2 overflow-x-auto pb-2 lg:flex-wrap lg:overflow-visible">
-          <button
-            type="button"
-            onClick={() => { setFilters(emptyFilters()); setBrowsing(true); }}
-            className={`flex shrink-0 items-center gap-2 rounded-full border px-4 py-2 text-sm font-medium transition-colors ${
-              !filters.category
-                ? "border-primary bg-primary text-primary-foreground"
-                : "border-border bg-background text-muted-foreground hover:border-primary/40 hover:text-foreground"
-            }`}
-          >
-            All
-          </button>
-          {CATEGORIES.map((c) => (
-            <button
-              key={c.id}
-              type="button"
-              onClick={() => { setFilters({ ...emptyFilters(), category: c.id }); setBrowsing(true); }}
-              className={`flex shrink-0 items-center gap-2 rounded-full border px-4 py-2 text-sm font-medium transition-colors ${
-                filters.category === c.id
-                  ? "border-primary bg-primary text-primary-foreground"
-                  : "border-border bg-background text-muted-foreground hover:border-primary/40 hover:text-foreground"
-              }`}
-            >
-              <CategoryIcon id={c.id} className="h-4 w-4" />
-              {c.shortLabel}
-            </button>
-          ))}
-        </div>
-
         <div className="mt-6">
           <FiltersBar filters={filters} onChange={onChange} resultCount={results.length} />
         </div>
-        <div className="mt-5 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+        <div className="mt-5 grid gap-3 sm:gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
           {results.map((l) => (
             <ListingCard key={l.id} listing={l} saved={isSaved(l.id)} onToggleSave={() => toggle(l.id)} />
           ))}
