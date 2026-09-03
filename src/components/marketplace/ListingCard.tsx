@@ -13,33 +13,23 @@ import {
 import { InquiryDialog } from "./InquiryDialog";
 
 /** Compact marketplace listing card — horizontal on mobile, vertical on
- *  larger screens, mirroring the Digital Store product card density.
- *  Pass `vertical` to force the vertical (image-on-top) layout, used inside
- *  the swipeable carousel rows. */
+ *  larger screens, mirroring the Digital Store product card density. */
 export function ListingCard({
   listing,
   saved,
   onToggleSave,
-  vertical = false,
 }: {
   listing: MarketplaceListing;
   saved: boolean;
   onToggleSave: () => void;
-  vertical?: boolean;
 }) {
   const cat = CATEGORY_MAP[listing.category];
   return (
-    <article
-      className={`glass-panel group flex overflow-hidden rounded-xl transition-all duration-300 hover:border-primary/40 hover:shadow-lg hover:shadow-primary/5 ${
-        vertical ? "flex-col" : "flex-row sm:flex-col sm:hover:-translate-y-1"
-      }`}
-    >
+    <article className="glass-panel group flex flex-row overflow-hidden rounded-xl transition-all duration-300 hover:border-primary/40 hover:shadow-lg hover:shadow-primary/5 sm:flex-col sm:hover:-translate-y-1">
       <Link
         to="/marketplace/$slug"
         params={{ slug: listing.slug }}
-        className={`relative block overflow-hidden ${
-          vertical ? "aspect-[4/3] w-full" : "shrink-0 w-28 sm:w-full sm:aspect-[4/3]"
-        }`}
+        className="relative block shrink-0 w-28 overflow-hidden sm:w-full sm:aspect-[4/3]"
       >
         <img
           src={listing.images[0]}
