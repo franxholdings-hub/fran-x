@@ -18,7 +18,6 @@ import type { MarketplaceFilters } from "@/lib/marketplace/types";
 import { MarketplaceFilters as FiltersBar } from "@/components/marketplace/MarketplaceFilters";
 import { MarketNav } from "@/components/marketplace/MarketNav";
 import { ListingCard } from "@/components/marketplace/ListingCard";
-import { ListingCarousel } from "@/components/marketplace/ListingCarousel";
 
 const TITLE = "FRAN-X Marketplace | Assets & Business Opportunities";
 const DESCRIPTION =
@@ -87,8 +86,10 @@ function Marketplace() {
               <Sparkles className="h-3 w-3" /> Admin-curated
             </Badge>
           </div>
-          <div className="mt-6">
-            <ListingCarousel listings={featured} isSaved={isSaved} toggle={toggle} />
+          <div className="mt-5 grid gap-3 sm:gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+            {featured.map((l) => (
+              <ListingCard key={l.id} listing={l} saved={isSaved(l.id)} onToggleSave={() => toggle(l.id)} />
+            ))}
           </div>
         </section>
       ) : null}
@@ -127,8 +128,10 @@ function Marketplace() {
           title="Recommended opportunities"
           subtitle="Curated based on category and location — structured for future FRIX AI recommendations."
         />
-        <div className="mt-4">
-          <ListingCarousel listings={recommended} isSaved={isSaved} toggle={toggle} />
+        <div className="mt-5 grid gap-3 sm:gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+          {recommended.map((l) => (
+            <ListingCard key={l.id} listing={l} saved={isSaved(l.id)} onToggleSave={() => toggle(l.id)} />
+          ))}
         </div>
       </section>
 
