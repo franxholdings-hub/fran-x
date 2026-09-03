@@ -1,13 +1,12 @@
 import { useMemo, useState } from "react";
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { Sparkles, ArrowRight, Store, LayoutGrid } from "lucide-react";
+import { Sparkles, ArrowRight, Store } from "lucide-react";
 import { PageHero } from "@/components/site/PageHero";
 import { SectionHeading } from "@/components/site/SectionHeading";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { PHOTOS } from "@/lib/photos";
 import {
-  CATEGORIES,
   applyFilters,
   emptyFilters,
   getFeatured,
@@ -17,9 +16,8 @@ import {
 import { useCatalog, useFavorites } from "@/lib/marketplace/store";
 import type { MarketplaceFilters } from "@/lib/marketplace/types";
 import { MarketplaceFilters as FiltersBar } from "@/components/marketplace/MarketplaceFilters";
+import { MarketNav } from "@/components/marketplace/MarketNav";
 import { ListingCard } from "@/components/marketplace/ListingCard";
-import { ListingCarousel } from "@/components/marketplace/ListingCarousel";
-import { CategoryIcon } from "@/components/marketplace/shared";
 
 const TITLE = "FRAN-X Marketplace | Assets & Business Opportunities";
 const DESCRIPTION =
@@ -55,6 +53,14 @@ function Marketplace() {
 
   return (
     <>
+      <MarketNav
+        activeCategory={filters.category}
+        onSelect={(category) => {
+          setFilters(category === "all" ? emptyFilters() : { ...emptyFilters(), category });
+          setBrowsing(true);
+          document.getElementById("marketplace-browse")?.scrollIntoView({ behavior: "smooth" });
+        }}
+      />
       <PageHero
         eyebrow="FRAN-X Marketplace"
         title="High-value assets & business opportunities."
@@ -71,54 +77,6 @@ function Marketplace() {
         </div>
       </PageHero>
 
-      {/* Category navigation */}
-      <section className="container-x py-6 sm:py-8">
-        <SectionHeading
-          eyebrow="Approved categories"
-          title="Explore by category"
-          subtitle="FRAN-X Marketplace is limited to approved high-value asset and opportunity categories."
-        />
-        <div className="mt-5 rounded-xl border border-white/10 bg-surface/40 p-2.5 backdrop-blur-md">
-          <div className="grid grid-cols-2 gap-1.5">
-            <button
-              type="button"
-              onClick={() => {
-                setFilters(emptyFilters());
-                setBrowsing(true);
-                document.getElementById("marketplace-browse")?.scrollIntoView({ behavior: "smooth" });
-              }}
-              className={`flex items-center gap-2 rounded-lg px-3 py-2.5 text-sm font-medium transition-colors ${
-                !filters.category
-                  ? "bg-primary text-primary-foreground"
-                  : "text-muted-foreground hover:bg-white/5 hover:text-foreground"
-              }`}
-            >
-              <LayoutGrid className="h-4 w-4 shrink-0" />
-              <span>All</span>
-            </button>
-            {CATEGORIES.map((c) => (
-              <button
-                key={c.id}
-                type="button"
-                onClick={() => {
-                  setFilters({ ...emptyFilters(), category: c.id });
-                  setBrowsing(true);
-                  document.getElementById("marketplace-browse")?.scrollIntoView({ behavior: "smooth" });
-                }}
-                className={`flex items-center gap-2 rounded-lg px-3 py-2.5 text-sm font-medium transition-colors ${
-                  filters.category === c.id
-                    ? "bg-primary text-primary-foreground"
-                    : "text-muted-foreground hover:bg-white/5 hover:text-foreground"
-                }`}
-              >
-                <CategoryIcon id={c.id} className="h-4 w-4 shrink-0" />
-                <span>{c.shortLabel}</span>
-              </button>
-            ))}
-          </div>
-        </div>
-      </section>
-
       {/* Featured */}
       {featured.length > 0 ? (
         <section className="container-x py-6">
@@ -128,8 +86,10 @@ function Marketplace() {
               <Sparkles className="h-3 w-3" /> Admin-curated
             </Badge>
           </div>
-          <div className="mt-6">
-            <ListingCarousel listings={featured} isSaved={isSaved} toggle={toggle} />
+          <div className="mt-5 grid gap-3 sm:gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+            {featured.map((l) => (
+              <ListingCard key={l.id} listing={l} saved={isSaved(l.id)} onToggleSave={() => toggle(l.id)} />
+            ))}
           </div>
         </section>
       ) : null}
@@ -168,8 +128,10 @@ function Marketplace() {
           title="Recommended opportunities"
           subtitle="Curated based on category and location — structured for future FRIX AI recommendations."
         />
-        <div className="mt-4">
-          <ListingCarousel listings={recommended} isSaved={isSaved} toggle={toggle} />
+        <div className="mt-5 grid gap-3 sm:gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+          {recommended.map((l) => (
+            <ListingCard key={l.id} listing={l} saved={isSaved(l.id)} onToggleSave={() => toggle(l.id)} />
+          ))}
         </div>
       </section>
 
