@@ -10,7 +10,7 @@ export type Database = {
   // Allows to automatically instantiate createClient with right options
   // instead of createClient<Database, { PostgrestVersion: 'XX' }>(URL, KEY)
   __InternalSupabase: {
-    PostgrestVersion: "14.17"
+    PostgrestVersion: "14.5"
   }
   public: {
     Tables: {
@@ -50,6 +50,347 @@ export type Database = {
           sort_order?: number
           system_prompt?: string
           updated_at?: string
+        }
+        Relationships: []
+      }
+      ai_client_config: {
+        Row: {
+          client_id: string
+          fallback_model: string | null
+          is_approved: boolean
+          model: string
+          personality: string
+          provider: string
+          rate_limit_per_hour: number
+          system_prompt: string
+          temperature: number
+          token_limit_per_request: number
+          updated_at: string
+          usage_limit_monthly: number
+        }
+        Insert: {
+          client_id: string
+          fallback_model?: string | null
+          is_approved?: boolean
+          model?: string
+          personality?: string
+          provider?: string
+          rate_limit_per_hour?: number
+          system_prompt?: string
+          temperature?: number
+          token_limit_per_request?: number
+          updated_at?: string
+          usage_limit_monthly?: number
+        }
+        Update: {
+          client_id?: string
+          fallback_model?: string | null
+          is_approved?: boolean
+          model?: string
+          personality?: string
+          provider?: string
+          rate_limit_per_hour?: number
+          system_prompt?: string
+          temperature?: number
+          token_limit_per_request?: number
+          updated_at?: string
+          usage_limit_monthly?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "ai_client_config_client_id_fkey"
+            columns: ["client_id"]
+            isOneToOne: true
+            referencedRelation: "ai_clients"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      ai_client_conversations: {
+        Row: {
+          classification: string | null
+          client_id: string
+          contact_country: string | null
+          contact_email: string | null
+          contact_name: string | null
+          contact_phone: string | null
+          created_at: string
+          id: string
+          inquiry_id: string | null
+          lead_score: number | null
+          message_count: number
+          status: string
+          updated_at: string
+          visitor_id: string | null
+        }
+        Insert: {
+          classification?: string | null
+          client_id: string
+          contact_country?: string | null
+          contact_email?: string | null
+          contact_name?: string | null
+          contact_phone?: string | null
+          created_at?: string
+          id?: string
+          inquiry_id?: string | null
+          lead_score?: number | null
+          message_count?: number
+          status?: string
+          updated_at?: string
+          visitor_id?: string | null
+        }
+        Update: {
+          classification?: string | null
+          client_id?: string
+          contact_country?: string | null
+          contact_email?: string | null
+          contact_name?: string | null
+          contact_phone?: string | null
+          created_at?: string
+          id?: string
+          inquiry_id?: string | null
+          lead_score?: number | null
+          message_count?: number
+          status?: string
+          updated_at?: string
+          visitor_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "ai_client_conversations_client_id_fkey"
+            columns: ["client_id"]
+            isOneToOne: false
+            referencedRelation: "ai_clients"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "ai_client_conversations_inquiry_id_fkey"
+            columns: ["inquiry_id"]
+            isOneToOne: false
+            referencedRelation: "inquiries"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      ai_client_knowledge: {
+        Row: {
+          client_id: string
+          content: string
+          created_at: string
+          id: string
+          is_active: boolean
+          tags: string[]
+          title: string
+          type: string
+          updated_at: string
+        }
+        Insert: {
+          client_id: string
+          content: string
+          created_at?: string
+          id?: string
+          is_active?: boolean
+          tags?: string[]
+          title: string
+          type?: string
+          updated_at?: string
+        }
+        Update: {
+          client_id?: string
+          content?: string
+          created_at?: string
+          id?: string
+          is_active?: boolean
+          tags?: string[]
+          title?: string
+          type?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "ai_client_knowledge_client_id_fkey"
+            columns: ["client_id"]
+            isOneToOne: false
+            referencedRelation: "ai_clients"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      ai_client_messages: {
+        Row: {
+          content: string
+          conversation_id: string
+          created_at: string
+          id: string
+          role: string
+          tokens: number | null
+        }
+        Insert: {
+          content: string
+          conversation_id: string
+          created_at?: string
+          id?: string
+          role: string
+          tokens?: number | null
+        }
+        Update: {
+          content?: string
+          conversation_id?: string
+          created_at?: string
+          id?: string
+          role?: string
+          tokens?: number | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "ai_client_messages_conversation_id_fkey"
+            columns: ["conversation_id"]
+            isOneToOne: false
+            referencedRelation: "ai_client_conversations"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      ai_client_subscriptions: {
+        Row: {
+          client_id: string
+          created_at: string
+          current_period_end: string | null
+          id: string
+          package_id: string | null
+          paystack_plan_code: string | null
+          paystack_subscription_code: string | null
+          started_at: string
+          status: string
+          updated_at: string
+        }
+        Insert: {
+          client_id: string
+          created_at?: string
+          current_period_end?: string | null
+          id?: string
+          package_id?: string | null
+          paystack_plan_code?: string | null
+          paystack_subscription_code?: string | null
+          started_at?: string
+          status?: string
+          updated_at?: string
+        }
+        Update: {
+          client_id?: string
+          created_at?: string
+          current_period_end?: string | null
+          id?: string
+          package_id?: string | null
+          paystack_plan_code?: string | null
+          paystack_subscription_code?: string | null
+          started_at?: string
+          status?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "ai_client_subscriptions_client_id_fkey"
+            columns: ["client_id"]
+            isOneToOne: false
+            referencedRelation: "ai_clients"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "ai_client_subscriptions_package_id_fkey"
+            columns: ["package_id"]
+            isOneToOne: false
+            referencedRelation: "ai_packages"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      ai_client_usage: {
+        Row: {
+          ai_requests: number
+          client_id: string
+          estimated_cost: number
+          id: string
+          messages: number
+          period_month: string
+          tokens: number
+        }
+        Insert: {
+          ai_requests?: number
+          client_id: string
+          estimated_cost?: number
+          id?: string
+          messages?: number
+          period_month: string
+          tokens?: number
+        }
+        Update: {
+          ai_requests?: number
+          client_id?: string
+          estimated_cost?: number
+          id?: string
+          messages?: number
+          period_month?: string
+          tokens?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "ai_client_usage_client_id_fkey"
+            columns: ["client_id"]
+            isOneToOne: false
+            referencedRelation: "ai_clients"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      ai_clients: {
+        Row: {
+          branding: Json
+          business_name: string
+          client_code: string
+          contact_email: string | null
+          contact_name: string | null
+          contact_phone: string | null
+          country: string | null
+          created_at: string
+          id: string
+          industry: string | null
+          notes: string | null
+          status: string
+          updated_at: string
+          website: string | null
+        }
+        Insert: {
+          branding?: Json
+          business_name: string
+          client_code?: string
+          contact_email?: string | null
+          contact_name?: string | null
+          contact_phone?: string | null
+          country?: string | null
+          created_at?: string
+          id?: string
+          industry?: string | null
+          notes?: string | null
+          status?: string
+          updated_at?: string
+          website?: string | null
+        }
+        Update: {
+          branding?: Json
+          business_name?: string
+          client_code?: string
+          contact_email?: string | null
+          contact_name?: string | null
+          contact_phone?: string | null
+          country?: string | null
+          created_at?: string
+          id?: string
+          industry?: string | null
+          notes?: string | null
+          status?: string
+          updated_at?: string
+          website?: string | null
         }
         Relationships: []
       }
@@ -421,6 +762,48 @@ export type Database = {
         }
         Relationships: []
       }
+      customers: {
+        Row: {
+          company: string | null
+          country: string | null
+          created_at: string
+          email: string | null
+          id: string
+          name: string
+          notes: string | null
+          phone: string | null
+          type: string
+          updated_at: string
+          user_id: string | null
+        }
+        Insert: {
+          company?: string | null
+          country?: string | null
+          created_at?: string
+          email?: string | null
+          id?: string
+          name: string
+          notes?: string | null
+          phone?: string | null
+          type?: string
+          updated_at?: string
+          user_id?: string | null
+        }
+        Update: {
+          company?: string | null
+          country?: string | null
+          created_at?: string
+          email?: string | null
+          id?: string
+          name?: string
+          notes?: string | null
+          phone?: string | null
+          type?: string
+          updated_at?: string
+          user_id?: string | null
+        }
+        Relationships: []
+      }
       departments: {
         Row: {
           created_at: string
@@ -496,6 +879,53 @@ export type Database = {
           },
         ]
       }
+      expenses: {
+        Row: {
+          amount: number
+          category: string
+          created_at: string
+          currency: string
+          description: string
+          id: string
+          incurred_at: string
+          notes: string | null
+          related_client_id: string | null
+          vendor: string | null
+        }
+        Insert: {
+          amount?: number
+          category?: string
+          created_at?: string
+          currency?: string
+          description: string
+          id?: string
+          incurred_at?: string
+          notes?: string | null
+          related_client_id?: string | null
+          vendor?: string | null
+        }
+        Update: {
+          amount?: number
+          category?: string
+          created_at?: string
+          currency?: string
+          description?: string
+          id?: string
+          incurred_at?: string
+          notes?: string | null
+          related_client_id?: string | null
+          vendor?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "expenses_related_client_id_fkey"
+            columns: ["related_client_id"]
+            isOneToOne: false
+            referencedRelation: "ai_clients"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       faqs: {
         Row: {
           answer: string
@@ -525,6 +955,7 @@ export type Database = {
       }
       inquiries: {
         Row: {
+          ai_client_id: string | null
           ai_summary: string | null
           assigned_to: string | null
           budget: string | null
@@ -555,6 +986,7 @@ export type Database = {
           user_id: string | null
         }
         Insert: {
+          ai_client_id?: string | null
           ai_summary?: string | null
           assigned_to?: string | null
           budget?: string | null
@@ -585,6 +1017,7 @@ export type Database = {
           user_id?: string | null
         }
         Update: {
+          ai_client_id?: string | null
           ai_summary?: string | null
           assigned_to?: string | null
           budget?: string | null
@@ -614,7 +1047,15 @@ export type Database = {
           updated_at?: string
           user_id?: string | null
         }
-        Relationships: []
+        Relationships: [
+          {
+            foreignKeyName: "inquiries_ai_client_id_fkey"
+            columns: ["ai_client_id"]
+            isOneToOne: false
+            referencedRelation: "ai_clients"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       inquiry_notes: {
         Row: {
@@ -848,6 +1289,97 @@ export type Database = {
         }
         Relationships: []
       }
+      payments: {
+        Row: {
+          amount: number
+          created_at: string
+          currency: string
+          customer_id: string | null
+          id: string
+          notes: string | null
+          paid_at: string | null
+          payment_method: string | null
+          payment_status: string
+          paystack_reference: string | null
+          paystack_response: Json | null
+          plan_id: string | null
+          related_id: string | null
+          related_type: string | null
+          service_product: string | null
+          subscription_id: string | null
+          transaction_id: string
+          user_id: string | null
+          verification_source: string | null
+          verification_status: string
+        }
+        Insert: {
+          amount?: number
+          created_at?: string
+          currency?: string
+          customer_id?: string | null
+          id?: string
+          notes?: string | null
+          paid_at?: string | null
+          payment_method?: string | null
+          payment_status?: string
+          paystack_reference?: string | null
+          paystack_response?: Json | null
+          plan_id?: string | null
+          related_id?: string | null
+          related_type?: string | null
+          service_product?: string | null
+          subscription_id?: string | null
+          transaction_id: string
+          user_id?: string | null
+          verification_source?: string | null
+          verification_status?: string
+        }
+        Update: {
+          amount?: number
+          created_at?: string
+          currency?: string
+          customer_id?: string | null
+          id?: string
+          notes?: string | null
+          paid_at?: string | null
+          payment_method?: string | null
+          payment_status?: string
+          paystack_reference?: string | null
+          paystack_response?: Json | null
+          plan_id?: string | null
+          related_id?: string | null
+          related_type?: string | null
+          service_product?: string | null
+          subscription_id?: string | null
+          transaction_id?: string
+          user_id?: string | null
+          verification_source?: string | null
+          verification_status?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "payments_customer_id_fkey"
+            columns: ["customer_id"]
+            isOneToOne: false
+            referencedRelation: "customers"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "payments_plan_id_fkey"
+            columns: ["plan_id"]
+            isOneToOne: false
+            referencedRelation: "ai_packages"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "payments_subscription_id_fkey"
+            columns: ["subscription_id"]
+            isOneToOne: false
+            referencedRelation: "subscriptions"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       profiles: {
         Row: {
           company: string | null
@@ -1033,6 +1565,97 @@ export type Database = {
             columns: ["inquiry_id"]
             isOneToOne: false
             referencedRelation: "inquiries"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      revenue_history: {
+        Row: {
+          amount: number
+          category: string
+          created_at: string
+          currency: string
+          customer_email: string | null
+          customer_id: string | null
+          customer_name: string | null
+          id: string
+          notes: string | null
+          payment_id: string | null
+          payment_method: string | null
+          payment_status: string
+          paystack_reference: string | null
+          related_id: string | null
+          related_type: string | null
+          service_product: string | null
+          subscription_id: string | null
+          transacted_at: string
+          transaction_id: string
+          verification_status: string | null
+        }
+        Insert: {
+          amount?: number
+          category?: string
+          created_at?: string
+          currency?: string
+          customer_email?: string | null
+          customer_id?: string | null
+          customer_name?: string | null
+          id?: string
+          notes?: string | null
+          payment_id?: string | null
+          payment_method?: string | null
+          payment_status?: string
+          paystack_reference?: string | null
+          related_id?: string | null
+          related_type?: string | null
+          service_product?: string | null
+          subscription_id?: string | null
+          transacted_at?: string
+          transaction_id: string
+          verification_status?: string | null
+        }
+        Update: {
+          amount?: number
+          category?: string
+          created_at?: string
+          currency?: string
+          customer_email?: string | null
+          customer_id?: string | null
+          customer_name?: string | null
+          id?: string
+          notes?: string | null
+          payment_id?: string | null
+          payment_method?: string | null
+          payment_status?: string
+          paystack_reference?: string | null
+          related_id?: string | null
+          related_type?: string | null
+          service_product?: string | null
+          subscription_id?: string | null
+          transacted_at?: string
+          transaction_id?: string
+          verification_status?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "revenue_history_customer_id_fkey"
+            columns: ["customer_id"]
+            isOneToOne: false
+            referencedRelation: "customers"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "revenue_history_payment_id_fkey"
+            columns: ["payment_id"]
+            isOneToOne: false
+            referencedRelation: "payments"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "revenue_history_subscription_id_fkey"
+            columns: ["subscription_id"]
+            isOneToOne: false
+            referencedRelation: "subscriptions"
             referencedColumns: ["id"]
           },
         ]
@@ -1251,6 +1874,7 @@ export type Database = {
         }
         Returns: boolean
       }
+      next_ai_client_code: { Args: never; Returns: string }
     }
     Enums: {
       app_role:
@@ -1277,12 +1901,12 @@ export type Tables<
   DefaultSchemaTableNameOrOptions extends
     | keyof (DefaultSchema["Tables"] & DefaultSchema["Views"])
     | { schema: keyof DatabaseWithoutInternals },
-  TableName extends DefaultSchemaTableNameOrOptions extends {
+  TableName extends (DefaultSchemaTableNameOrOptions extends {
     schema: keyof DatabaseWithoutInternals
   }
     ? keyof (DatabaseWithoutInternals[DefaultSchemaTableNameOrOptions["schema"]]["Tables"] &
         DatabaseWithoutInternals[DefaultSchemaTableNameOrOptions["schema"]]["Views"])
-    : never = never,
+    : never) = never,
 > = DefaultSchemaTableNameOrOptions extends {
   schema: keyof DatabaseWithoutInternals
 }
@@ -1306,11 +1930,11 @@ export type TablesInsert<
   DefaultSchemaTableNameOrOptions extends
     | keyof DefaultSchema["Tables"]
     | { schema: keyof DatabaseWithoutInternals },
-  TableName extends DefaultSchemaTableNameOrOptions extends {
+  TableName extends (DefaultSchemaTableNameOrOptions extends {
     schema: keyof DatabaseWithoutInternals
   }
     ? keyof DatabaseWithoutInternals[DefaultSchemaTableNameOrOptions["schema"]]["Tables"]
-    : never = never,
+    : never) = never,
 > = DefaultSchemaTableNameOrOptions extends {
   schema: keyof DatabaseWithoutInternals
 }
@@ -1331,11 +1955,11 @@ export type TablesUpdate<
   DefaultSchemaTableNameOrOptions extends
     | keyof DefaultSchema["Tables"]
     | { schema: keyof DatabaseWithoutInternals },
-  TableName extends DefaultSchemaTableNameOrOptions extends {
+  TableName extends (DefaultSchemaTableNameOrOptions extends {
     schema: keyof DatabaseWithoutInternals
   }
     ? keyof DatabaseWithoutInternals[DefaultSchemaTableNameOrOptions["schema"]]["Tables"]
-    : never = never,
+    : never) = never,
 > = DefaultSchemaTableNameOrOptions extends {
   schema: keyof DatabaseWithoutInternals
 }
@@ -1356,11 +1980,11 @@ export type Enums<
   DefaultSchemaEnumNameOrOptions extends
     | keyof DefaultSchema["Enums"]
     | { schema: keyof DatabaseWithoutInternals },
-  EnumName extends DefaultSchemaEnumNameOrOptions extends {
+  EnumName extends (DefaultSchemaEnumNameOrOptions extends {
     schema: keyof DatabaseWithoutInternals
   }
     ? keyof DatabaseWithoutInternals[DefaultSchemaEnumNameOrOptions["schema"]]["Enums"]
-    : never = never,
+    : never) = never,
 > = DefaultSchemaEnumNameOrOptions extends {
   schema: keyof DatabaseWithoutInternals
 }
@@ -1373,11 +1997,11 @@ export type CompositeTypes<
   PublicCompositeTypeNameOrOptions extends
     | keyof DefaultSchema["CompositeTypes"]
     | { schema: keyof DatabaseWithoutInternals },
-  CompositeTypeName extends PublicCompositeTypeNameOrOptions extends {
+  CompositeTypeName extends (PublicCompositeTypeNameOrOptions extends {
     schema: keyof DatabaseWithoutInternals
   }
     ? keyof DatabaseWithoutInternals[PublicCompositeTypeNameOrOptions["schema"]]["CompositeTypes"]
-    : never = never,
+    : never) = never,
 > = PublicCompositeTypeNameOrOptions extends {
   schema: keyof DatabaseWithoutInternals
 }
