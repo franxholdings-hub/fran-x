@@ -500,41 +500,56 @@ export type Database = {
       }
       ai_packages: {
         Row: {
+          billing_interval: string
           code: string
           currency: string
+          description: string
           features: Json
           id: string
           is_active: boolean
           monthly_price: number
           name: string
+          paystack_plan_code: string | null
+          product_type: string
           setup_fee: number
           sort_order: number
+          trial_days: number
           updated_at: string
           usage_limit: number
         }
         Insert: {
+          billing_interval?: string
           code: string
           currency?: string
+          description?: string
           features?: Json
           id?: string
           is_active?: boolean
           monthly_price?: number
           name: string
+          paystack_plan_code?: string | null
+          product_type?: string
           setup_fee?: number
           sort_order?: number
+          trial_days?: number
           updated_at?: string
           usage_limit?: number
         }
         Update: {
+          billing_interval?: string
           code?: string
           currency?: string
+          description?: string
           features?: Json
           id?: string
           is_active?: boolean
           monthly_price?: number
           name?: string
+          paystack_plan_code?: string | null
+          product_type?: string
           setup_fee?: number
           sort_order?: number
+          trial_days?: number
           updated_at?: string
           usage_limit?: number
         }
@@ -1274,6 +1289,97 @@ export type Database = {
         }
         Relationships: []
       }
+      payments: {
+        Row: {
+          amount: number
+          created_at: string
+          currency: string
+          customer_id: string | null
+          id: string
+          notes: string | null
+          paid_at: string | null
+          payment_method: string | null
+          payment_status: string
+          paystack_reference: string | null
+          paystack_response: Json | null
+          plan_id: string | null
+          related_id: string | null
+          related_type: string | null
+          service_product: string | null
+          subscription_id: string | null
+          transaction_id: string
+          user_id: string | null
+          verification_source: string | null
+          verification_status: string
+        }
+        Insert: {
+          amount?: number
+          created_at?: string
+          currency?: string
+          customer_id?: string | null
+          id?: string
+          notes?: string | null
+          paid_at?: string | null
+          payment_method?: string | null
+          payment_status?: string
+          paystack_reference?: string | null
+          paystack_response?: Json | null
+          plan_id?: string | null
+          related_id?: string | null
+          related_type?: string | null
+          service_product?: string | null
+          subscription_id?: string | null
+          transaction_id: string
+          user_id?: string | null
+          verification_source?: string | null
+          verification_status?: string
+        }
+        Update: {
+          amount?: number
+          created_at?: string
+          currency?: string
+          customer_id?: string | null
+          id?: string
+          notes?: string | null
+          paid_at?: string | null
+          payment_method?: string | null
+          payment_status?: string
+          paystack_reference?: string | null
+          paystack_response?: Json | null
+          plan_id?: string | null
+          related_id?: string | null
+          related_type?: string | null
+          service_product?: string | null
+          subscription_id?: string | null
+          transaction_id?: string
+          user_id?: string | null
+          verification_source?: string | null
+          verification_status?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "payments_customer_id_fkey"
+            columns: ["customer_id"]
+            isOneToOne: false
+            referencedRelation: "customers"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "payments_plan_id_fkey"
+            columns: ["plan_id"]
+            isOneToOne: false
+            referencedRelation: "ai_packages"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "payments_subscription_id_fkey"
+            columns: ["subscription_id"]
+            isOneToOne: false
+            referencedRelation: "subscriptions"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       profiles: {
         Row: {
           company: string | null
@@ -1474,14 +1580,17 @@ export type Database = {
           customer_name: string | null
           id: string
           notes: string | null
+          payment_id: string | null
           payment_method: string | null
           payment_status: string
           paystack_reference: string | null
           related_id: string | null
           related_type: string | null
           service_product: string | null
+          subscription_id: string | null
           transacted_at: string
           transaction_id: string
+          verification_status: string | null
         }
         Insert: {
           amount?: number
@@ -1493,14 +1602,17 @@ export type Database = {
           customer_name?: string | null
           id?: string
           notes?: string | null
+          payment_id?: string | null
           payment_method?: string | null
           payment_status?: string
           paystack_reference?: string | null
           related_id?: string | null
           related_type?: string | null
           service_product?: string | null
+          subscription_id?: string | null
           transacted_at?: string
           transaction_id: string
+          verification_status?: string | null
         }
         Update: {
           amount?: number
@@ -1512,14 +1624,17 @@ export type Database = {
           customer_name?: string | null
           id?: string
           notes?: string | null
+          payment_id?: string | null
           payment_method?: string | null
           payment_status?: string
           paystack_reference?: string | null
           related_id?: string | null
           related_type?: string | null
           service_product?: string | null
+          subscription_id?: string | null
           transacted_at?: string
           transaction_id?: string
+          verification_status?: string | null
         }
         Relationships: [
           {
@@ -1527,6 +1642,20 @@ export type Database = {
             columns: ["customer_id"]
             isOneToOne: false
             referencedRelation: "customers"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "revenue_history_payment_id_fkey"
+            columns: ["payment_id"]
+            isOneToOne: false
+            referencedRelation: "payments"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "revenue_history_subscription_id_fkey"
+            columns: ["subscription_id"]
+            isOneToOne: false
+            referencedRelation: "subscriptions"
             referencedColumns: ["id"]
           },
         ]
@@ -1652,6 +1781,62 @@ export type Database = {
             columns: ["department_id"]
             isOneToOne: false
             referencedRelation: "departments"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      subscriptions: {
+        Row: {
+          cancelled_at: string | null
+          created_at: string
+          current_period_end: string | null
+          id: string
+          paystack_customer_code: string | null
+          paystack_plan_code: string | null
+          paystack_subscription_code: string | null
+          plan_id: string | null
+          started_at: string
+          status: string
+          trial_ends_at: string | null
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          cancelled_at?: string | null
+          created_at?: string
+          current_period_end?: string | null
+          id?: string
+          paystack_customer_code?: string | null
+          paystack_plan_code?: string | null
+          paystack_subscription_code?: string | null
+          plan_id?: string | null
+          started_at?: string
+          status?: string
+          trial_ends_at?: string | null
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          cancelled_at?: string | null
+          created_at?: string
+          current_period_end?: string | null
+          id?: string
+          paystack_customer_code?: string | null
+          paystack_plan_code?: string | null
+          paystack_subscription_code?: string | null
+          plan_id?: string | null
+          started_at?: string
+          status?: string
+          trial_ends_at?: string | null
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "subscriptions_plan_id_fkey"
+            columns: ["plan_id"]
+            isOneToOne: false
+            referencedRelation: "ai_packages"
             referencedColumns: ["id"]
           },
         ]
