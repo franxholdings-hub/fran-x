@@ -53,6 +53,347 @@ export type Database = {
         }
         Relationships: []
       }
+      ai_client_config: {
+        Row: {
+          client_id: string
+          fallback_model: string | null
+          is_approved: boolean
+          model: string
+          personality: string
+          provider: string
+          rate_limit_per_hour: number
+          system_prompt: string
+          temperature: number
+          token_limit_per_request: number
+          updated_at: string
+          usage_limit_monthly: number
+        }
+        Insert: {
+          client_id: string
+          fallback_model?: string | null
+          is_approved?: boolean
+          model?: string
+          personality?: string
+          provider?: string
+          rate_limit_per_hour?: number
+          system_prompt?: string
+          temperature?: number
+          token_limit_per_request?: number
+          updated_at?: string
+          usage_limit_monthly?: number
+        }
+        Update: {
+          client_id?: string
+          fallback_model?: string | null
+          is_approved?: boolean
+          model?: string
+          personality?: string
+          provider?: string
+          rate_limit_per_hour?: number
+          system_prompt?: string
+          temperature?: number
+          token_limit_per_request?: number
+          updated_at?: string
+          usage_limit_monthly?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "ai_client_config_client_id_fkey"
+            columns: ["client_id"]
+            isOneToOne: true
+            referencedRelation: "ai_clients"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      ai_client_conversations: {
+        Row: {
+          classification: string | null
+          client_id: string
+          contact_country: string | null
+          contact_email: string | null
+          contact_name: string | null
+          contact_phone: string | null
+          created_at: string
+          id: string
+          inquiry_id: string | null
+          lead_score: number | null
+          message_count: number
+          status: string
+          updated_at: string
+          visitor_id: string | null
+        }
+        Insert: {
+          classification?: string | null
+          client_id: string
+          contact_country?: string | null
+          contact_email?: string | null
+          contact_name?: string | null
+          contact_phone?: string | null
+          created_at?: string
+          id?: string
+          inquiry_id?: string | null
+          lead_score?: number | null
+          message_count?: number
+          status?: string
+          updated_at?: string
+          visitor_id?: string | null
+        }
+        Update: {
+          classification?: string | null
+          client_id?: string
+          contact_country?: string | null
+          contact_email?: string | null
+          contact_name?: string | null
+          contact_phone?: string | null
+          created_at?: string
+          id?: string
+          inquiry_id?: string | null
+          lead_score?: number | null
+          message_count?: number
+          status?: string
+          updated_at?: string
+          visitor_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "ai_client_conversations_client_id_fkey"
+            columns: ["client_id"]
+            isOneToOne: false
+            referencedRelation: "ai_clients"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "ai_client_conversations_inquiry_id_fkey"
+            columns: ["inquiry_id"]
+            isOneToOne: false
+            referencedRelation: "inquiries"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      ai_client_knowledge: {
+        Row: {
+          client_id: string
+          content: string
+          created_at: string
+          id: string
+          is_active: boolean
+          tags: string[]
+          title: string
+          type: string
+          updated_at: string
+        }
+        Insert: {
+          client_id: string
+          content: string
+          created_at?: string
+          id?: string
+          is_active?: boolean
+          tags?: string[]
+          title: string
+          type?: string
+          updated_at?: string
+        }
+        Update: {
+          client_id?: string
+          content?: string
+          created_at?: string
+          id?: string
+          is_active?: boolean
+          tags?: string[]
+          title?: string
+          type?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "ai_client_knowledge_client_id_fkey"
+            columns: ["client_id"]
+            isOneToOne: false
+            referencedRelation: "ai_clients"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      ai_client_messages: {
+        Row: {
+          content: string
+          conversation_id: string
+          created_at: string
+          id: string
+          role: string
+          tokens: number | null
+        }
+        Insert: {
+          content: string
+          conversation_id: string
+          created_at?: string
+          id?: string
+          role: string
+          tokens?: number | null
+        }
+        Update: {
+          content?: string
+          conversation_id?: string
+          created_at?: string
+          id?: string
+          role?: string
+          tokens?: number | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "ai_client_messages_conversation_id_fkey"
+            columns: ["conversation_id"]
+            isOneToOne: false
+            referencedRelation: "ai_client_conversations"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      ai_client_subscriptions: {
+        Row: {
+          client_id: string
+          created_at: string
+          current_period_end: string | null
+          id: string
+          package_id: string | null
+          paystack_plan_code: string | null
+          paystack_subscription_code: string | null
+          started_at: string
+          status: string
+          updated_at: string
+        }
+        Insert: {
+          client_id: string
+          created_at?: string
+          current_period_end?: string | null
+          id?: string
+          package_id?: string | null
+          paystack_plan_code?: string | null
+          paystack_subscription_code?: string | null
+          started_at?: string
+          status?: string
+          updated_at?: string
+        }
+        Update: {
+          client_id?: string
+          created_at?: string
+          current_period_end?: string | null
+          id?: string
+          package_id?: string | null
+          paystack_plan_code?: string | null
+          paystack_subscription_code?: string | null
+          started_at?: string
+          status?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "ai_client_subscriptions_client_id_fkey"
+            columns: ["client_id"]
+            isOneToOne: false
+            referencedRelation: "ai_clients"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "ai_client_subscriptions_package_id_fkey"
+            columns: ["package_id"]
+            isOneToOne: false
+            referencedRelation: "ai_packages"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      ai_client_usage: {
+        Row: {
+          ai_requests: number
+          client_id: string
+          estimated_cost: number
+          id: string
+          messages: number
+          period_month: string
+          tokens: number
+        }
+        Insert: {
+          ai_requests?: number
+          client_id: string
+          estimated_cost?: number
+          id?: string
+          messages?: number
+          period_month: string
+          tokens?: number
+        }
+        Update: {
+          ai_requests?: number
+          client_id?: string
+          estimated_cost?: number
+          id?: string
+          messages?: number
+          period_month?: string
+          tokens?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "ai_client_usage_client_id_fkey"
+            columns: ["client_id"]
+            isOneToOne: false
+            referencedRelation: "ai_clients"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      ai_clients: {
+        Row: {
+          branding: Json
+          business_name: string
+          client_code: string
+          contact_email: string | null
+          contact_name: string | null
+          contact_phone: string | null
+          country: string | null
+          created_at: string
+          id: string
+          industry: string | null
+          notes: string | null
+          status: string
+          updated_at: string
+          website: string | null
+        }
+        Insert: {
+          branding?: Json
+          business_name: string
+          client_code?: string
+          contact_email?: string | null
+          contact_name?: string | null
+          contact_phone?: string | null
+          country?: string | null
+          created_at?: string
+          id?: string
+          industry?: string | null
+          notes?: string | null
+          status?: string
+          updated_at?: string
+          website?: string | null
+        }
+        Update: {
+          branding?: Json
+          business_name?: string
+          client_code?: string
+          contact_email?: string | null
+          contact_name?: string | null
+          contact_phone?: string | null
+          country?: string | null
+          created_at?: string
+          id?: string
+          industry?: string | null
+          notes?: string | null
+          status?: string
+          updated_at?: string
+          website?: string | null
+        }
+        Relationships: []
+      }
       ai_conversations: {
         Row: {
           agent_slug: string
@@ -156,6 +497,48 @@ export type Database = {
             referencedColumns: ["id"]
           },
         ]
+      }
+      ai_packages: {
+        Row: {
+          code: string
+          currency: string
+          features: Json
+          id: string
+          is_active: boolean
+          monthly_price: number
+          name: string
+          setup_fee: number
+          sort_order: number
+          updated_at: string
+          usage_limit: number
+        }
+        Insert: {
+          code: string
+          currency?: string
+          features?: Json
+          id?: string
+          is_active?: boolean
+          monthly_price?: number
+          name: string
+          setup_fee?: number
+          sort_order?: number
+          updated_at?: string
+          usage_limit?: number
+        }
+        Update: {
+          code?: string
+          currency?: string
+          features?: Json
+          id?: string
+          is_active?: boolean
+          monthly_price?: number
+          name?: string
+          setup_fee?: number
+          sort_order?: number
+          updated_at?: string
+          usage_limit?: number
+        }
+        Relationships: []
       }
       ai_settings: {
         Row: {
@@ -364,6 +747,48 @@ export type Database = {
         }
         Relationships: []
       }
+      customers: {
+        Row: {
+          company: string | null
+          country: string | null
+          created_at: string
+          email: string | null
+          id: string
+          name: string
+          notes: string | null
+          phone: string | null
+          type: string
+          updated_at: string
+          user_id: string | null
+        }
+        Insert: {
+          company?: string | null
+          country?: string | null
+          created_at?: string
+          email?: string | null
+          id?: string
+          name: string
+          notes?: string | null
+          phone?: string | null
+          type?: string
+          updated_at?: string
+          user_id?: string | null
+        }
+        Update: {
+          company?: string | null
+          country?: string | null
+          created_at?: string
+          email?: string | null
+          id?: string
+          name?: string
+          notes?: string | null
+          phone?: string | null
+          type?: string
+          updated_at?: string
+          user_id?: string | null
+        }
+        Relationships: []
+      }
       departments: {
         Row: {
           created_at: string
@@ -439,6 +864,53 @@ export type Database = {
           },
         ]
       }
+      expenses: {
+        Row: {
+          amount: number
+          category: string
+          created_at: string
+          currency: string
+          description: string
+          id: string
+          incurred_at: string
+          notes: string | null
+          related_client_id: string | null
+          vendor: string | null
+        }
+        Insert: {
+          amount?: number
+          category?: string
+          created_at?: string
+          currency?: string
+          description: string
+          id?: string
+          incurred_at?: string
+          notes?: string | null
+          related_client_id?: string | null
+          vendor?: string | null
+        }
+        Update: {
+          amount?: number
+          category?: string
+          created_at?: string
+          currency?: string
+          description?: string
+          id?: string
+          incurred_at?: string
+          notes?: string | null
+          related_client_id?: string | null
+          vendor?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "expenses_related_client_id_fkey"
+            columns: ["related_client_id"]
+            isOneToOne: false
+            referencedRelation: "ai_clients"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       faqs: {
         Row: {
           answer: string
@@ -468,6 +940,7 @@ export type Database = {
       }
       inquiries: {
         Row: {
+          ai_client_id: string | null
           ai_summary: string | null
           assigned_to: string | null
           budget: string | null
@@ -498,6 +971,7 @@ export type Database = {
           user_id: string | null
         }
         Insert: {
+          ai_client_id?: string | null
           ai_summary?: string | null
           assigned_to?: string | null
           budget?: string | null
@@ -528,6 +1002,7 @@ export type Database = {
           user_id?: string | null
         }
         Update: {
+          ai_client_id?: string | null
           ai_summary?: string | null
           assigned_to?: string | null
           budget?: string | null
@@ -557,7 +1032,15 @@ export type Database = {
           updated_at?: string
           user_id?: string | null
         }
-        Relationships: []
+        Relationships: [
+          {
+            foreignKeyName: "inquiries_ai_client_id_fkey"
+            columns: ["ai_client_id"]
+            isOneToOne: false
+            referencedRelation: "ai_clients"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       inquiry_notes: {
         Row: {
@@ -980,6 +1463,74 @@ export type Database = {
           },
         ]
       }
+      revenue_history: {
+        Row: {
+          amount: number
+          category: string
+          created_at: string
+          currency: string
+          customer_email: string | null
+          customer_id: string | null
+          customer_name: string | null
+          id: string
+          notes: string | null
+          payment_method: string | null
+          payment_status: string
+          paystack_reference: string | null
+          related_id: string | null
+          related_type: string | null
+          service_product: string | null
+          transacted_at: string
+          transaction_id: string
+        }
+        Insert: {
+          amount?: number
+          category?: string
+          created_at?: string
+          currency?: string
+          customer_email?: string | null
+          customer_id?: string | null
+          customer_name?: string | null
+          id?: string
+          notes?: string | null
+          payment_method?: string | null
+          payment_status?: string
+          paystack_reference?: string | null
+          related_id?: string | null
+          related_type?: string | null
+          service_product?: string | null
+          transacted_at?: string
+          transaction_id: string
+        }
+        Update: {
+          amount?: number
+          category?: string
+          created_at?: string
+          currency?: string
+          customer_email?: string | null
+          customer_id?: string | null
+          customer_name?: string | null
+          id?: string
+          notes?: string | null
+          payment_method?: string | null
+          payment_status?: string
+          paystack_reference?: string | null
+          related_id?: string | null
+          related_type?: string | null
+          service_product?: string | null
+          transacted_at?: string
+          transaction_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "revenue_history_customer_id_fkey"
+            columns: ["customer_id"]
+            isOneToOne: false
+            referencedRelation: "customers"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       services: {
         Row: {
           category: string
@@ -1138,6 +1689,7 @@ export type Database = {
         }
         Returns: boolean
       }
+      next_ai_client_code: { Args: never; Returns: string }
     }
     Enums: {
       app_role:
