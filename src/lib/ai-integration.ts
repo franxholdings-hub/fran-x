@@ -36,26 +36,20 @@ export const PAYMENT_STATUSES_FULL = [
   "refunded",
 ] as const;
 
-// Centralized revenue categories — free text in the DB so future FRAN-X
-// products can be added without a migration, but we offer a canonical list.
+// Centralized revenue categories for the FRAN-X Technologies business model
+// — digital product sales appear separately from technology-service revenue.
+// Free text in the DB so future products can be added without a migration,
+// but this is the canonical list for filters and manual entry.
 export const REVENUE_CATEGORIES = [
-  "Subscriptions",
-  "AI Integration",
-  "Website Development",
+  "FRIX AI Subscriptions",
+  "Web Development",
   "Mobile App Development",
-  "E-commerce",
-  "Software",
-  "AI Development",
-  "Automation",
-  "Consulting",
-  "Data Analysis",
-  "Car Sourcing",
-  "Real Estate",
-  "Property Sourcing",
-  "Oil & Gas",
-  "Business Facilitation",
-  "Featured Listings",
-  "Enterprise Services",
+  "AI & Automation",
+  "Data & Business Intelligence",
+  "Custom Software & APIs",
+  "Digital Product Sales",
+  "Maintenance/Support",
+  "Enterprise Projects",
   "Other",
 ] as const;
 

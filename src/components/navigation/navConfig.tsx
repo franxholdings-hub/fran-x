@@ -3,6 +3,7 @@ import {
   Bot,
   Briefcase,
   Lightbulb,
+  Package,
   CreditCard,
   Info,
   Mail,
@@ -39,6 +40,7 @@ export const PRIMARY_NAV: NavItem[] = [
   { to: "/", label: "Home", icon: Home, exact: true },
   { to: "/frix-ai", label: "FRIX AI", icon: Bot },
   { to: "/services", label: "Services", icon: Briefcase },
+  { to: "/store", label: "Digital Products", icon: Package },
   { to: "/solutions", label: "Solutions", icon: Lightbulb },
   { to: "/pricing", label: "Pricing", icon: CreditCard },
   { to: "/about", label: "About", icon: Info },
@@ -49,7 +51,7 @@ export const PRIMARY_NAV: NavItem[] = [
 /** Authenticated user shortcuts — visible when logged in */
 export const AUTH_NAV: NavItem[] = [
   { to: "/portal", hash: "notifications", label: "Notifications", icon: Bell, authOnly: true },
-  { to: "/portal", hash: "saved", label: "Saved", icon: Heart, authOnly: true },
+  { to: "/portal", hash: "library", label: "My Digital Products", icon: Package, authOnly: true },
   { to: "/portal", hash: "inquiries", label: "Messages", icon: MessageSquare, authOnly: true },
   { to: "/portal", hash: "profile", label: "Profile", icon: UserRound, authOnly: true },
 ];
@@ -60,7 +62,7 @@ export const SECONDARY_NAV: NavItem[] = [
   { to: "/services", label: "Services", icon: Briefcase },
   { to: "/solutions", label: "Solutions", icon: Lightbulb },
   { to: "/pricing", label: "Pricing", icon: CreditCard },
-  { to: "/store", label: "Resources", icon: FileText },
+  { to: "/store", label: "Digital Products", icon: Package },
   { to: "/contact", label: "Contact", icon: Mail },
 ];
 
@@ -90,9 +92,9 @@ export const MORE_NAV: NavItem[] = [
   { to: "/admin", label: "Admin Panel", icon: ShieldCheck, adminOnly: true },
   { to: "/about", label: "About", icon: Info },
   { to: "/services", label: "Services", icon: Briefcase },
+  { to: "/store", label: "Digital Products", icon: Package },
   { to: "/solutions", label: "Solutions", icon: Lightbulb },
   { to: "/pricing", label: "Pricing", icon: CreditCard },
-  { to: "/store", label: "Resources", icon: FileText },
   { to: "/contact", label: "Contact", icon: Mail },
   { to: "/legal/terms", label: "Terms / Policies", icon: FileText },
   { label: "Sign out", icon: LogOut, action: "signout", authOnly: true },

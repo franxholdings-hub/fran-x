@@ -34,6 +34,7 @@ import { useAuth } from "@/hooks/useAuth";
 import { supabase } from "@/integrations/supabase/client";
 import { INQUIRY_STATUSES } from "@/lib/site";
 import { FRIX_AGENT_LABELS, KB_CATEGORIES } from "@/lib/frix";
+import { formatMoney } from "@/lib/ai-integration";
 
 export const Route = createFileRoute("/_authenticated/admin")({
   head: () => ({
@@ -125,7 +126,7 @@ function Overview() {
         return c ?? 0;
       };
       const since = new Date(Date.now() - 7 * 864e5).toISOString();
-      const [visits, users, inquiries, messages, projects, conversations, weekVisits, openLeads, subscribers, completedProjects] = await Promise.all([
+      const [visits, users, inquiries, messages, projects, conversations, weekVisits, openLeads, subscribers, completedProjects, revenue] = await Promise.all([
         count("site_visits"),
         count("profiles"),
         count("inquiries"),
@@ -136,7 +137,14 @@ function Overview() {
         supabase.from("inquiries").select("id", { count: "exact", head: true }).eq("status", "New"),
         supabase.from("subscriptions").select("id", { count: "exact", head: true }).in("status", ["active", "trial"]),
         supabase.from("projects").select("id", { count: "exact", head: true }).eq("status", "Completed"),
+        supabase.from("revenue_history" as never).select("amount, category, payment_status, transacted_at") as unknown as Promise<{
+          data?: { amount: number; category: string; payment_status: string; transacted_at: string }[] | null;
+        }>,
       ]);
+      const completedRevenue = (revenue.data ?? []).filter((r) => r.payment_status === "completed");
+      const startOfMonth = new Date();
+      startOfMonth.setDate(1);
+      startOfMonth.setHours(0, 0, 0, 0);
       return {
         visits,
         users,
@@ -148,6 +156,14 @@ function Overview() {
         openLeads: openLeads.count ?? 0,
         subscribers: subscribers.count ?? 0,
         completedProjects: completedProjects.count ?? 0,
+        totalRevenue: completedRevenue.reduce((s, r) => s + Number(r.amount), 0),
+        monthRevenue: completedRevenue
+          .filter((r) => new Date(r.transacted_at) >= startOfMonth)
+          .reduce((s, r) => s + Number(r.amount), 0),
+        transactions: (revenue.data ?? []).length,
+        digitalProductSales: completedRevenue
+          .filter((r) => r.category === "Digital Product Sales")
+          .reduce((s, r) => s + Number(r.amount), 0),
       };
     },
   });
@@ -171,13 +187,17 @@ function Overview() {
   return (
     <div className="space-y-8">
       <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-        <StatCard label="Total visits" value={stats.data?.visits} hint={`${stats.data?.weekVisits ?? 0} in the last 7 days`} />
+        <StatCard label="Total revenue" value={formatMoney(stats.data?.totalRevenue)} hint="All completed revenue" />
+        <StatCard label="Monthly revenue" value={formatMoney(stats.data?.monthRevenue)} hint="This month" />
+        <StatCard label="Total transactions" value={stats.data?.transactions} />
+        <StatCard label="Digital product sales" value={formatMoney(stats.data?.digitalProductSales)} hint="FRAN-X Store" />
+        <StatCard label="Active FRIX AI subscribers" value={stats.data?.subscribers} />
         <StatCard label="New customers" value={stats.data?.users} />
         <StatCard label="Pending project requests" value={stats.data?.openLeads} hint={`${stats.data?.inquiries ?? 0} total inquiries`} />
         <StatCard label="Active projects" value={stats.data?.projects} hint={`${stats.data?.completedProjects ?? 0} completed`} />
-        <StatCard label="FRIX AI subscribers" value={stats.data?.subscribers} />
         <StatCard label="FRIX AI conversations" value={stats.data?.conversations} />
         <StatCard label="Client messages" value={stats.data?.messages} />
+        <StatCard label="Total visits" value={stats.data?.visits} hint={`${stats.data?.weekVisits ?? 0} in the last 7 days`} />
       </div>
 
       <div className="grid gap-6 lg:grid-cols-2">
@@ -536,51 +556,146 @@ function Projects() {
 /* ---------------- Clients ---------------- */
 
 function Clients() {
+  const [openId, setOpenId] = useState<string | null>(null);
+
   const clients = useQuery({
     queryKey: ["cc-clients"],
     queryFn: async () => {
-      const [{ data: profiles }, { data: roles }] = await Promise.all([
-        supabase.from("profiles").select("*").order("created_at", { ascending: false }),
-        supabase.from("user_roles").select("user_id, role"),
-      ]);
+      const [{ data: profiles }, { data: roles }, { data: inquiries }, { data: payments }, { data: subscriptions }] =
+        await Promise.all([
+          supabase.from("profiles").select("*").order("created_at", { ascending: false }),
+          supabase.from("user_roles").select("user_id, role"),
+          supabase.from("inquiries").select("reference, email, category, status, created_at"),
+          supabase.from("payments" as never).select("user_id, customer_email, amount, payment_status, verification_status, related_type, paid_at") as unknown as Promise<{
+            data?: { user_id: string; customer_email: string | null; amount: number; payment_status: string; verification_status: string; related_type: string; paid_at: string | null }[] | null;
+          }>,
+          supabase.from("subscriptions").select("user_id, status"),
+        ]);
       const byUser = new Map<string, string[]>();
       for (const r of roles ?? []) byUser.set(r.user_id, [...(byUser.get(r.user_id) ?? []), r.role]);
-      return (profiles ?? []).map((p) => ({ ...p, roles: byUser.get(p.id) ?? ["user"] }));
+      return (profiles ?? []).map((p) => {
+        const email = (p.email ?? "").toLowerCase();
+        const myInquiries = (inquiries ?? []).filter((i) => (i.email ?? "").toLowerCase() === email);
+        const myPayments = (payments ?? []).filter(
+          (m) => m.user_id === p.id || (m.customer_email ?? "").toLowerCase() === email,
+        );
+        const verified = myPayments.filter((m) => m.verification_status === "verified");
+        const mySubs = (subscriptions ?? []).filter((s) => s.user_id === p.id);
+        return {
+          ...p,
+          roles: byUser.get(p.id) ?? ["user"],
+          inquiries: myInquiries,
+          purchases: verified.filter((m) => m.related_type === "one_time"),
+          payments: verified,
+          subscription: mySubs.find((s) => s.status === "active" || s.status === "trial") ?? null,
+          revenue: verified.reduce((s, m) => s + Number(m.amount), 0),
+        };
+      });
     },
   });
 
   return (
-    <PanelSection title="Client accounts" description="Every registered account and its access level.">
+    <PanelSection title="Customer management" description="Every customer — contact info, project history, payments, subscriptions and digital product purchases.">
       {clients.isLoading ? (
         <Loading />
       ) : clients.data?.length ? (
-        <div className="overflow-x-auto">
-          <table className="w-full text-left text-sm">
-            <thead className="text-[11px] uppercase tracking-[0.16em] text-muted-foreground">
-              <tr>
-                <th className="py-2 pr-4">Name</th>
-                <th className="py-2 pr-4">Email</th>
-                <th className="py-2 pr-4">Company</th>
-                <th className="py-2 pr-4">Roles</th>
-                <th className="py-2">Joined</th>
-              </tr>
-            </thead>
-            <tbody>
-              {clients.data.map((c) => (
-                <tr key={c.id} className="border-t border-border/60">
-                  <td className="py-2 pr-4">{c.full_name ?? "—"}</td>
-                  <td className="py-2 pr-4">{c.email}</td>
-                  <td className="py-2 pr-4">{c.company ?? "—"}</td>
-                  <td className="py-2 pr-4">
-                    <div className="flex flex-wrap gap-1">
-                      {c.roles.map((r) => <Badge key={r} variant="outline">{r}</Badge>)}
-                    </div>
-                  </td>
-                  <td className="py-2 text-xs text-muted-foreground">{new Date(c.created_at).toLocaleDateString()}</td>
+        <div className="space-y-2">
+          <div className="overflow-x-auto">
+            <table className="w-full text-left text-sm">
+              <thead className="text-[11px] uppercase tracking-[0.16em] text-muted-foreground">
+                <tr>
+                  <th className="py-2 pr-4">Name</th>
+                  <th className="py-2 pr-4">Email</th>
+                  <th className="py-2 pr-4">Company</th>
+                  <th className="py-2 pr-4">Inquiries</th>
+                  <th className="py-2 pr-4">Purchases</th>
+                  <th className="py-2 pr-4">Subscription</th>
+                  <th className="py-2 pr-4 text-right">Revenue</th>
+                  <th className="py-2 pr-4">Status</th>
+                  <th className="py-2"></th>
                 </tr>
-              ))}
-            </tbody>
-          </table>
+              </thead>
+              <tbody>
+                {clients.data.map((c) => (
+                  <tr key={c.id} className="border-t border-border/60">
+                    <td className="py-2 pr-4 font-medium">{c.full_name ?? "—"}</td>
+                    <td className="py-2 pr-4">{c.email}</td>
+                    <td className="py-2 pr-4">{c.company ?? "—"}</td>
+                    <td className="py-2 pr-4">{c.inquiries.length}</td>
+                    <td className="py-2 pr-4">{c.purchases.length}</td>
+                    <td className="py-2 pr-4">
+                      {c.subscription ? (
+                        <Badge variant="outline" className="border-emerald-500/40 text-emerald-600">{c.subscription.status}</Badge>
+                      ) : (
+                        <span className="text-muted-foreground">—</span>
+                      )}
+                    </td>
+                    <td className="py-2 pr-4 text-right font-medium">{formatMoney(c.revenue)}</td>
+                    <td className="py-2 pr-4">
+                      <div className="flex flex-wrap gap-1">
+                        {c.roles.map((r) => <Badge key={r} variant="outline">{r}</Badge>)}
+                      </div>
+                    </td>
+                    <td className="py-2">
+                      <Button size="sm" variant="ghost" onClick={() => setOpenId(openId === c.id ? null : c.id)}>
+                        {openId === c.id ? "Hide" : "Details"}
+                      </Button>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+
+          {openId ? (
+            <div className="rounded-xl border border-border bg-surface/40 p-5">
+              {(() => {
+                const c = clients.data.find((x) => x.id === openId);
+                if (!c) return null;
+                return (
+                  <div className="grid gap-6 lg:grid-cols-3">
+                    <div>
+                      <p className="text-[11px] uppercase tracking-[0.16em] text-muted-foreground">Contact</p>
+                      <p className="mt-1 text-sm font-medium">{c.full_name ?? "—"}</p>
+                      <p className="text-sm text-muted-foreground">{c.email}</p>
+                      <p className="text-sm text-muted-foreground">{c.phone ?? ""} {c.country ? `· ${c.country}` : ""}</p>
+                      <p className="mt-2 text-xs text-muted-foreground">Joined {new Date(c.created_at).toLocaleDateString()}</p>
+                    </div>
+                    <div>
+                      <p className="text-[11px] uppercase tracking-[0.16em] text-muted-foreground">Inquiry history</p>
+                      {c.inquiries.length ? (
+                        <ul className="mt-1 space-y-1 text-sm">
+                          {c.inquiries.map((i) => (
+                            <li key={i.reference} className="flex items-center justify-between gap-3">
+                              <span className="font-mono text-xs">{i.reference}</span>
+                              <Badge variant="outline" className={toneForStatus(i.status)}>{i.status}</Badge>
+                            </li>
+                          ))}
+                        </ul>
+                      ) : (
+                        <p className="mt-1 text-sm text-muted-foreground">No inquiries yet.</p>
+                      )}
+                    </div>
+                    <div>
+                      <p className="text-[11px] uppercase tracking-[0.16em] text-muted-foreground">Payments &amp; purchases</p>
+                      {c.payments.length ? (
+                        <ul className="mt-1 space-y-1 text-sm">
+                          {c.payments.map((m, idx) => (
+                            <li key={idx} className="flex items-center justify-between gap-3">
+                              <span className="capitalize">{m.related_type === "one_time" ? "Digital product" : m.related_type === "subscription" ? "Subscription" : m.related_type}</span>
+                              <span className="font-medium">{formatMoney(Number(m.amount))}</span>
+                            </li>
+                          ))}
+                        </ul>
+                      ) : (
+                        <p className="mt-1 text-sm text-muted-foreground">No payments yet.</p>
+                      )}
+                    </div>
+                  </div>
+                );
+              })()}
+            </div>
+          ) : null}
         </div>
       ) : (
         <Empty>No registered accounts yet.</Empty>

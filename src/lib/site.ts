@@ -19,19 +19,6 @@ export const WHATSAPP_URL = `https://wa.me/${SITE.whatsappNumber}?text=${encodeU
 export const MAILTO_URL = `mailto:${SITE.email}`;
 export const TEL_URL = `tel:${SITE.phoneTel}`;
 
-/** WhatsApp deep-link prefilled with an inquiry about a specific listing. */
-export function listingWhatsAppUrl(title: string) {
-  const text = `Hello FRAN-X, I'm interested in "${title}" listed on the FRAN-X Marketplace and would like more details.`;
-  return `https://wa.me/${SITE.whatsappNumber}?text=${encodeURIComponent(text)}`;
-}
-
-/** Email deep-link prefilled with an inquiry about a specific listing. */
-export function listingEmailUrl(title: string) {
-  const subject = `Inquiry: ${title}`;
-  const body = `Hello FRAN-X,\n\nI'm interested in "${title}" listed on the FRAN-X Marketplace and would like more details.\n\nThank you.`;
-  return `mailto:${SITE.email}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
-}
-
 export const COMPLIANCE_NOTE =
   "Certain services, transactions, and activities may be subject to applicable Nigerian and international laws, licensing requirements, regulatory approvals, due diligence, and/or execution through appropriately licensed partners.";
 

@@ -13,6 +13,10 @@ import {
   Layers,
   LifeBuoy,
   Target,
+  BookOpen,
+  FileText,
+  Wallet,
+  ChevronRight,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { HeroBackground } from "@/components/site/HeroBackground";
@@ -22,7 +26,7 @@ import { PHOTOS } from "@/lib/photos";
 
 const TITLE = "FRAN-X | AI, Software & Digital Technology";
 const DESCRIPTION =
-  "FRAN-X builds AI solutions, websites, mobile apps, business automation systems, data platforms and custom software for modern businesses.";
+  "FRAN-X builds AI solutions, websites, mobile apps, business automation systems, data platforms, custom software and digital products for modern businesses.";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -41,6 +45,7 @@ export const Route = createFileRoute("/")({
           "@context": "https://schema.org",
           "@type": "Organization",
           name: "FRAN-X Technologies",
+          parentOrganization: { "@type": "Organization", name: "FRAN-X Holdings" },
           slogan: SITE.tagline,
           description: DESCRIPTION,
           email: SITE.email,
@@ -96,6 +101,33 @@ const SERVICES = [
   },
 ];
 
+const DIGITAL_PRODUCTS = [
+  {
+    icon: BookOpen,
+    title: "Business E-Books",
+    body: "Practical guides for starting, managing and growing a modern business.",
+    to: "/store/ebooks" as const,
+  },
+  {
+    icon: FileText,
+    title: "Business Templates",
+    body: "Ready-to-use plans, profiles, pitch decks and document frameworks.",
+    to: "/store/templates" as const,
+  },
+  {
+    icon: Wallet,
+    title: "Finance Guides",
+    body: "Financial management, cash-flow, budgeting and accounting resources.",
+    to: "/store/finance" as const,
+  },
+  {
+    icon: Sparkles,
+    title: "FRIX AI & Subscriptions",
+    body: "AI plans and the FRAN-X Resource Pass — recurring premium access.",
+    to: "/store/frix-ai" as const,
+  },
+];
+
 const SOLUTIONS = [
   { need: "Need an online presence?", to: "/build/website" as const, label: "Web Development" },
   { need: "Need a mobile product?", to: "/build/app" as const, label: "App Development" },
@@ -138,13 +170,13 @@ function Index() {
         />
         <HeroBackground />
         <div className="container-x relative py-12 sm:py-16 lg:py-20">
-          <p className="eyebrow animate-rise">Technology Company · Lagos, Nigeria</p>
+          <p className="eyebrow animate-rise">FRAN-X Technologies · Lagos, Nigeria</p>
           <h1 className="animate-rise mt-3 max-w-3xl text-2xl font-semibold leading-[1.1] sm:text-4xl lg:text-5xl">
             Build. Automate. <span className="text-metal">Scale.</span>
           </h1>
           <p className="animate-rise mt-4 max-w-2xl text-sm leading-relaxed text-muted-foreground sm:text-base">
-            FRAN-X builds intelligent software, AI solutions and digital systems for businesses ready
-            to grow.
+            FRAN-X Technologies builds intelligent software, AI solutions, digital systems and
+            products that help businesses operate, grow and compete.
           </p>
           <div className="animate-rise mt-6 flex flex-col gap-2.5 sm:flex-row sm:flex-wrap">
             <Button asChild size="lg">
@@ -162,6 +194,25 @@ function Index() {
             <Sparkles className="h-3.5 w-3.5 text-primary" />
             AI · Software · Automation · Data
           </p>
+        </div>
+      </section>
+
+      {/* BRAND HIERARCHY — FRAN-X Holdings → FRAN-X Technologies → FRIX AI + Services + Digital Products */}
+      <section className="border-b border-border/60 bg-surface/40">
+        <div className="container-x flex flex-col items-start gap-3 py-5 text-sm sm:flex-row sm:flex-wrap sm:items-center sm:justify-center sm:gap-2">
+          <span className="flex items-center gap-2">
+            <span className="font-display font-semibold">FRAN-X Holdings</span>
+            <span className="text-xs text-muted-foreground">Parent Company</span>
+          </span>
+          <ChevronRight className="hidden h-4 w-4 text-muted-foreground sm:block" />
+          <span className="flex items-center gap-2">
+            <span className="font-display font-semibold text-primary">FRAN-X Technologies</span>
+            <span className="text-xs text-muted-foreground">Technology Business</span>
+          </span>
+          <ChevronRight className="hidden h-4 w-4 text-muted-foreground sm:block" />
+          <span className="text-xs text-muted-foreground sm:text-sm">
+            FRIX AI · Technology Services · Digital Products
+          </span>
         </div>
       </section>
 
@@ -237,7 +288,44 @@ function Index() {
         </div>
       </section>
 
-      {/* SECTION 4 — BUSINESS SOLUTIONS */}
+      {/* SECTION 4 — DIGITAL PRODUCTS */}
+      <section className="container-x py-10 sm:py-12">
+        <SectionHeading
+          eyebrow="Digital Products"
+          title="Useful digital resources from the FRAN-X Store."
+          subtitle="E-books, business templates, financial guides and subscriptions — practical resources created and provided by FRAN-X, available for instant purchase."
+        />
+        <div className="mt-6 grid gap-3 sm:gap-4 sm:grid-cols-2 lg:grid-cols-4">
+          {DIGITAL_PRODUCTS.map((d) => (
+            <Link
+              key={d.title}
+              to={d.to}
+              className="group flex flex-col rounded-xl border border-border bg-surface/40 p-5 transition-colors hover:border-primary/50"
+            >
+              <span className="grid h-9 w-9 place-items-center rounded-lg border border-primary/30 text-primary">
+                <d.icon className="h-[1.05rem] w-[1.05rem]" />
+              </span>
+              <h3 className="mt-3 font-display text-sm font-semibold">{d.title}</h3>
+              <p className="mt-1.5 flex-1 text-xs leading-relaxed text-muted-foreground">{d.body}</p>
+              <span className="mt-4 inline-flex items-center gap-1.5 text-xs font-medium text-primary">
+                Browse <ArrowRight className="h-3.5 w-3.5 transition-transform group-hover:translate-x-1" />
+              </span>
+            </Link>
+          ))}
+        </div>
+        <div className="mt-6 flex flex-col gap-2.5 sm:flex-row">
+          <Button asChild>
+            <Link to="/store">
+              Visit the Digital Store <ArrowRight />
+            </Link>
+          </Button>
+          <Button asChild variant="outline">
+            <Link to="/store/ebooks">Browse E-Books</Link>
+          </Button>
+        </div>
+      </section>
+
+      {/* SECTION 5 — BUSINESS SOLUTIONS */}
       <section className="container-x py-10 sm:py-12">
         <SectionHeading
           eyebrow="Business solutions"
@@ -261,7 +349,7 @@ function Index() {
         </div>
       </section>
 
-      {/* SECTION 5 — HOW IT WORKS */}
+      {/* SECTION 6 — HOW IT WORKS */}
       <section className="border-y border-border/60 bg-surface/40">
         <div className="container-x py-10 sm:py-12">
           <SectionHeading eyebrow="How it works" title="From idea to launch in four steps." />
@@ -282,7 +370,7 @@ function Index() {
         </div>
       </section>
 
-      {/* SECTION 6 — WHY FRAN-X */}
+      {/* SECTION 7 — WHY FRAN-X */}
       <section className="container-x py-10 sm:py-12">
         <SectionHeading eyebrow="Why FRAN-X" title="A serious technology partner." />
         <div className="mt-6 grid gap-3 sm:gap-4 sm:grid-cols-2 lg:grid-cols-3">
@@ -298,7 +386,7 @@ function Index() {
         </div>
       </section>
 
-      {/* SECTION 7 — FINAL CTA */}
+      {/* SECTION 8 — FINAL CTA */}
       <section className="container-x pb-14">
         <div className="glass-panel flex flex-col gap-5 rounded-2xl p-6 sm:p-8 lg:flex-row lg:items-center lg:justify-between">
           <div className="max-w-xl">
