@@ -3,9 +3,9 @@ import { PageHero } from "@/components/site/PageHero";
 import { QuickInquiryForm } from "@/components/site/QuickInquiryForm";
 import { PHOTOS } from "@/lib/photos";
 
-const TITLE = "Build My App | Mobile App Development by FRAN-X Holdings";
+const TITLE = "Build My App | Mobile App Development by FRAN-X Technologies";
 const DESCRIPTION =
-  "Request an Android, iOS or cross-platform mobile app build from FRAN-X Holdings, including backend, payments and dashboards.";
+  "Request an Android, iOS or cross-platform mobile app build from FRAN-X Technologies, including backend, payments and dashboards.";
 
 export const Route = createFileRoute("/build/app")({
   head: () => ({

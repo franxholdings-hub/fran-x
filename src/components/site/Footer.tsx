@@ -4,7 +4,7 @@ import { SITE, WHATSAPP_URL, MAILTO_URL, TEL_URL, COMPLIANCE_NOTE } from "@/lib/
 import { PHOTO_CREDITS } from "@/lib/photos";
 import { LogoMark } from "@/components/site/Logo";
 
-const COLUMNS: { title: string; links: { to: string; label: string; hash: string }[] }[] = [
+const COLUMNS: { title: string; links: { to: string; label: string; hash?: string }[] }[] = [
   {
     title: "FRAN-X",
     links: [
@@ -12,39 +12,33 @@ const COLUMNS: { title: string; links: { to: string; label: string; hash: string
       { to: "/about", label: "Founder", hash: "founder" },
       { to: "/about", label: "Our Vision", hash: "vision" },
       { to: "/about", label: "Our Mission", hash: "mission" },
-      { to: "/group", label: "FRAN-X Group", hash: "top" },
     ],
   },
   {
     title: "Services",
     links: [
-      { to: "/services", label: "Technology", hash: "technology-digital" },
-      { to: "/services", label: "AI & Automation", hash: "ai-automation" },
-      { to: "/services", label: "Business Consulting", hash: "business-data" },
-      { to: "/services", label: "Marketing", hash: "marketing-copywriting" },
-      { to: "/services", label: "E-commerce", hash: "e-commerce" },
-      { to: "/services", label: "Real Estate", hash: "real-estate" },
-      { to: "/services", label: "Automotive", hash: "automotive" },
-      { to: "/services", label: "Oil & Gas", hash: "oil-gas-energy" },
+      { to: "/services", label: "Web Development" },
+      { to: "/services", label: "Mobile App Development" },
+      { to: "/services", label: "AI & Automation" },
+      { to: "/services", label: "Data & Business Intelligence" },
+      { to: "/services", label: "Custom Software & APIs" },
     ],
   },
   {
-    title: "Build With Us",
+    title: "FRIX AI",
     links: [
-      { to: "/build/website", label: "Build a Website", hash: "top" },
-      { to: "/build/app", label: "Build a Mobile App", hash: "top" },
-      { to: "/request", label: "Build an AI Solution", hash: "top" },
-      { to: "/request", label: "Build an E-commerce Store", hash: "top" },
-      { to: "/request", label: "Request a Service", hash: "top" },
+      { to: "/frix-ai", label: "Explore FRIX AI" },
+      { to: "/pricing", label: "View Plans" },
+      { to: "/frix-ai", label: "Sign up" },
     ],
   },
   {
-    title: "Business",
+    title: "Resources",
     links: [
-      { to: "/opportunities", label: "Partnerships", hash: "submit" },
-      { to: "/opportunities", label: "Investment Opportunities", hash: "submit" },
-      { to: "/opportunities", label: "Submit an Opportunity", hash: "submit" },
-      { to: "/contact", label: "Contact FRAN-X", hash: "top" },
+      { to: "/store", label: "FRAN-X Store" },
+      { to: "/request", label: "Start a Project" },
+      { to: "/solutions", label: "Business Solutions" },
+      { to: "/contact", label: "Contact FRAN-X" },
     ],
   },
 ];
@@ -58,12 +52,12 @@ export function Footer() {
             <p className="flex items-center gap-2.5 font-display text-base font-semibold">
               <LogoMark className="h-9 w-9" />
               <span>
-                FRAN-X <span className="text-metal">HOLDINGS</span>
+                FRAN-X <span className="text-metal">TECHNOLOGIES</span>
               </span>
             </p>
             <p className="mt-2 max-w-xs text-sm text-muted-foreground">{SITE.tagline}</p>
             <p className="mt-3 text-xs uppercase tracking-[0.2em] text-primary/80">
-              Founded by {SITE.founder}
+              AI · Software · Automation · Data
             </p>
             <div className="mt-4 flex items-center gap-2.5">
               <a
@@ -167,7 +161,7 @@ export function Footer() {
         </details>
 
         <div className="mt-8 flex flex-col gap-4 border-t border-border/70 pt-6 text-xs text-muted-foreground sm:flex-row sm:items-center sm:justify-between">
-          <p>© 2026 FRAN-X Holdings. All Rights Reserved.</p>
+          <p>© 2026 FRAN-X Technologies. All Rights Reserved.</p>
           <div className="flex flex-wrap gap-x-5 gap-y-2">
             <Link to="/legal/privacy" className="hover:text-primary">Privacy Policy</Link>
             <Link to="/legal/terms" className="hover:text-primary">Terms of Service</Link>

@@ -6,7 +6,7 @@ import { PHOTOS } from "@/lib/photos";
 
 const TITLE = "Build With FRAN-X | Websites, Apps & AI Systems";
 const DESCRIPTION =
-  "Start a website, mobile app or AI project with FRAN-X Holdings. Structured scoping, clear proposals and professional delivery.";
+  "Start a website, mobile app or AI project with FRAN-X Technologies. Structured scoping, clear proposals and professional delivery.";
 
 export const Route = createFileRoute("/build/")({
   head: () => ({

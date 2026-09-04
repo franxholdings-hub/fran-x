@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Link, useNavigate } from "@tanstack/react-router";
-import { Menu, ShieldCheck, LayoutGrid, LogOut, UserRound } from "lucide-react";
+import { Menu, ShieldCheck, LayoutGrid, LogOut, UserRound, Sparkles } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTitle, SheetTrigger } from "@/components/ui/sheet";
 import { useAuth } from "@/hooks/useAuth";
@@ -9,13 +9,11 @@ import { ThemeToggle } from "@/components/site/ThemeToggle";
 
 const NAV = [
   { to: "/", label: "Home" },
-  { to: "/about", label: "About" },
+  { to: "/frix-ai", label: "FRIX AI" },
   { to: "/services", label: "Services" },
-  { to: "/group", label: "FRAN-X Group" },
-  { to: "/opportunities", label: "Opportunities" },
-  { to: "/marketplace", label: "Marketplace" },
+  { to: "/solutions", label: "Solutions" },
   { to: "/pricing", label: "Pricing" },
-  { to: "/build", label: "Build With Us" },
+  { to: "/about", label: "About" },
   { to: "/contact", label: "Contact" },
 ] as const;
 
@@ -80,10 +78,12 @@ export function Header() {
             </Button>
           )}
           <Button asChild variant="outline" size="sm">
-            <Link to="/contact">Start an Inquiry</Link>
+            <Link to="/frix-ai">
+              <Sparkles /> Try FRIX AI
+            </Link>
           </Button>
           <Button asChild size="sm">
-            <Link to="/request">Request a Service</Link>
+            <Link to="/request">Start a Project</Link>
           </Button>
         </div>
 
@@ -95,7 +95,7 @@ export function Header() {
           </SheetTrigger>
           <SheetContent side="right" className="w-[86vw] max-w-sm overflow-y-auto bg-surface">
             <SheetTitle className="flex items-center gap-2 font-display text-base">
-              <LogoMark className="h-8 w-8" /> FRAN-X Holdings
+              <LogoMark className="h-8 w-8" /> FRAN-X Technologies
             </SheetTitle>
             <nav className="mt-6 flex flex-col gap-1">
               {NAV.map((item) => (
@@ -113,10 +113,12 @@ export function Header() {
             </nav>
             <div className="mt-6 flex flex-col gap-2">
               <Button asChild onClick={() => setOpen(false)}>
-                <Link to="/request">Request a Service</Link>
+                <Link to="/request">Start a Project</Link>
               </Button>
               <Button asChild variant="outline" onClick={() => setOpen(false)}>
-                <Link to="/contact">Start an Inquiry</Link>
+                <Link to="/frix-ai">
+                  <Sparkles /> Try FRIX AI
+                </Link>
               </Button>
               <div className="flex items-center justify-between rounded-md border border-border/60 px-4 py-2 text-sm">
                 <span className="text-muted-foreground">Appearance</span>
@@ -125,7 +127,7 @@ export function Header() {
               {user ? (
                 <>
                   <Button asChild variant="ghost" onClick={() => setOpen(false)}>
-                    <Link to="/portal">Client Portal</Link>
+                    <Link to="/portal">Dashboard</Link>
                   </Button>
                   {isAdmin ? (
                     <Button asChild variant="ghost" onClick={() => setOpen(false)}>

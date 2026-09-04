@@ -13,9 +13,9 @@ import { REQUEST_CATEGORIES, COMPLIANCE_NOTE } from "@/lib/site";
 import { baseInquirySchema, submitInquiry } from "@/lib/inquiries";
 import { PHOTOS } from "@/lib/photos";
 
-const TITLE = "Request a Service | FRAN-X Holdings";
+const TITLE = "Start a Project | FRAN-X Technologies";
 const DESCRIPTION =
-  "Submit a structured service request to FRAN-X Holdings and receive a reference ID, review and proposal from our team.";
+  "Submit a structured project request to FRAN-X Technologies and receive a reference ID, review and proposal from our team.";
 
 export const Route = createFileRoute("/request")({
   validateSearch: (

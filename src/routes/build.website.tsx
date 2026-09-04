@@ -3,9 +3,9 @@ import { PageHero } from "@/components/site/PageHero";
 import { QuickInquiryForm } from "@/components/site/QuickInquiryForm";
 import { PHOTOS } from "@/lib/photos";
 
-const TITLE = "Build My Website | Web Development by FRAN-X Holdings";
+const TITLE = "Build My Website | Web Development by FRAN-X Technologies";
 const DESCRIPTION =
-  "Request a business, corporate, e-commerce, portfolio or custom website build from FRAN-X Holdings.";
+  "Request a business, corporate, e-commerce, portfolio or custom website build from FRAN-X Technologies.";
 
 export const Route = createFileRoute("/build/website")({
   head: () => ({

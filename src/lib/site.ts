@@ -1,8 +1,8 @@
 export const SITE = {
-  name: "FRAN-X Holdings",
-  tagline: "Building Businesses. Connecting Opportunities. Creating the Future.",
+  name: "FRAN-X Technologies",
+  tagline: "Technology for the businesses of tomorrow.",
   statement:
-    "FRAN-X provides technology, business, consulting, investment, and commercial solutions designed to help individuals and organizations build, operate, connect, and scale.",
+    "FRAN-X builds intelligent digital products and technology systems that help businesses operate, grow and compete.",
   founder: "Francis Ejimkeonye",
   email: "franxholdings@gmail.com",
   phoneDisplay: "07063414752",
@@ -13,7 +13,7 @@ export const SITE = {
 } as const;
 
 export const WHATSAPP_URL = `https://wa.me/${SITE.whatsappNumber}?text=${encodeURIComponent(
-  "Hello FRAN-X Holdings, I would like to make an inquiry.",
+  "Hello FRAN-X, I would like to start a project.",
 )}`;
 
 export const MAILTO_URL = `mailto:${SITE.email}`;
@@ -40,25 +40,29 @@ export const SERVICE_CATEGORIES = [
   "AI & Automation",
   "Business & Data",
   "Marketing & Copywriting",
-  "Creative & Media",
-  "E-commerce",
+] as const;
+
+/** Legacy conglomerate service categories — kept in the database but hidden
+ *  from the public services directory (data preserved, not deleted). */
+export const CONGLOMERATE_CATEGORIES = [
   "Real Estate",
   "Automotive",
   "Oil & Gas / Energy",
+  "E-commerce",
+  "Agriculture",
+  "Aviation",
+  "Hospitality",
+  "Investment & Capital",
+  "Creative & Media",
 ] as const;
 
 export const REQUEST_CATEGORIES = [
-  "Website",
-  "Mobile App",
-  "AI Solution",
-  "E-commerce",
-  "Business Consulting",
-  "Data Analysis",
-  "Marketing",
-  "Creative Services",
-  "Real Estate",
-  "Automotive",
-  "Oil & Gas",
+  "Website Development",
+  "Mobile App Development",
+  "AI & Automation",
+  "Data & Business Intelligence",
+  "Custom Software",
+  "API Development",
   "Other",
 ] as const;
 
@@ -80,15 +84,12 @@ export const OPPORTUNITY_TYPES = [
 
 export const INQUIRY_STATUSES = [
   "New",
-  "Reviewing",
   "Contacted",
+  "Consultation",
   "Proposal Sent",
-  "Negotiation",
-  "Approved",
-  "In Progress",
+  "In Development",
   "Completed",
-  "Declined",
-  "Archived",
+  "Cancelled",
 ] as const;
 
 export function makeReference(prefix = "FX") {

@@ -41,7 +41,7 @@ export const Route = createFileRoute("/_authenticated/admin")({
       { title: "FRAN-X Command Center | Admin" },
       { name: "description", content: "FRAN-X internal command center for leads, projects, content, analytics and FRIX AI." },
       { property: "og:title", content: "FRAN-X Command Center" },
-      { property: "og:description", content: "Internal control centre for FRAN-X Holdings." },
+      { property: "og:description", content: "Internal command center for FRAN-X Technologies." },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
       { name: "robots", content: "noindex" },
@@ -72,8 +72,8 @@ function Admin() {
     <>
       <PageHero
         eyebrow="FRAN-X Command Center"
-        title="Run the entire group from one console"
-        subtitle="Leads, projects, opportunities, content, media, analytics, security and the FRIX AI system."
+        title="Run the technology business from one console"
+        subtitle="Project requests, clients, revenue, FRIX AI, content and analytics — the internal command center for FRAN-X Technologies."
       />
       <section className="container-x py-6 sm:py-10">
         <Tabs defaultValue="overview" className="w-full">
@@ -125,7 +125,7 @@ function Overview() {
         return c ?? 0;
       };
       const since = new Date(Date.now() - 7 * 864e5).toISOString();
-      const [visits, users, inquiries, messages, projects, conversations, weekVisits, openLeads] = await Promise.all([
+      const [visits, users, inquiries, messages, projects, conversations, weekVisits, openLeads, subscribers, completedProjects] = await Promise.all([
         count("site_visits"),
         count("profiles"),
         count("inquiries"),
@@ -133,7 +133,9 @@ function Overview() {
         count("projects"),
         count("ai_conversations"),
         supabase.from("site_visits").select("id", { count: "exact", head: true }).gte("created_at", since),
-        supabase.from("inquiries").select("id", { count: "exact", head: true }).in("status", ["New", "Reviewing"]),
+        supabase.from("inquiries").select("id", { count: "exact", head: true }).eq("status", "New"),
+        supabase.from("subscriptions").select("id", { count: "exact", head: true }).in("status", ["active", "trial"]),
+        supabase.from("projects").select("id", { count: "exact", head: true }).eq("status", "Completed"),
       ]);
       return {
         visits,
@@ -144,6 +146,8 @@ function Overview() {
         conversations,
         weekVisits: weekVisits.count ?? 0,
         openLeads: openLeads.count ?? 0,
+        subscribers: subscribers.count ?? 0,
+        completedProjects: completedProjects.count ?? 0,
       };
     },
   });
@@ -168,11 +172,12 @@ function Overview() {
     <div className="space-y-8">
       <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
         <StatCard label="Total visits" value={stats.data?.visits} hint={`${stats.data?.weekVisits ?? 0} in the last 7 days`} />
-        <StatCard label="Registered users" value={stats.data?.users} />
-        <StatCard label="Inquiries" value={stats.data?.inquiries} hint={`${stats.data?.openLeads ?? 0} awaiting action`} />
-        <StatCard label="Client messages" value={stats.data?.messages} />
-        <StatCard label="Active projects" value={stats.data?.projects} />
+        <StatCard label="New customers" value={stats.data?.users} />
+        <StatCard label="Pending project requests" value={stats.data?.openLeads} hint={`${stats.data?.inquiries ?? 0} total inquiries`} />
+        <StatCard label="Active projects" value={stats.data?.projects} hint={`${stats.data?.completedProjects ?? 0} completed`} />
+        <StatCard label="FRIX AI subscribers" value={stats.data?.subscribers} />
         <StatCard label="FRIX AI conversations" value={stats.data?.conversations} />
+        <StatCard label="Client messages" value={stats.data?.messages} />
       </div>
 
       <div className="grid gap-6 lg:grid-cols-2">

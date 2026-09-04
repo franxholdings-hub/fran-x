@@ -14,11 +14,13 @@ import { Route as AuthenticatedRouteRouteImport } from './routes/_authenticated/
 import { Route as AboutRouteImport } from './routes/about'
 import { Route as AuthRouteImport } from './routes/auth'
 import { Route as ContactRouteImport } from './routes/contact'
+import { Route as FrixAiRouteImport } from './routes/frix-ai'
 import { Route as GroupRouteImport } from './routes/group'
 import { Route as OpportunitiesRouteImport } from './routes/opportunities'
 import { Route as PricingRouteImport } from './routes/pricing'
 import { Route as RequestRouteImport } from './routes/request'
 import { Route as ServicesRouteImport } from './routes/services'
+import { Route as SolutionsRouteImport } from './routes/solutions'
 import { Route as StoreRouteRouteImport } from './routes/store/route'
 import { Route as AuthenticatedAdminRouteImport } from './routes/_authenticated/admin'
 import { Route as AuthenticatedPortalRouteImport } from './routes/_authenticated/portal'
@@ -74,6 +76,11 @@ const ContactRoute = ContactRouteImport.update({
   path: '/contact',
   getParentRoute: () => rootRouteImport,
 } as any)
+const FrixAiRoute = FrixAiRouteImport.update({
+  id: '/frix-ai',
+  path: '/frix-ai',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const GroupRoute = GroupRouteImport.update({
   id: '/group',
   path: '/group',
@@ -97,6 +104,11 @@ const RequestRoute = RequestRouteImport.update({
 const ServicesRoute = ServicesRouteImport.update({
   id: '/services',
   path: '/services',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SolutionsRoute = SolutionsRouteImport.update({
+  id: '/solutions',
+  path: '/solutions',
   getParentRoute: () => rootRouteImport,
 } as any)
 const StoreRouteRoute = StoreRouteRouteImport.update({
@@ -257,11 +269,13 @@ export interface FileRoutesByFullPath {
   '/about': typeof AboutRoute
   '/auth': typeof AuthRoute
   '/contact': typeof ContactRoute
+  '/frix-ai': typeof FrixAiRoute
   '/group': typeof GroupRoute
   '/opportunities': typeof OpportunitiesRoute
   '/pricing': typeof PricingRoute
   '/request': typeof RequestRoute
   '/services': typeof ServicesRouteWithChildren
+  '/solutions': typeof SolutionsRoute
   '/admin': typeof AuthenticatedAdminRoute
   '/portal': typeof AuthenticatedPortalRoute
   '/build/app': typeof BuildAppRoute
@@ -297,11 +311,13 @@ export interface FileRoutesByTo {
   '/about': typeof AboutRoute
   '/auth': typeof AuthRoute
   '/contact': typeof ContactRoute
+  '/frix-ai': typeof FrixAiRoute
   '/group': typeof GroupRoute
   '/opportunities': typeof OpportunitiesRoute
   '/pricing': typeof PricingRoute
   '/request': typeof RequestRoute
   '/services': typeof ServicesRouteWithChildren
+  '/solutions': typeof SolutionsRoute
   '/admin': typeof AuthenticatedAdminRoute
   '/portal': typeof AuthenticatedPortalRoute
   '/build/app': typeof BuildAppRoute
@@ -340,11 +356,13 @@ export interface FileRoutesById {
   '/about': typeof AboutRoute
   '/auth': typeof AuthRoute
   '/contact': typeof ContactRoute
+  '/frix-ai': typeof FrixAiRoute
   '/group': typeof GroupRoute
   '/opportunities': typeof OpportunitiesRoute
   '/pricing': typeof PricingRoute
   '/request': typeof RequestRoute
   '/services': typeof ServicesRouteWithChildren
+  '/solutions': typeof SolutionsRoute
   '/_authenticated/admin': typeof AuthenticatedAdminRoute
   '/_authenticated/portal': typeof AuthenticatedPortalRoute
   '/build/app': typeof BuildAppRoute
@@ -383,11 +401,13 @@ export interface FileRouteTypes {
     | '/about'
     | '/auth'
     | '/contact'
+    | '/frix-ai'
     | '/group'
     | '/opportunities'
     | '/pricing'
     | '/request'
     | '/services'
+    | '/solutions'
     | '/admin'
     | '/portal'
     | '/build/app'
@@ -423,11 +443,13 @@ export interface FileRouteTypes {
     | '/about'
     | '/auth'
     | '/contact'
+    | '/frix-ai'
     | '/group'
     | '/opportunities'
     | '/pricing'
     | '/request'
     | '/services'
+    | '/solutions'
     | '/admin'
     | '/portal'
     | '/build/app'
@@ -465,11 +487,13 @@ export interface FileRouteTypes {
     | '/about'
     | '/auth'
     | '/contact'
+    | '/frix-ai'
     | '/group'
     | '/opportunities'
     | '/pricing'
     | '/request'
     | '/services'
+    | '/solutions'
     | '/_authenticated/admin'
     | '/_authenticated/portal'
     | '/build/app'
@@ -508,11 +532,13 @@ export interface RootRouteChildren {
   AboutRoute: typeof AboutRoute
   AuthRoute: typeof AuthRoute
   ContactRoute: typeof ContactRoute
+  FrixAiRoute: typeof FrixAiRoute
   GroupRoute: typeof GroupRoute
   OpportunitiesRoute: typeof OpportunitiesRoute
   PricingRoute: typeof PricingRoute
   RequestRoute: typeof RequestRoute
   ServicesRoute: typeof ServicesRouteWithChildren
+  SolutionsRoute: typeof SolutionsRoute
   BuildAppRoute: typeof BuildAppRoute
   BuildWebsiteRoute: typeof BuildWebsiteRoute
   LegalCookiesRoute: typeof LegalCookiesRoute
@@ -568,6 +594,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ContactRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/frix-ai': {
+      id: '/frix-ai'
+      path: '/frix-ai'
+      fullPath: '/frix-ai'
+      preLoaderRoute: typeof FrixAiRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/group': {
       id: '/group'
       path: '/group'
@@ -601,6 +634,13 @@ declare module '@tanstack/react-router' {
       path: '/services'
       fullPath: '/services'
       preLoaderRoute: typeof ServicesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/solutions': {
+      id: '/solutions'
+      path: '/solutions'
+      fullPath: '/solutions'
+      preLoaderRoute: typeof SolutionsRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/store': {
@@ -878,11 +918,13 @@ const rootRouteChildren: RootRouteChildren = {
   AboutRoute: AboutRoute,
   AuthRoute: AuthRoute,
   ContactRoute: ContactRoute,
+  FrixAiRoute: FrixAiRoute,
   GroupRoute: GroupRoute,
   OpportunitiesRoute: OpportunitiesRoute,
   PricingRoute: PricingRoute,
   RequestRoute: RequestRoute,
   ServicesRoute: ServicesRouteWithChildren,
+  SolutionsRoute: SolutionsRoute,
   BuildAppRoute: BuildAppRoute,
   BuildWebsiteRoute: BuildWebsiteRoute,
   LegalCookiesRoute: LegalCookiesRoute,
