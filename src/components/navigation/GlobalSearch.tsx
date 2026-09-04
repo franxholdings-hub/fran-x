@@ -3,7 +3,6 @@ import { useNavigate } from "@tanstack/react-router";
 import {
   Search,
   Home,
-  Store,
   Compass,
   Bot,
   LayoutDashboard,
@@ -23,7 +22,6 @@ import {
   LogIn,
   ShieldCheck,
   Moon,
-  Sun,
   type LucideIcon,
 } from "lucide-react";
 import {
@@ -33,13 +31,8 @@ import {
   CommandEmpty,
   CommandGroup,
   CommandItem,
-  CommandShortcut,
-  CommandSeparator,
 } from "@/components/ui/command";
 import { useAuth } from "@/hooks/useAuth";
-import { CATEGORIES } from "@/lib/marketplace/catalog";
-import { CategoryIcon } from "@/components/marketplace/shared";
-import type { CategoryId } from "@/lib/marketplace/types";
 
 type SearchResult = {
   id: string;
@@ -110,23 +103,15 @@ export function GlobalSearch() {
   const allItems = useMemo<SearchResult[]>(() => {
     const pages: SearchResult[] = [
       { id: "page-home", label: "Home", icon: Home, group: "Pages", to: "/", keywords: "home main landing" },
-      { id: "page-marketplace", label: "Marketplace", icon: Store, group: "Pages", to: "/marketplace", keywords: "marketplace listings buy sell" },
-      { id: "page-opportunities", label: "Opportunities", icon: Compass, group: "Pages", to: "/opportunities", keywords: "opportunities deals investments partnerships" },
-      { id: "page-about", label: "About", icon: Info, group: "Pages", to: "/about", keywords: "about company founder vision mission" },
-      { id: "page-services", label: "Services", icon: Briefcase, group: "Pages", to: "/services", keywords: "services technology ai consulting marketing real estate automotive" },
+      { id: "page-frix", label: "FRIX AI", icon: Bot, group: "Pages", to: "/store/frix-ai", keywords: "frix ai assistant chat" },
+      { id: "page-services", label: "Services", icon: Briefcase, group: "Pages", to: "/services", keywords: "services web development mobile app ai automation data software" },
+      { id: "page-solutions", label: "Solutions", icon: Compass, group: "Pages", to: "/solutions", keywords: "solutions business problems" },
       { id: "page-pricing", label: "Pricing", icon: CreditCard, group: "Pages", to: "/pricing", keywords: "pricing plans subscription" },
-      { id: "page-build", label: "Build With Us", icon: Wrench, group: "Pages", to: "/build", keywords: "build website app mobile" },
+      { id: "page-about", label: "About", icon: Info, group: "Pages", to: "/about", keywords: "about company founder vision mission" },
       { id: "page-contact", label: "Contact", icon: Mail, group: "Pages", to: "/contact", keywords: "contact inquiry email phone" },
+      { id: "page-request", label: "Start a Project", icon: Wrench, group: "Pages", to: "/request", keywords: "start project request build website app" },
       { id: "page-terms", label: "Terms & Policies", icon: FileText, group: "Pages", to: "/legal/terms", keywords: "terms legal policies privacy cookies" },
     ];
-
-    const categories: SearchResult[] = CATEGORIES.map((c) => ({
-      id: `cat-${c.id}`,
-      label: c.label,
-      group: "Marketplace Categories",
-      to: "/marketplace",
-      keywords: c.blurb,
-    }));
 
     const actions: SearchResult[] = [
       { id: "action-frix", label: "Ask FRIX AI", icon: Bot, group: "Quick Actions", action: "frix", keywords: "frix ai chat assistant help" },
@@ -137,7 +122,7 @@ export function GlobalSearch() {
       ? [
           { id: "auth-dashboard", label: "Dashboard", icon: LayoutDashboard, group: "Account", to: "/portal", keywords: "dashboard portal workspace" },
           { id: "auth-notifications", label: "Notifications", icon: Bell, group: "Account", to: "/portal", hash: "notifications", keywords: "notifications alerts" },
-          { id: "auth-saved", label: "Saved listings", icon: Heart, group: "Account", to: "/portal", hash: "saved", keywords: "saved favorites bookmarks" },
+          { id: "auth-saved", label: "Saved", icon: Heart, group: "Account", to: "/portal", hash: "saved", keywords: "saved favorites bookmarks" },
           { id: "auth-messages", label: "Messages", icon: MessageSquare, group: "Account", to: "/portal", hash: "inquiries", keywords: "messages inquiries" },
           { id: "auth-profile", label: "Profile", icon: UserRound, group: "Account", to: "/portal", hash: "profile", keywords: "profile account" },
           { id: "auth-settings", label: "Settings", icon: Settings, group: "Account", to: "/portal", hash: "settings", keywords: "settings preferences" },
@@ -151,7 +136,7 @@ export function GlobalSearch() {
       ? [{ id: "admin-panel", label: "Admin Panel", icon: ShieldCheck, group: "Account", to: "/admin", keywords: "admin panel dashboard" }]
       : [];
 
-    return [...pages, ...categories, ...actions, ...authItems, ...adminItems];
+    return [...pages, ...actions, ...authItems, ...adminItems];
   }, [user, isAdmin]);
 
   // Recent searches
@@ -173,22 +158,19 @@ export function GlobalSearch() {
 
   return (
     <CommandDialog open={open} onOpenChange={setOpen}>
-      <CommandInput placeholder="Search FRAN-X — pages, categories, actions…" />
+      <CommandInput placeholder="Search FRAN-X — pages, actions…" />
       <CommandList>
         <CommandEmpty>No results found. Try a different search term.</CommandEmpty>
 
         {recentItems.length > 0 && (
-          <>
-            <CommandGroup heading="Recent">
-              {recentItems.map((item) => (
-                <CommandItem key={item.id} onSelect={() => go(item)}>
-                  {item.icon ? <item.icon /> : <Search />}
-                  {item.label}
-                </CommandItem>
-              ))}
-            </CommandGroup>
-            <CommandSeparator />
-          </>
+          <CommandGroup heading="Recent">
+            {recentItems.map((item) => (
+              <CommandItem key={item.id} onSelect={() => go(item)}>
+                {item.icon ? <item.icon /> : <Search />}
+                {item.label}
+              </CommandItem>
+            ))}
+          </CommandGroup>
         )}
 
         <CommandGroup heading="Pages">
@@ -197,17 +179,6 @@ export function GlobalSearch() {
             .map((item) => (
               <CommandItem key={item.id} onSelect={() => go(item)}>
                 {item.icon && <item.icon />}
-                {item.label}
-              </CommandItem>
-            ))}
-        </CommandGroup>
-
-        <CommandGroup heading="Marketplace Categories">
-          {allItems
-            .filter((i) => i.group === "Marketplace Categories")
-            .map((item) => (
-              <CommandItem key={item.id} onSelect={() => go(item)}>
-                <CategoryIcon id={item.id.replace("cat-", "") as CategoryId} className="h-4 w-4" />
                 {item.label}
               </CommandItem>
             ))}

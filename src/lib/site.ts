@@ -1,8 +1,8 @@
 export const SITE = {
-  name: "FRAN-X Holdings",
-  tagline: "Building Businesses. Connecting Opportunities. Creating the Future.",
+  name: "FRAN-X Technologies",
+  tagline: "Technology for the businesses of tomorrow.",
   statement:
-    "FRAN-X provides technology, business, consulting, investment, and commercial solutions designed to help individuals and organizations build, operate, connect, and scale.",
+    "FRAN-X builds intelligent digital products and technology systems that help businesses operate, grow and compete.",
   founder: "Francis Ejimkeonye",
   email: "franxholdings@gmail.com",
   phoneDisplay: "07063414752",
@@ -13,7 +13,7 @@ export const SITE = {
 } as const;
 
 export const WHATSAPP_URL = `https://wa.me/${SITE.whatsappNumber}?text=${encodeURIComponent(
-  "Hello FRAN-X Holdings, I would like to make an inquiry.",
+  "Hello FRAN-X, I would like to start a project.",
 )}`;
 
 export const MAILTO_URL = `mailto:${SITE.email}`;

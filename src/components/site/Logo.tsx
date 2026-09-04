@@ -9,7 +9,7 @@ export function LogoMark({ className }: { className?: string }) {
   return (
     <img
       src={mark.url}
-      alt="FRAN-X Holdings emblem"
+      alt="FRAN-X Technologies emblem"
       width={512}
       height={512}
       className={cn("h-9 w-9 object-contain", className)}
@@ -17,13 +17,13 @@ export function LogoMark({ className }: { className?: string }) {
   );
 }
 
-export function LogoLockup({ className, subtitle = "Innovate · Invest · Impact" }: { className?: string; subtitle?: string | null }) {
+export function LogoLockup({ className, subtitle = "AI · Software · Automation" }: { className?: string; subtitle?: string | null }) {
   return (
     <span className={cn("flex min-w-0 items-center gap-2.5", className)}>
       <LogoMark />
       <span className="min-w-0">
         <span className="block truncate font-display text-sm font-semibold tracking-tight">
-          FRAN-X <span className="text-metal">HOLDINGS</span>
+          FRAN-X <span className="text-metal">TECHNOLOGIES</span>
         </span>
         {subtitle ? (
           <span className="hidden text-[10px] uppercase tracking-[0.22em] text-muted-foreground sm:block">

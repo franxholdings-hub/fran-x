@@ -9,9 +9,10 @@ type FABConfig = {
 };
 
 const FAB_MAP: Record<string, FABConfig> = {
-  "/marketplace": { label: "List an Item", to: "/portal", icon: Plus },
   "/portal": { label: "Add Listing", to: "/portal", icon: Plus },
-  "/opportunities": { label: "Submit Opportunity", to: "/opportunities", icon: Plus },
+  "/services": { label: "Start a Project", to: "/request", icon: Plus },
+  "/solutions": { label: "Start a Project", to: "/request", icon: Plus },
+  "/pricing": { label: "Start a Project", to: "/request", icon: Plus },
 };
 
 export function ContextualFAB() {

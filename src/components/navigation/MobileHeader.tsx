@@ -16,7 +16,7 @@ export function MobileHeader() {
       <Link to="/" className="flex items-center gap-2" aria-label="FRAN-X home">
         <LogoMark className="h-7 w-7" />
         <span className="font-display text-sm font-semibold tracking-tight">
-          FRAN-X <span className="text-metal">HOLDINGS</span>
+          FRAN-X <span className="text-metal">TECHNOLOGIES</span>
         </span>
       </Link>
 

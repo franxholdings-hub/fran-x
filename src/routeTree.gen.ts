@@ -19,6 +19,7 @@ import { Route as OpportunitiesRouteImport } from './routes/opportunities'
 import { Route as PricingRouteImport } from './routes/pricing'
 import { Route as RequestRouteImport } from './routes/request'
 import { Route as ServicesRouteImport } from './routes/services'
+import { Route as SolutionsRouteImport } from './routes/solutions'
 import { Route as StoreRouteRouteImport } from './routes/store/route'
 import { Route as AuthenticatedAdminRouteImport } from './routes/_authenticated/admin'
 import { Route as AuthenticatedPortalRouteImport } from './routes/_authenticated/portal'
@@ -97,6 +98,11 @@ const RequestRoute = RequestRouteImport.update({
 const ServicesRoute = ServicesRouteImport.update({
   id: '/services',
   path: '/services',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SolutionsRoute = SolutionsRouteImport.update({
+  id: '/solutions',
+  path: '/solutions',
   getParentRoute: () => rootRouteImport,
 } as any)
 const StoreRouteRoute = StoreRouteRouteImport.update({
@@ -262,6 +268,7 @@ export interface FileRoutesByFullPath {
   '/pricing': typeof PricingRoute
   '/request': typeof RequestRoute
   '/services': typeof ServicesRouteWithChildren
+  '/solutions': typeof SolutionsRoute
   '/admin': typeof AuthenticatedAdminRoute
   '/portal': typeof AuthenticatedPortalRoute
   '/build/app': typeof BuildAppRoute
@@ -302,6 +309,7 @@ export interface FileRoutesByTo {
   '/pricing': typeof PricingRoute
   '/request': typeof RequestRoute
   '/services': typeof ServicesRouteWithChildren
+  '/solutions': typeof SolutionsRoute
   '/admin': typeof AuthenticatedAdminRoute
   '/portal': typeof AuthenticatedPortalRoute
   '/build/app': typeof BuildAppRoute
@@ -345,6 +353,7 @@ export interface FileRoutesById {
   '/pricing': typeof PricingRoute
   '/request': typeof RequestRoute
   '/services': typeof ServicesRouteWithChildren
+  '/solutions': typeof SolutionsRoute
   '/_authenticated/admin': typeof AuthenticatedAdminRoute
   '/_authenticated/portal': typeof AuthenticatedPortalRoute
   '/build/app': typeof BuildAppRoute
@@ -388,6 +397,7 @@ export interface FileRouteTypes {
     | '/pricing'
     | '/request'
     | '/services'
+    | '/solutions'
     | '/admin'
     | '/portal'
     | '/build/app'
@@ -428,6 +438,7 @@ export interface FileRouteTypes {
     | '/pricing'
     | '/request'
     | '/services'
+    | '/solutions'
     | '/admin'
     | '/portal'
     | '/build/app'
@@ -470,6 +481,7 @@ export interface FileRouteTypes {
     | '/pricing'
     | '/request'
     | '/services'
+    | '/solutions'
     | '/_authenticated/admin'
     | '/_authenticated/portal'
     | '/build/app'
@@ -513,6 +525,7 @@ export interface RootRouteChildren {
   PricingRoute: typeof PricingRoute
   RequestRoute: typeof RequestRoute
   ServicesRoute: typeof ServicesRouteWithChildren
+  SolutionsRoute: typeof SolutionsRoute
   BuildAppRoute: typeof BuildAppRoute
   BuildWebsiteRoute: typeof BuildWebsiteRoute
   LegalCookiesRoute: typeof LegalCookiesRoute
@@ -601,6 +614,13 @@ declare module '@tanstack/react-router' {
       path: '/services'
       fullPath: '/services'
       preLoaderRoute: typeof ServicesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/solutions': {
+      id: '/solutions'
+      path: '/solutions'
+      fullPath: '/solutions'
+      preLoaderRoute: typeof SolutionsRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/store': {
@@ -883,6 +903,7 @@ const rootRouteChildren: RootRouteChildren = {
   PricingRoute: PricingRoute,
   RequestRoute: RequestRoute,
   ServicesRoute: ServicesRouteWithChildren,
+  SolutionsRoute: SolutionsRoute,
   BuildAppRoute: BuildAppRoute,
   BuildWebsiteRoute: BuildWebsiteRoute,
   LegalCookiesRoute: LegalCookiesRoute,
