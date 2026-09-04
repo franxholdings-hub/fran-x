@@ -10,7 +10,7 @@ export type Database = {
   // Allows to automatically instantiate createClient with right options
   // instead of createClient<Database, { PostgrestVersion: 'XX' }>(URL, KEY)
   __InternalSupabase: {
-    PostgrestVersion: "14.17"
+    PostgrestVersion: "14.5"
   }
   public: {
     Tables: {
@@ -156,63 +156,6 @@ export type Database = {
             referencedColumns: ["id"]
           },
         ]
-      }
-      ai_packages: {
-        Row: {
-          billing_interval: string
-          code: string
-          currency: string
-          description: string
-          features: Json
-          id: string
-          is_active: boolean
-          monthly_price: number
-          name: string
-          paystack_plan_code: string | null
-          product_type: string
-          setup_fee: number
-          sort_order: number
-          trial_days: number
-          updated_at: string
-          usage_limit: number
-        }
-        Insert: {
-          billing_interval?: string
-          code: string
-          currency?: string
-          description?: string
-          features?: Json
-          id?: string
-          is_active?: boolean
-          monthly_price?: number
-          name: string
-          paystack_plan_code?: string | null
-          product_type?: string
-          setup_fee?: number
-          sort_order?: number
-          trial_days?: number
-          updated_at?: string
-          usage_limit?: number
-        }
-        Update: {
-          billing_interval?: string
-          code?: string
-          currency?: string
-          description?: string
-          features?: Json
-          id?: string
-          is_active?: boolean
-          monthly_price?: number
-          name?: string
-          paystack_plan_code?: string | null
-          product_type?: string
-          setup_fee?: number
-          sort_order?: number
-          trial_days?: number
-          updated_at?: string
-          usage_limit?: number
-        }
-        Relationships: []
       }
       ai_settings: {
         Row: {
@@ -1162,62 +1105,6 @@ export type Database = {
           },
         ]
       }
-      subscriptions: {
-        Row: {
-          cancelled_at: string | null
-          created_at: string
-          current_period_end: string | null
-          id: string
-          paystack_customer_code: string | null
-          paystack_plan_code: string | null
-          paystack_subscription_code: string | null
-          plan_id: string | null
-          started_at: string
-          status: string
-          trial_ends_at: string | null
-          updated_at: string
-          user_id: string
-        }
-        Insert: {
-          cancelled_at?: string | null
-          created_at?: string
-          current_period_end?: string | null
-          id?: string
-          paystack_customer_code?: string | null
-          paystack_plan_code?: string | null
-          paystack_subscription_code?: string | null
-          plan_id?: string | null
-          started_at?: string
-          status?: string
-          trial_ends_at?: string | null
-          updated_at?: string
-          user_id: string
-        }
-        Update: {
-          cancelled_at?: string | null
-          created_at?: string
-          current_period_end?: string | null
-          id?: string
-          paystack_customer_code?: string | null
-          paystack_plan_code?: string | null
-          paystack_subscription_code?: string | null
-          plan_id?: string | null
-          started_at?: string
-          status?: string
-          trial_ends_at?: string | null
-          updated_at?: string
-          user_id?: string
-        }
-        Relationships: [
-          {
-            foreignKeyName: "subscriptions_plan_id_fkey"
-            columns: ["plan_id"]
-            isOneToOne: false
-            referencedRelation: "ai_packages"
-            referencedColumns: ["id"]
-          },
-        ]
-      }
       user_roles: {
         Row: {
           created_at: string
@@ -1277,12 +1164,12 @@ export type Tables<
   DefaultSchemaTableNameOrOptions extends
     | keyof (DefaultSchema["Tables"] & DefaultSchema["Views"])
     | { schema: keyof DatabaseWithoutInternals },
-  TableName extends DefaultSchemaTableNameOrOptions extends {
+  TableName extends (DefaultSchemaTableNameOrOptions extends {
     schema: keyof DatabaseWithoutInternals
   }
     ? keyof (DatabaseWithoutInternals[DefaultSchemaTableNameOrOptions["schema"]]["Tables"] &
         DatabaseWithoutInternals[DefaultSchemaTableNameOrOptions["schema"]]["Views"])
-    : never = never,
+    : never) = never,
 > = DefaultSchemaTableNameOrOptions extends {
   schema: keyof DatabaseWithoutInternals
 }
@@ -1306,11 +1193,11 @@ export type TablesInsert<
   DefaultSchemaTableNameOrOptions extends
     | keyof DefaultSchema["Tables"]
     | { schema: keyof DatabaseWithoutInternals },
-  TableName extends DefaultSchemaTableNameOrOptions extends {
+  TableName extends (DefaultSchemaTableNameOrOptions extends {
     schema: keyof DatabaseWithoutInternals
   }
     ? keyof DatabaseWithoutInternals[DefaultSchemaTableNameOrOptions["schema"]]["Tables"]
-    : never = never,
+    : never) = never,
 > = DefaultSchemaTableNameOrOptions extends {
   schema: keyof DatabaseWithoutInternals
 }
@@ -1331,11 +1218,11 @@ export type TablesUpdate<
   DefaultSchemaTableNameOrOptions extends
     | keyof DefaultSchema["Tables"]
     | { schema: keyof DatabaseWithoutInternals },
-  TableName extends DefaultSchemaTableNameOrOptions extends {
+  TableName extends (DefaultSchemaTableNameOrOptions extends {
     schema: keyof DatabaseWithoutInternals
   }
     ? keyof DatabaseWithoutInternals[DefaultSchemaTableNameOrOptions["schema"]]["Tables"]
-    : never = never,
+    : never) = never,
 > = DefaultSchemaTableNameOrOptions extends {
   schema: keyof DatabaseWithoutInternals
 }
@@ -1356,11 +1243,11 @@ export type Enums<
   DefaultSchemaEnumNameOrOptions extends
     | keyof DefaultSchema["Enums"]
     | { schema: keyof DatabaseWithoutInternals },
-  EnumName extends DefaultSchemaEnumNameOrOptions extends {
+  EnumName extends (DefaultSchemaEnumNameOrOptions extends {
     schema: keyof DatabaseWithoutInternals
   }
     ? keyof DatabaseWithoutInternals[DefaultSchemaEnumNameOrOptions["schema"]]["Enums"]
-    : never = never,
+    : never) = never,
 > = DefaultSchemaEnumNameOrOptions extends {
   schema: keyof DatabaseWithoutInternals
 }
@@ -1373,11 +1260,11 @@ export type CompositeTypes<
   PublicCompositeTypeNameOrOptions extends
     | keyof DefaultSchema["CompositeTypes"]
     | { schema: keyof DatabaseWithoutInternals },
-  CompositeTypeName extends PublicCompositeTypeNameOrOptions extends {
+  CompositeTypeName extends (PublicCompositeTypeNameOrOptions extends {
     schema: keyof DatabaseWithoutInternals
   }
     ? keyof DatabaseWithoutInternals[PublicCompositeTypeNameOrOptions["schema"]]["CompositeTypes"]
-    : never = never,
+    : never) = never,
 > = PublicCompositeTypeNameOrOptions extends {
   schema: keyof DatabaseWithoutInternals
 }
