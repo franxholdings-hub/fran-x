@@ -255,8 +255,25 @@ export async function processVerifiedPayment(tx: TxData): Promise<{
     await supabaseAdmin.from("payments").update({ subscription_id: subscriptionId }).eq("paystack_reference", reference);
   }
 
-  // Record in the ONE centralized revenue history (never deleted)
-  const category = productType === "ai_integration" ? "AI Integration" : "Subscriptions";
+  // Record in the ONE centralized revenue history (never deleted).
+  // Digital Store purchases are categorized separately from FRIX AI plan
+  // subscriptions so product sales and SaaS revenue never blend.
+  const meta = (tx.metadata ?? {}) as {
+    type?: string;
+    lines?: { name: string; kind: string; subCode?: string }[];
+  };
+  const lines = meta.lines ?? [];
+  let category: string;
+  let serviceProduct: string;
+  if (meta.type === "digital_store" && lines.length > 0) {
+    category = lines.some((l) => l.kind === "subscription" && (l.subCode ?? "").startsWith("frix_ai"))
+      ? "FRIX AI Subscriptions"
+      : "Digital Product Sales";
+    serviceProduct = lines.map((l) => l.name).join(" + ");
+  } else {
+    category = productType === "ai_integration" ? "AI & Automation" : "FRIX AI Subscriptions";
+    serviceProduct = planName || "Subscription";
+  }
   await supabaseAdmin.from("revenue_history").insert({
     transaction_id: (payment?.transaction_id as string) || reference,
     transacted_at: new Date().toISOString().slice(0, 10),
@@ -266,13 +283,13 @@ export async function processVerifiedPayment(tx: TxData): Promise<{
     customer_email: email || null,
     customer_id: customerId,
     category,
-    service_product: planName || "Subscription",
+    service_product: serviceProduct,
     amount,
     currency,
     payment_method: "paystack",
     paystack_reference: reference,
     payment_status: "completed",
-    related_type: "subscription",
+    related_type: meta.type === "digital_store" ? "digital_store" : "subscription",
     related_id: subscriptionId,
     payment_id: payment?.id ?? null,
     subscription_id: subscriptionId,

@@ -21,6 +21,15 @@
   - Without these the site renders normally; the FRIX chat returns "AI is not configured" and admin DB writes fail.
 - The lovable vite config bundles its own plugins (TanStack devtools, nitro, tailwind, tsConfigPaths, VITE_* env injection, sandbox detection). Do not re-add those manually.
 
+## FRAN-X Technologies business structure (Sept 2026 restructure)
+
+- **Brand hierarchy:** FRAN-X Holdings (parent) → FRAN-X Technologies (active technology business) → FRIX AI + Technology Services + Digital Products. Communicated on the homepage hierarchy band.
+- **The old `/marketplace` routes, marketplace components (`src/components/marketplace/`, `src/lib/marketplace/`) and the portal Marketplace/Vendor Hub sections were REMOVED from the public UX.** The database tables/migrations were intentionally preserved. Digital Products (`/store`) is NOT part of that removal.
+- **Navigation** (`navConfig.tsx`): Home, FRIX AI, Services, Digital Products (`/store`), Solutions, Pricing, About, Contact; CTAs "Start a Project" / "Try FRIX AI".
+- **Revenue categories** (`REVENUE_CATEGORIES` in `src/lib/ai-integration.ts`): FRIX AI Subscriptions, Web Development, Mobile App Development, AI & Automation, Data & Business Intelligence, Custom Software & APIs, Digital Product Sales, Maintenance/Support, Enterprise Projects, Other. Digital Store purchases are categorized separately in `processVerifiedPayment` (`src/lib/paystack.server.ts`).
+- **Admin access:** `useAuth` treats the email `franxholdings@gmail.com` as admin client-side, and `supabase/migrations/20260904000000_franx_admin_email.sql` extends `has_role()` so RLS recognizes it at the DB level (apply the migration to the hosted Supabase project).
+- Generated Supabase types (`src/integrations/supabase/types.ts`) are stale (missing `revenue_history`, `payments`, `ai_clients`, `digital_*` tables) — existing code works around it with `as never` casts; `tsc --noEmit` reports pre-existing errors. Regenerating the types would clear most of them.
+
 ## App-like navigation system
 
 - **`src/components/navigation/`** contains the app-like navigation system, wired into `__root.tsx` via `AppShell`.

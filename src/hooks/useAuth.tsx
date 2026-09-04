@@ -2,6 +2,10 @@ import { createContext, useContext, useEffect, useMemo, useState, type ReactNode
 import type { Session, User } from "@supabase/supabase-js";
 import { supabase } from "@/integrations/supabase/client";
 
+/** The official FRAN-X admin account — any user signed in with this email
+ *  is an administrator, in addition to any user_roles-based admins. */
+const ADMIN_EMAIL = "franxholdings@gmail.com";
+
 type AuthState = {
   user: User | null;
   session: Session | null;
@@ -26,9 +30,15 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   useEffect(() => {
     let active = true;
 
-    const loadRole = async (userId: string | undefined) => {
+    const loadRole = async (userId: string | undefined, email?: string) => {
+      if (!active) return;
+      // The official admin email is always an admin.
+      if (email && email.toLowerCase() === ADMIN_EMAIL) {
+        setIsAdmin(true);
+        return;
+      }
       if (!userId) {
-        if (active) setIsAdmin(false);
+        setIsAdmin(false);
         return;
       }
       const { data } = await supabase
@@ -43,14 +53,14 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     const { data: sub } = supabase.auth.onAuthStateChange((_event, next) => {
       setSession(next);
       setLoading(false);
-      void loadRole(next?.user?.id);
+      void loadRole(next?.user?.id, next?.user?.email);
     });
 
     void supabase.auth.getSession().then(({ data }) => {
       if (!active) return;
       setSession(data.session);
       setLoading(false);
-      void loadRole(data.session?.user?.id);
+      void loadRole(data.session?.user?.id, data.session?.user?.email);
     });
 
     return () => {

@@ -9,8 +9,6 @@ import {
   Bell,
   CreditCard,
   Settings as SettingsIcon,
-  Store,
-  Briefcase,
   Package,
   Wrench,
 } from "lucide-react";
@@ -25,20 +23,16 @@ import { FrixSection } from "@/components/dashboard/FrixSection";
 import { NotificationsSection } from "@/components/dashboard/NotificationsSection";
 import { SubscriptionSection } from "@/components/dashboard/SubscriptionSection";
 import { SettingsSection } from "@/components/dashboard/SettingsSection";
-import { MarketplaceSection } from "@/components/dashboard/MarketplaceSection";
-import { VendorSection } from "@/components/dashboard/VendorSection";
 import { DigitalLibrarySection } from "@/components/dashboard/DigitalLibrarySection";
 import { ServicesSection } from "@/components/dashboard/ServicesSection";
 
 const NAV = [
   { key: "home", label: "Dashboard", icon: LayoutDashboard },
   { key: "profile", label: "My Profile", icon: UserRound },
-  { key: "opportunities", label: "My Opportunities", icon: Compass },
-  { key: "marketplace", label: "Marketplace", icon: Store },
-  { key: "vendor", label: "Vendor Hub", icon: Briefcase },
   { key: "library", label: "My Digital Products", icon: Package },
   { key: "myservices", label: "My Services", icon: Wrench },
   { key: "inquiries", label: "My Inquiries", icon: ClipboardList },
+  { key: "opportunities", label: "My Opportunities", icon: Compass },
   { key: "assessment", label: "Business Assessment", icon: ClipboardCheck },
   { key: "frix", label: "FRIX AI", icon: Bot },
   { key: "notifications", label: "Notifications", icon: Bell },
@@ -79,7 +73,7 @@ export function DashboardShell() {
       <PageHero
         eyebrow="FRAN-X User Dashboard"
         title={`Welcome back, ${name}`}
-        subtitle="Your FRAN-X workspace — requests, opportunities, AI, subscription and account, in one place."
+        subtitle="Your FRAN-X workspace — requests, digital products, inquiries, AI, subscription and account, in one place."
       />
       <section className="container-x py-6 sm:py-10">
         <div className="grid gap-4 sm:gap-6 lg:grid-cols-[220px_minmax(0,1fr)]">
@@ -104,12 +98,10 @@ export function DashboardShell() {
           <div className="min-w-0">
             {active === "home" && <HomeSection onNavigate={setActive} />}
             {active === "profile" && <ProfileSection />}
-            {active === "opportunities" && <OpportunitiesSection />}
-            {active === "marketplace" && <MarketplaceSection />}
-            {active === "vendor" && <VendorSection />}
             {active === "library" && <DigitalLibrarySection />}
             {active === "myservices" && <ServicesSection />}
             {active === "inquiries" && <InquiriesSection />}
+            {active === "opportunities" && <OpportunitiesSection />}
             {active === "assessment" && <AssessmentSection />}
             {active === "frix" && <FrixSection />}
             {active === "notifications" && <NotificationsSection />}
