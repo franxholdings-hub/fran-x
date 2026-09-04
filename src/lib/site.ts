@@ -40,25 +40,29 @@ export const SERVICE_CATEGORIES = [
   "AI & Automation",
   "Business & Data",
   "Marketing & Copywriting",
-  "Creative & Media",
-  "E-commerce",
+] as const;
+
+/** Legacy conglomerate service categories — kept in the database but hidden
+ *  from the public services directory (data preserved, not deleted). */
+export const CONGLOMERATE_CATEGORIES = [
   "Real Estate",
   "Automotive",
   "Oil & Gas / Energy",
+  "E-commerce",
+  "Agriculture",
+  "Aviation",
+  "Hospitality",
+  "Investment & Capital",
+  "Creative & Media",
 ] as const;
 
 export const REQUEST_CATEGORIES = [
-  "Website",
-  "Mobile App",
-  "AI Solution",
-  "E-commerce",
-  "Business Consulting",
-  "Data Analysis",
-  "Marketing",
-  "Creative Services",
-  "Real Estate",
-  "Automotive",
-  "Oil & Gas",
+  "Website Development",
+  "Mobile App Development",
+  "AI & Automation",
+  "Data & Business Intelligence",
+  "Custom Software",
+  "API Development",
   "Other",
 ] as const;
 
@@ -80,15 +84,12 @@ export const OPPORTUNITY_TYPES = [
 
 export const INQUIRY_STATUSES = [
   "New",
-  "Reviewing",
   "Contacted",
+  "Consultation",
   "Proposal Sent",
-  "Negotiation",
-  "Approved",
-  "In Progress",
+  "In Development",
   "Completed",
-  "Declined",
-  "Archived",
+  "Cancelled",
 ] as const;
 
 export function makeReference(prefix = "FX") {

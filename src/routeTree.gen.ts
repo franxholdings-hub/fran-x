@@ -14,6 +14,7 @@ import { Route as AuthenticatedRouteRouteImport } from './routes/_authenticated/
 import { Route as AboutRouteImport } from './routes/about'
 import { Route as AuthRouteImport } from './routes/auth'
 import { Route as ContactRouteImport } from './routes/contact'
+import { Route as FrixAiRouteImport } from './routes/frix-ai'
 import { Route as GroupRouteImport } from './routes/group'
 import { Route as OpportunitiesRouteImport } from './routes/opportunities'
 import { Route as PricingRouteImport } from './routes/pricing'
@@ -73,6 +74,11 @@ const AuthRoute = AuthRouteImport.update({
 const ContactRoute = ContactRouteImport.update({
   id: '/contact',
   path: '/contact',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const FrixAiRoute = FrixAiRouteImport.update({
+  id: '/frix-ai',
+  path: '/frix-ai',
   getParentRoute: () => rootRouteImport,
 } as any)
 const GroupRoute = GroupRouteImport.update({
@@ -263,6 +269,7 @@ export interface FileRoutesByFullPath {
   '/about': typeof AboutRoute
   '/auth': typeof AuthRoute
   '/contact': typeof ContactRoute
+  '/frix-ai': typeof FrixAiRoute
   '/group': typeof GroupRoute
   '/opportunities': typeof OpportunitiesRoute
   '/pricing': typeof PricingRoute
@@ -304,6 +311,7 @@ export interface FileRoutesByTo {
   '/about': typeof AboutRoute
   '/auth': typeof AuthRoute
   '/contact': typeof ContactRoute
+  '/frix-ai': typeof FrixAiRoute
   '/group': typeof GroupRoute
   '/opportunities': typeof OpportunitiesRoute
   '/pricing': typeof PricingRoute
@@ -348,6 +356,7 @@ export interface FileRoutesById {
   '/about': typeof AboutRoute
   '/auth': typeof AuthRoute
   '/contact': typeof ContactRoute
+  '/frix-ai': typeof FrixAiRoute
   '/group': typeof GroupRoute
   '/opportunities': typeof OpportunitiesRoute
   '/pricing': typeof PricingRoute
@@ -392,6 +401,7 @@ export interface FileRouteTypes {
     | '/about'
     | '/auth'
     | '/contact'
+    | '/frix-ai'
     | '/group'
     | '/opportunities'
     | '/pricing'
@@ -433,6 +443,7 @@ export interface FileRouteTypes {
     | '/about'
     | '/auth'
     | '/contact'
+    | '/frix-ai'
     | '/group'
     | '/opportunities'
     | '/pricing'
@@ -476,6 +487,7 @@ export interface FileRouteTypes {
     | '/about'
     | '/auth'
     | '/contact'
+    | '/frix-ai'
     | '/group'
     | '/opportunities'
     | '/pricing'
@@ -520,6 +532,7 @@ export interface RootRouteChildren {
   AboutRoute: typeof AboutRoute
   AuthRoute: typeof AuthRoute
   ContactRoute: typeof ContactRoute
+  FrixAiRoute: typeof FrixAiRoute
   GroupRoute: typeof GroupRoute
   OpportunitiesRoute: typeof OpportunitiesRoute
   PricingRoute: typeof PricingRoute
@@ -579,6 +592,13 @@ declare module '@tanstack/react-router' {
       path: '/contact'
       fullPath: '/contact'
       preLoaderRoute: typeof ContactRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/frix-ai': {
+      id: '/frix-ai'
+      path: '/frix-ai'
+      fullPath: '/frix-ai'
+      preLoaderRoute: typeof FrixAiRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/group': {
@@ -898,6 +918,7 @@ const rootRouteChildren: RootRouteChildren = {
   AboutRoute: AboutRoute,
   AuthRoute: AuthRoute,
   ContactRoute: ContactRoute,
+  FrixAiRoute: FrixAiRoute,
   GroupRoute: GroupRoute,
   OpportunitiesRoute: OpportunitiesRoute,
   PricingRoute: PricingRoute,

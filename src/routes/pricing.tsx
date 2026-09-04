@@ -11,7 +11,7 @@ import { useAuth } from "@/hooks/useAuth";
 import { useSubscription } from "@/hooks/useSubscription";
 import { formatMoney } from "@/lib/ai-integration";
 
-const TITLE = "Pricing & Plans | FRAN-X Holdings";
+const TITLE = "Pricing & Plans | FRAN-X Technologies";
 const DESCRIPTION =
   "Start free with the FRAN-X Explorer 7-day trial, then subscribe to unlock premium FRAN-X services and AI capabilities.";
 

@@ -37,7 +37,7 @@ export type NavItem = {
 /** Primary navigation — always visible in the sidebar */
 export const PRIMARY_NAV: NavItem[] = [
   { to: "/", label: "Home", icon: Home, exact: true },
-  { to: "/store/frix-ai", label: "FRIX AI", icon: Bot },
+  { to: "/frix-ai", label: "FRIX AI", icon: Bot },
   { to: "/services", label: "Services", icon: Briefcase },
   { to: "/solutions", label: "Solutions", icon: Lightbulb },
   { to: "/pricing", label: "Pricing", icon: CreditCard },
@@ -78,7 +78,7 @@ export const FOOTER_NAV: NavItem[] = [
 export const MOBILE_BOTTOM_NAV: NavItem[] = [
   { to: "/", label: "Home", icon: Home, exact: true },
   { to: "/services", label: "Services", icon: Briefcase },
-  { to: "/store/frix-ai", label: "FRIX AI", icon: Bot },
+  { to: "/frix-ai", label: "FRIX AI", icon: Bot },
   { to: "/contact", label: "Contact", icon: Mail },
 ];
 
@@ -102,5 +102,5 @@ export const MORE_NAV: NavItem[] = [
 /** Quick CTA buttons shown in sidebar / more sheet */
 export const CTA_ITEMS = [
   { to: "/request", label: "Start a Project" },
-  { to: "/store/frix-ai", label: "Try FRIX AI" },
+  { to: "/frix-ai", label: "Try FRIX AI" },
 ] as const;

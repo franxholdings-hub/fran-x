@@ -4,8 +4,8 @@ import { LegalPage, legalHead } from "@/components/site/LegalPage";
 export const Route = createFileRoute("/legal/cookies")({
   head: () =>
     legalHead(
-      "Cookie Policy | FRAN-X Holdings",
-      "How FRAN-X Holdings uses cookies and local storage to keep you signed in and to understand platform usage.",
+      "Cookie Policy | FRAN-X Technologies",
+      "How FRAN-X Technologies uses cookies and local storage to keep you signed in and to understand platform usage.",
     ),
   component: () => (
     <LegalPage

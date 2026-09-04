@@ -5,9 +5,9 @@ import { QuickInquiryForm } from "@/components/site/QuickInquiryForm";
 import { SITE, MAILTO_URL, TEL_URL, WHATSAPP_URL } from "@/lib/site";
 import { PHOTOS } from "@/lib/photos";
 
-const TITLE = "Contact FRAN-X Holdings | Email, Phone & WhatsApp";
+const TITLE = "Contact FRAN-X Technologies | Email, Phone & WhatsApp";
 const DESCRIPTION =
-  "Contact FRAN-X Holdings by email, phone or WhatsApp, or send a message directly from the platform. Based in Festac Town, Lagos, Nigeria.";
+  "Contact FRAN-X Technologies by email, phone or WhatsApp, or send a message directly from the platform. Based in Festac Town, Lagos, Nigeria.";
 
 export const Route = createFileRoute("/contact")({
   head: () => ({
@@ -34,7 +34,7 @@ function Contact() {
     <>
       <PageHero
         eyebrow="Contact"
-        title="Talk to FRAN-X Holdings."
+        title="Talk to FRAN-X Technologies."
         subtitle="Reach the team directly, or send a message and we will respond with next steps."
         photo={PHOTOS.consulting}
       />

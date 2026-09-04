@@ -26,8 +26,8 @@ export const Route = createFileRoute("/services/$slug")({
       .split("-")
       .map((p) => p.charAt(0).toUpperCase() + p.slice(1))
       .join(" ");
-    const title = `${readable} | FRAN-X Holdings Services`;
-    const description = `Request ${readable} from FRAN-X Holdings — professional delivery for businesses, startups, investors and organizations.`;
+    const title = `${readable} | FRAN-X Technologies`;
+    const description = `Request ${readable} from FRAN-X Technologies — professional delivery for businesses, startups and organizations.`;
     return {
       meta: [
         { title },

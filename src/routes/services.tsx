@@ -8,23 +8,23 @@ import { Badge } from "@/components/ui/badge";
 import { Skeleton } from "@/components/ui/skeleton";
 import { PageHero } from "@/components/site/PageHero";
 import { supabase } from "@/integrations/supabase/client";
-import { SERVICE_CATEGORIES, COMPLIANCE_NOTE } from "@/lib/site";
+import { SERVICE_CATEGORIES, COMPLIANCE_NOTE, CONGLOMERATE_CATEGORIES } from "@/lib/site";
 import { searchServices, categoryAnchor, type ServiceRow } from "@/lib/search";
 import { PHOTOS } from "@/lib/photos";
 
-const TITLE = "Services | Web, App, AI, Consulting, Real Estate & Energy | FRAN-X";
+const TITLE = "Services | Web, App, AI, Automation & Software | FRAN-X Technologies";
 const DESCRIPTION =
-  "Search the full FRAN-X services directory: website development, mobile apps, AI solutions, business consulting, e-commerce, real estate, automotive and oil & gas services.";
+  "FRAN-X technology services: website development, mobile apps, AI & automation, data & business intelligence and custom software & API development.";
 
 const EXAMPLES = [
   "I need a website",
   "I need a mobile app",
   "I need an AI chatbot",
-  "I want to sell my car",
-  "I need a property",
+  "I need business automation",
+  "I need a data dashboard",
+  "I need a custom API",
+  "I need an e-commerce site",
   "I need business consulting",
-  "I need an online store",
-  "I have an oil buyer",
 ];
 
 export const Route = createFileRoute("/services")({
@@ -58,7 +58,10 @@ function ServicesPage() {
     },
   });
 
-  const services = useMemo(() => data ?? [], [data]);
+  const services = useMemo(
+    () => (data ?? []).filter((s) => !CONGLOMERATE_CATEGORIES.includes(s.category as never)),
+    [data],
+  );
   const filtered = useMemo(() => {
     const byCategory = category === "All" ? services : services.filter((s) => s.category === category);
     return searchServices(byCategory, query);

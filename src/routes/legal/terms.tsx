@@ -4,8 +4,8 @@ import { LegalPage, legalHead } from "@/components/site/LegalPage";
 export const Route = createFileRoute("/legal/terms")({
   head: () =>
     legalHead(
-      "Terms of Service | FRAN-X Holdings",
-      "The terms governing use of the FRAN-X Holdings business and services platform, inquiries, and engagements.",
+      "Terms of Service | FRAN-X Technologies",
+      "The terms governing use of the FRAN-X Technologies platform, inquiries, and engagements.",
     ),
   component: () => (
     <LegalPage
@@ -30,7 +30,7 @@ export const Route = createFileRoute("/legal/terms")({
         },
         {
           heading: "Intellectual property",
-          body: "Deliverables transfer to the client on full payment unless otherwise agreed in writing. Platform content and branding remain the property of FRAN-X Holdings.",
+          body: "Deliverables transfer to the client on full payment unless otherwise agreed in writing. Platform content and branding remain the property of FRAN-X Technologies.",
         },
       ]}
     />

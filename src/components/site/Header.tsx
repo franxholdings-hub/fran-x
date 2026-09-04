@@ -9,7 +9,7 @@ import { ThemeToggle } from "@/components/site/ThemeToggle";
 
 const NAV = [
   { to: "/", label: "Home" },
-  { to: "/store/frix-ai", label: "FRIX AI" },
+  { to: "/frix-ai", label: "FRIX AI" },
   { to: "/services", label: "Services" },
   { to: "/solutions", label: "Solutions" },
   { to: "/pricing", label: "Pricing" },
@@ -78,7 +78,7 @@ export function Header() {
             </Button>
           )}
           <Button asChild variant="outline" size="sm">
-            <Link to="/store/frix-ai">
+            <Link to="/frix-ai">
               <Sparkles /> Try FRIX AI
             </Link>
           </Button>
@@ -116,7 +116,7 @@ export function Header() {
                 <Link to="/request">Start a Project</Link>
               </Button>
               <Button asChild variant="outline" onClick={() => setOpen(false)}>
-                <Link to="/store/frix-ai">
+                <Link to="/frix-ai">
                   <Sparkles /> Try FRIX AI
                 </Link>
               </Button>

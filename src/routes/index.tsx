@@ -153,7 +153,7 @@ function Index() {
               </Link>
             </Button>
             <Button asChild size="lg" variant="outline">
-              <Link to="/store/frix-ai">
+              <Link to="/frix-ai">
                 <Sparkles /> Explore FRIX AI
               </Link>
             </Button>
@@ -206,7 +206,7 @@ function Index() {
               </p>
               <div className="mt-5 flex flex-col gap-2.5 sm:flex-row">
                 <Button asChild>
-                  <Link to="/store/frix-ai">
+                  <Link to="/frix-ai">
                     <Sparkles /> Explore FRIX AI
                   </Link>
                 </Button>
@@ -218,13 +218,11 @@ function Index() {
             <div className="grid grid-cols-2 gap-3">
               {[
                 "AI conversations",
-                "Content generation",
-                "Document / PDF analysis",
-                "Image understanding",
                 "Research assistance",
                 "Business assistance",
-                "Data analysis",
-                "AI recommendations",
+                "AI-powered recommendations",
+                "Inquiry capture",
+                "Callback scheduling",
               ].map((cap) => (
                 <div
                   key={cap}
@@ -317,7 +315,7 @@ function Index() {
               <Link to="/request">Start a Project</Link>
             </Button>
             <Button asChild size="lg" variant="outline">
-              <Link to="/store/frix-ai">
+              <Link to="/frix-ai">
                 <Sparkles /> Try FRIX AI
               </Link>
             </Button>

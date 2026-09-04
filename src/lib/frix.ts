@@ -1,8 +1,8 @@
 export const FRIX = {
   name: "FRIX AI",
-  title: "FRAN-X Business Concierge",
+  title: "FRAN-X AI Assistant",
   intro:
-    "I'm FRIX AI, the AI Business Concierge for FRAN-X Holdings. Tell me what you need — technology, property, vehicles, energy, investment or general business — and I'll guide you.",
+    "I'm FRIX AI, the AI assistant for FRAN-X Technologies. Tell me what you need — websites, mobile apps, AI, automation, data or general business — and I'll guide you.",
 } as const;
 
 export const FRIX_AGENT_LABELS: Record<string, string> = {
@@ -18,17 +18,13 @@ export const KB_CATEGORIES = [
   "Website Development",
   "Mobile App Development",
   "AI",
-  "E-commerce",
+  "AI & Automation",
+  "Data & Business Intelligence",
+  "Custom Software",
+  "API Development",
   "Business Consulting",
   "Marketing",
-  "Real Estate",
-  "Automotive",
-  "Oil & Gas",
-  "Investment",
-  "Agriculture",
-  "Hospitality",
-  "Aviation",
-  "FRAN-X Companies",
+  "FRIX AI",
   "FAQs",
   "Policies",
   "General Company Information",

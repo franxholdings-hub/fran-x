@@ -4,8 +4,8 @@ import { LegalPage, legalHead } from "@/components/site/LegalPage";
 export const Route = createFileRoute("/legal/disclaimer")({
   head: () =>
     legalHead(
-      "Disclaimer | FRAN-X Holdings",
-      "Important disclosures regarding FRAN-X Holdings services, regulated industries, licensing and business information.",
+      "Disclaimer | FRAN-X Technologies",
+      "Important disclosures regarding FRAN-X Technologies services, regulated industries, licensing and business information.",
     ),
   component: () => (
     <LegalPage
@@ -14,7 +14,7 @@ export const Route = createFileRoute("/legal/disclaimer")({
       sections={[
         {
           heading: "No regulatory representation",
-          body: "FRAN-X Holdings does not represent itself as a licensed petroleum operator, dealer, broker, financial institution, or investment adviser where a specific licence or regulatory approval is required.",
+          body: "FRAN-X Technologies does not represent itself as a licensed petroleum operator, dealer, broker, financial institution, or investment adviser where a specific licence or regulatory approval is required.",
         },
         {
           heading: "Regulated industries",

@@ -103,7 +103,7 @@ export function GlobalSearch() {
   const allItems = useMemo<SearchResult[]>(() => {
     const pages: SearchResult[] = [
       { id: "page-home", label: "Home", icon: Home, group: "Pages", to: "/", keywords: "home main landing" },
-      { id: "page-frix", label: "FRIX AI", icon: Bot, group: "Pages", to: "/store/frix-ai", keywords: "frix ai assistant chat" },
+      { id: "page-frix", label: "FRIX AI", icon: Bot, group: "Pages", to: "/frix-ai", keywords: "frix ai assistant chat" },
       { id: "page-services", label: "Services", icon: Briefcase, group: "Pages", to: "/services", keywords: "services web development mobile app ai automation data software" },
       { id: "page-solutions", label: "Solutions", icon: Compass, group: "Pages", to: "/solutions", keywords: "solutions business problems" },
       { id: "page-pricing", label: "Pricing", icon: CreditCard, group: "Pages", to: "/pricing", keywords: "pricing plans subscription" },

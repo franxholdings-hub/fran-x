@@ -27,9 +27,9 @@ const COLUMNS: { title: string; links: { to: string; label: string; hash?: strin
   {
     title: "FRIX AI",
     links: [
-      { to: "/store/frix-ai", label: "Explore FRIX AI" },
+      { to: "/frix-ai", label: "Explore FRIX AI" },
       { to: "/pricing", label: "View Plans" },
-      { to: "/store/frix-ai", label: "Sign up" },
+      { to: "/frix-ai", label: "Sign up" },
     ],
   },
   {

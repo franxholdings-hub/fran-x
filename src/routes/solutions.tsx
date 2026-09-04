@@ -130,7 +130,7 @@ function SolutionsPage() {
               <Link to="/request">Start a Project</Link>
             </Button>
             <Button asChild size="lg" variant="outline">
-              <Link to="/store/frix-ai">
+              <Link to="/frix-ai">
                 <Sparkles /> Try FRIX AI
               </Link>
             </Button>

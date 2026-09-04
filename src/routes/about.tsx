@@ -4,9 +4,9 @@ import { PageHero } from "@/components/site/PageHero";
 import { SITE } from "@/lib/site";
 import { PHOTOS } from "@/lib/photos";
 
-const TITLE = "About FRAN-X Holdings | Diversified Business Group";
+const TITLE = "About FRAN-X Technologies | AI, Software & Digital Technology";
 const DESCRIPTION =
-  "FRAN-X Holdings is a diversified business group focused on technology, commerce, investment, infrastructure and emerging industries, founded by Francis Ejimkeonye.";
+  "FRAN-X Technologies builds AI solutions, websites, mobile apps, business automation systems, data platforms and custom software for modern businesses. Founded by Francis Ejimkeonye.";
 
 export const Route = createFileRoute("/about")({
   head: () => ({
@@ -34,7 +34,7 @@ function About() {
     <>
       <PageHero
         eyebrow="About FRAN-X"
-        title="A diversified business group built for the next economy."
+        title="A technology company built for the businesses of tomorrow."
         subtitle={SITE.statement}
         photo={PHOTOS.consulting}
       />
@@ -44,17 +44,17 @@ function About() {
           <div>
             <p className="eyebrow">Who we are</p>
             <h2 className="mt-3 text-xl font-semibold sm:text-2xl">
-              Technology, commerce, investment and infrastructure under one group.
+              AI, software and automation under one technology company.
             </h2>
             <p className="mt-4 text-sm leading-relaxed text-muted-foreground">
-              FRAN-X is a diversified business group focused on technology, commerce, investment,
-              infrastructure, and emerging industries. We build digital products, advise businesses,
-              coordinate commercial transactions and develop ventures across multiple sectors.
+              FRAN-X Technologies builds intelligent digital products and technology systems —
+              websites, mobile apps, AI, automation, data platforms and custom software — that help
+              businesses operate, grow and compete.
             </p>
             <figure className="mt-6 overflow-hidden rounded-xl border border-border">
               <img
-                src={PHOTOS.opportunities.src}
-                alt={PHOTOS.opportunities.alt}
+                src={PHOTOS.technology.src}
+                alt={PHOTOS.technology.alt}
                 loading="lazy"
                 decoding="async"
                 className="h-48 w-full object-cover"
@@ -77,15 +77,15 @@ function About() {
           <div id="mission" className="glass-panel scroll-mt-20 rounded-xl p-6">
             <p className="eyebrow">Our mission</p>
             <p className="mt-3 text-base leading-relaxed">
-              To build and connect businesses, technologies, capital, and opportunities that create
-              long-term economic value.
+              To build technology that helps businesses operate, grow and compete — from AI and
+              software to automation and data.
             </p>
           </div>
           <div id="vision" className="glass-panel scroll-mt-20 rounded-xl p-6">
             <p className="eyebrow">Our vision</p>
             <p className="mt-3 text-base leading-relaxed">
-              To become a globally recognized business group operating across multiple high-growth
-              industries.
+              To become a globally recognized technology company building the digital infrastructure
+              for the businesses of tomorrow.
             </p>
           </div>
         </div>
@@ -110,15 +110,15 @@ function About() {
           <div className="relative min-w-0">
             <p className="eyebrow">Founder</p>
             <h2 className="mt-2 text-xl font-semibold sm:text-2xl">{SITE.founder}</h2>
-            <p className="mt-1 text-sm text-primary">Founder &amp; CEO, FRAN-X Holdings</p>
+            <p className="mt-1 text-sm text-primary">Founder &amp; CEO, FRAN-X Technologies</p>
             <p className="mt-3 max-w-2xl text-sm leading-relaxed text-muted-foreground">
-              Francis Ejimkeonye founded FRAN-X Holdings to build a business group capable of
-              operating across technology, commerce, investment and infrastructure — connecting
-              clients, capital and opportunity through a single, disciplined platform.
+              Francis Ejimkeonye founded FRAN-X Technologies to build a technology company that
+              delivers AI, software and automation systems helping businesses operate, grow and
+              compete — through a single, disciplined platform.
             </p>
             <div className="mt-6 flex flex-wrap gap-3">
               <Button asChild>
-                <Link to="/group">Explore the FRAN-X Group</Link>
+                <Link to="/services">Explore our services</Link>
               </Button>
               <Button asChild variant="outline">
                 <Link to="/contact">Contact the team</Link>
