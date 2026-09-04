@@ -1,7 +1,7 @@
 import { useMemo, useState } from "react";
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useQuery } from "@tanstack/react-query";
-import { Search, ArrowRight } from "lucide-react";
+import { Search, ArrowRight, Package } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -188,7 +188,24 @@ function ServicesPage() {
           </div>
         )}
 
-        <p className="mt-10 rounded-lg border border-border/60 bg-surface/40 p-4 text-xs leading-relaxed text-muted-foreground">
+        <Link
+          to="/store"
+          className="group mt-10 flex items-center gap-4 rounded-xl border border-primary/40 bg-primary/5 p-5 transition-colors hover:border-primary/70"
+        >
+          <span className="grid h-11 w-11 shrink-0 place-items-center rounded-lg border border-primary/40 bg-primary/10 text-primary">
+            <Package className="h-5 w-5" />
+          </span>
+          <span className="min-w-0 flex-1">
+            <span className="block font-display text-sm font-semibold">Digital Products (D-Products)</span>
+            <span className="mt-0.5 block text-xs text-muted-foreground">
+              E-books, business templates, finance guides and subscriptions — instant downloads from the
+              FRAN-X Store.
+            </span>
+          </span>
+          <ArrowRight className="h-4 w-4 shrink-0 text-primary transition-transform group-hover:translate-x-1" />
+        </Link>
+
+        <p className="mt-6 rounded-lg border border-border/60 bg-surface/40 p-4 text-xs leading-relaxed text-muted-foreground">
           {COMPLIANCE_NOTE}
         </p>
       </section>
