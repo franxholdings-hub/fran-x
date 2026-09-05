@@ -5,15 +5,15 @@ import { ArrowRight, Check, Package, Sparkles } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { useCart } from "@/hooks/useCart";
+import type { StoreProduct } from "@/hooks/useStoreProducts";
 import {
   formatNaira,
   getBundleOriginalTotal,
-  type DigitalProduct,
 } from "@/lib/digital-store/catalog";
 import { PHOTOS } from "@/lib/photos";
 
 /** A premium product card for the digital store grids. */
-export function ProductCard({ product }: { product: DigitalProduct }) {
+export function ProductCard({ product }: { product: StoreProduct }) {
   const { add } = useCart();
   const photo = PHOTOS[product.cover];
   const savings = product.bundle ? getBundleOriginalTotal(product) - product.price : 0;
@@ -26,7 +26,7 @@ export function ProductCard({ product }: { product: DigitalProduct }) {
         className="relative block shrink-0 w-28 overflow-hidden sm:w-full sm:aspect-[4/3]"
       >
         <img
-          src={photo.src}
+          src={product.coverUrl ?? photo.src}
           alt={photo.alt}
           loading="lazy"
           decoding="async"

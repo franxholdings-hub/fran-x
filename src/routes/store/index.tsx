@@ -1,3 +1,4 @@
+import { useMemo } from "react";
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { ArrowRight, Package, Sparkles, TrendingUp } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -13,6 +14,7 @@ import {
   formatNaira,
 } from "@/lib/digital-store/catalog";
 import { PHOTOS } from "@/lib/photos";
+import { useStoreProducts } from "@/hooks/useStoreProducts";
 
 const TITLE = "FRAN-X Digital Store | Templates, E-Books, Services & Subscriptions";
 const DESCRIPTION =
@@ -42,7 +44,13 @@ const BENTO = [
 ];
 
 function StoreHome() {
-  const featured = getFeaturedProducts(8);
+  // Admin-managed DB products (with the static catalog as fallback while
+  // loading) — new products published in the dashboard appear automatically.
+  const { data } = useStoreProducts();
+  const featured = useMemo(() => {
+    const pool = data?.products ?? getFeaturedProducts(8);
+    return pool.filter((p) => p.featured).slice(0, 8);
+  }, [data]);
   const startupBundle = featured.find((p) => p.bundle);
 
   return (
