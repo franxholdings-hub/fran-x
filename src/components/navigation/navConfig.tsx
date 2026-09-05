@@ -80,8 +80,8 @@ export const FOOTER_NAV: NavItem[] = [
 export const MOBILE_BOTTOM_NAV: NavItem[] = [
   { to: "/", label: "Home", icon: Home, exact: true },
   { to: "/services", label: "Services", icon: Briefcase },
+  { to: "/store", label: "Products", icon: Package },
   { to: "/frix-ai", label: "FRIX AI", icon: Bot },
-  { to: "/contact", label: "Contact", icon: Mail },
 ];
 
 /** All items for the mobile "More" sheet */
@@ -92,7 +92,6 @@ export const MORE_NAV: NavItem[] = [
   { to: "/admin", label: "Admin Panel", icon: ShieldCheck, adminOnly: true },
   { to: "/about", label: "About", icon: Info },
   { to: "/services", label: "Services", icon: Briefcase },
-  { to: "/store", label: "Digital Products", icon: Package },
   { to: "/solutions", label: "Solutions", icon: Lightbulb },
   { to: "/pricing", label: "Pricing", icon: CreditCard },
   { to: "/contact", label: "Contact", icon: Mail },

@@ -37,6 +37,16 @@ export function CartDrawer() {
           </div>
         ) : (
           <>
+            {/* Subtotal summary — kept at the top so the floating WhatsApp
+                button can never cover the amount a customer needs to pay. */}
+            <div className="border-b border-border bg-surface/50 px-5 py-4">
+              <div className="flex items-center justify-between">
+                <span className="text-sm text-muted-foreground">Subtotal</span>
+                <span className="font-display text-xl font-semibold">{formatNaira(total)}</span>
+              </div>
+            </div>
+
+            {/* Product details — name, units and price live below the subtotal. */}
             <div className="flex-1 overflow-y-auto px-5 py-4">
               <ul className="space-y-3">
                 {items.map((item) => (
@@ -47,7 +57,7 @@ export function CartDrawer() {
                     <div className="min-w-0">
                       <p className="truncate text-sm font-medium">{item.name}</p>
                       <p className="text-xs capitalize text-muted-foreground">
-                        {item.kind === "subscription" ? "Subscription" : item.category}
+                        {item.kind === "subscription" ? "Subscription" : item.category} · 1 unit
                       </p>
                     </div>
                     <div className="flex items-center gap-2">
@@ -69,11 +79,7 @@ export function CartDrawer() {
             </div>
 
             <div className="border-t border-border px-5 py-4">
-              <div className="flex items-center justify-between text-sm">
-                <span className="text-muted-foreground">Subtotal</span>
-                <span className="font-display text-lg font-semibold">{formatNaira(total)}</span>
-              </div>
-              <Button asChild className="mt-4 w-full" size="lg" onClick={() => setOpen(false)}>
+              <Button asChild className="w-full" size="lg" onClick={() => setOpen(false)}>
                 <Link to="/store/checkout">
                   <span className="flex items-center gap-2">
                     Checkout via Paystack
