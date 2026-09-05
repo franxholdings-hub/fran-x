@@ -40,6 +40,11 @@ import { Route as StoreFinanceRouteImport } from './routes/store/finance'
 import { Route as StoreFrixAiRouteImport } from './routes/store/frix-ai'
 import { Route as StoreResourcePassRouteImport } from './routes/store/resource-pass'
 import { Route as StoreTemplatesRouteImport } from './routes/store/templates'
+import { Route as AuthenticatedFrixAiWorkspaceRouteImport } from './routes/_authenticated/frix-ai.workspace'
+import { Route as ApiFrixAccountRouteImport } from './routes/api/frix/account'
+import { Route as ApiFrixChatRouteImport } from './routes/api/frix/chat'
+import { Route as ApiFrixConversationRouteImport } from './routes/api/frix/conversation'
+import { Route as ApiFrixConversationsRouteImport } from './routes/api/frix/conversations'
 import { Route as ApiPaystackInitializeRouteImport } from './routes/api/paystack/initialize'
 import { Route as ApiPaystackStatusRouteImport } from './routes/api/paystack/status'
 import { Route as ApiPaystackVerifyRouteImport } from './routes/api/paystack/verify'
@@ -204,6 +209,32 @@ const StoreTemplatesRoute = StoreTemplatesRouteImport.update({
   path: '/templates',
   getParentRoute: () => StoreRouteRoute,
 } as any)
+const AuthenticatedFrixAiWorkspaceRoute =
+  AuthenticatedFrixAiWorkspaceRouteImport.update({
+    id: '/frix-ai/workspace',
+    path: '/frix-ai/workspace',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
+const ApiFrixAccountRoute = ApiFrixAccountRouteImport.update({
+  id: '/api/frix/account',
+  path: '/api/frix/account',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApiFrixChatRoute = ApiFrixChatRouteImport.update({
+  id: '/api/frix/chat',
+  path: '/api/frix/chat',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApiFrixConversationRoute = ApiFrixConversationRouteImport.update({
+  id: '/api/frix/conversation',
+  path: '/api/frix/conversation',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApiFrixConversationsRoute = ApiFrixConversationsRouteImport.update({
+  id: '/api/frix/conversations',
+  path: '/api/frix/conversations',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ApiPaystackInitializeRoute = ApiPaystackInitializeRouteImport.update({
   id: '/api/paystack/initialize',
   path: '/api/paystack/initialize',
@@ -282,6 +313,11 @@ export interface FileRoutesByFullPath {
   '/store/templates': typeof StoreTemplatesRoute
   '/build/': typeof BuildIndexRoute
   '/store/': typeof StoreIndexRoute
+  '/frix-ai/workspace': typeof AuthenticatedFrixAiWorkspaceRoute
+  '/api/frix/account': typeof ApiFrixAccountRoute
+  '/api/frix/chat': typeof ApiFrixChatRoute
+  '/api/frix/conversation': typeof ApiFrixConversationRoute
+  '/api/frix/conversations': typeof ApiFrixConversationsRoute
   '/api/paystack/initialize': typeof ApiPaystackInitializeRoute
   '/api/paystack/status': typeof ApiPaystackStatusRoute
   '/api/paystack/verify': typeof ApiPaystackVerifyRoute
@@ -322,6 +358,11 @@ export interface FileRoutesByTo {
   '/store/templates': typeof StoreTemplatesRoute
   '/build': typeof BuildIndexRoute
   '/store': typeof StoreIndexRoute
+  '/frix-ai/workspace': typeof AuthenticatedFrixAiWorkspaceRoute
+  '/api/frix/account': typeof ApiFrixAccountRoute
+  '/api/frix/chat': typeof ApiFrixChatRoute
+  '/api/frix/conversation': typeof ApiFrixConversationRoute
+  '/api/frix/conversations': typeof ApiFrixConversationsRoute
   '/api/paystack/initialize': typeof ApiPaystackInitializeRoute
   '/api/paystack/status': typeof ApiPaystackStatusRoute
   '/api/paystack/verify': typeof ApiPaystackVerifyRoute
@@ -365,6 +406,11 @@ export interface FileRoutesById {
   '/store/templates': typeof StoreTemplatesRoute
   '/build/': typeof BuildIndexRoute
   '/store/': typeof StoreIndexRoute
+  '/_authenticated/frix-ai/workspace': typeof AuthenticatedFrixAiWorkspaceRoute
+  '/api/frix/account': typeof ApiFrixAccountRoute
+  '/api/frix/chat': typeof ApiFrixChatRoute
+  '/api/frix/conversation': typeof ApiFrixConversationRoute
+  '/api/frix/conversations': typeof ApiFrixConversationsRoute
   '/api/paystack/initialize': typeof ApiPaystackInitializeRoute
   '/api/paystack/status': typeof ApiPaystackStatusRoute
   '/api/paystack/verify': typeof ApiPaystackVerifyRoute
@@ -408,6 +454,11 @@ export interface FileRouteTypes {
     | '/store/templates'
     | '/build/'
     | '/store/'
+    | '/frix-ai/workspace'
+    | '/api/frix/account'
+    | '/api/frix/chat'
+    | '/api/frix/conversation'
+    | '/api/frix/conversations'
     | '/api/paystack/initialize'
     | '/api/paystack/status'
     | '/api/paystack/verify'
@@ -448,6 +499,11 @@ export interface FileRouteTypes {
     | '/store/templates'
     | '/build'
     | '/store'
+    | '/frix-ai/workspace'
+    | '/api/frix/account'
+    | '/api/frix/chat'
+    | '/api/frix/conversation'
+    | '/api/frix/conversations'
     | '/api/paystack/initialize'
     | '/api/paystack/status'
     | '/api/paystack/verify'
@@ -490,6 +546,11 @@ export interface FileRouteTypes {
     | '/store/templates'
     | '/build/'
     | '/store/'
+    | '/_authenticated/frix-ai/workspace'
+    | '/api/frix/account'
+    | '/api/frix/chat'
+    | '/api/frix/conversation'
+    | '/api/frix/conversations'
     | '/api/paystack/initialize'
     | '/api/paystack/status'
     | '/api/paystack/verify'
@@ -522,6 +583,10 @@ export interface RootRouteChildren {
   LegalPrivacyRoute: typeof LegalPrivacyRoute
   LegalTermsRoute: typeof LegalTermsRoute
   BuildIndexRoute: typeof BuildIndexRoute
+  ApiFrixAccountRoute: typeof ApiFrixAccountRoute
+  ApiFrixChatRoute: typeof ApiFrixChatRoute
+  ApiFrixConversationRoute: typeof ApiFrixConversationRoute
+  ApiFrixConversationsRoute: typeof ApiFrixConversationsRoute
   ApiPaystackInitializeRoute: typeof ApiPaystackInitializeRoute
   ApiPaystackStatusRoute: typeof ApiPaystackStatusRoute
   ApiPaystackVerifyRoute: typeof ApiPaystackVerifyRoute
@@ -750,6 +815,41 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof StoreTemplatesRouteImport
       parentRoute: typeof StoreRouteRoute
     }
+    '/_authenticated/frix-ai/workspace': {
+      id: '/_authenticated/frix-ai/workspace'
+      path: '/frix-ai/workspace'
+      fullPath: '/frix-ai/workspace'
+      preLoaderRoute: typeof AuthenticatedFrixAiWorkspaceRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/api/frix/account': {
+      id: '/api/frix/account'
+      path: '/api/frix/account'
+      fullPath: '/api/frix/account'
+      preLoaderRoute: typeof ApiFrixAccountRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/frix/chat': {
+      id: '/api/frix/chat'
+      path: '/api/frix/chat'
+      fullPath: '/api/frix/chat'
+      preLoaderRoute: typeof ApiFrixChatRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/frix/conversation': {
+      id: '/api/frix/conversation'
+      path: '/api/frix/conversation'
+      fullPath: '/api/frix/conversation'
+      preLoaderRoute: typeof ApiFrixConversationRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/frix/conversations': {
+      id: '/api/frix/conversations'
+      path: '/api/frix/conversations'
+      fullPath: '/api/frix/conversations'
+      preLoaderRoute: typeof ApiFrixConversationsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/api/paystack/initialize': {
       id: '/api/paystack/initialize'
       path: '/api/paystack/initialize'
@@ -819,11 +919,13 @@ declare module '@tanstack/react-router' {
 interface AuthenticatedRouteRouteChildren {
   AuthenticatedAdminRoute: typeof AuthenticatedAdminRoute
   AuthenticatedPortalRoute: typeof AuthenticatedPortalRoute
+  AuthenticatedFrixAiWorkspaceRoute: typeof AuthenticatedFrixAiWorkspaceRoute
 }
 
 const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedAdminRoute: AuthenticatedAdminRoute,
   AuthenticatedPortalRoute: AuthenticatedPortalRoute,
+  AuthenticatedFrixAiWorkspaceRoute: AuthenticatedFrixAiWorkspaceRoute,
 }
 
 const AuthenticatedRouteRouteWithChildren =
@@ -892,6 +994,10 @@ const rootRouteChildren: RootRouteChildren = {
   LegalPrivacyRoute: LegalPrivacyRoute,
   LegalTermsRoute: LegalTermsRoute,
   BuildIndexRoute: BuildIndexRoute,
+  ApiFrixAccountRoute: ApiFrixAccountRoute,
+  ApiFrixChatRoute: ApiFrixChatRoute,
+  ApiFrixConversationRoute: ApiFrixConversationRoute,
+  ApiFrixConversationsRoute: ApiFrixConversationsRoute,
   ApiPaystackInitializeRoute: ApiPaystackInitializeRoute,
   ApiPaystackStatusRoute: ApiPaystackStatusRoute,
   ApiPaystackVerifyRoute: ApiPaystackVerifyRoute,

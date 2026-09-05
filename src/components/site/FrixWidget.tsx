@@ -239,23 +239,9 @@ export function FrixWidget() {
 
   return (
     <>
-      {!open ? (
-        <button
-          type="button"
-          onClick={() => setOpen(true)}
-          aria-label="Talk to FRAN-X — FRIX AI Business Concierge"
-          className="group fixed right-4 bottom-40 z-[90] flex items-center gap-3 sm:right-6 lg:bottom-28"
-        >
-          <span className="pointer-events-none hidden rounded-full border border-border bg-surface px-3 py-1.5 text-xs font-medium opacity-0 shadow-lg transition-opacity duration-200 group-hover:opacity-100 sm:block">
-            Talk to FRAN-X
-          </span>
-          <span className="relative grid h-11 w-11 place-items-center rounded-full border border-primary/40 bg-background shadow-[0_18px_40px_-16px_var(--primary)] transition-transform duration-200 hover:scale-105 sm:h-14 sm:w-14">
-            <span className="pulse-ring absolute inset-0 rounded-full bg-primary/25" />
-            <LogoMark className="relative h-6 w-6 sm:h-8 sm:w-8" />
-          </span>
-        </button>
-      ) : null}
-
+      {/* The widget no longer has a floating launcher button — it opens via
+          the `frix:open` event (marketing CTAs, Talk to FRAN-X buttons).
+          Members are guided to the full FRIX AI Workspace instead. */}
       {open ? (
         <div className="fixed inset-0 z-[100] flex flex-col bg-background">
           {/* Header */}

@@ -42,3 +42,12 @@
 - **FrixWidget / WhatsApp button** positions adjusted (`bottom-40` / `bottom-24` on mobile) to clear the mobile bottom nav.
 - **DashboardShell** reads URL hash on mount + `hashchange` to sync sidebar deep-links (e.g. `/portal#notifications`).
 - The old `Header.tsx` is preserved but no longer rendered; `Footer` is conditionally shown by `AppShell` (hidden on `/portal` and `/admin`).
+
+## FRIX AI Workspace (authenticated member experience, Sept 2026)
+
+- **Route:** `/frix-ai/workspace` (`src/routes/_authenticated/frix-ai.workspace.tsx`, auth-guarded → `/auth`). The public `/frix-ai` marketing page links to it ("Open FRIX Workspace"); the visitor widget still opens via the `frix:open` event but has **no floating launcher button** anymore (removed Sept 2026; WhatsApp button remains).
+- **API:** `src/routes/api/frix/{chat,conversations,conversation,account}.ts` — authenticated with `getUserFromRequest` (Bearer token). Server-side ownership checks, subscription/usage enforcement (402 + `limitReached` on new-conversation overage), title/mode persistence, regenerate (deletes trailing assistant message server-side).
+- **Plan/usage resolution** in `src/lib/frix-server.ts` (`resolveFrixAccount`): latest `subscriptions` row → `ai_packages.usage_limit` is the monthly conversation limit; users without an active/trial sub fall back to the `explorer` package's `usage_limit` (DB-driven, admin-editable). Usage counts are live queries over `ai_conversations`/`ai_messages` (`user_id`, month window). AI gateway call is aggregated SSE, same as `/api/public/frix`.
+- **Modes** (pidgin/exam/lowdata) and **tools** (writing/summarize/business/data/productivity) are real instruction injections in `frix-server.ts` — no dead buttons.
+- **Migration required:** `supabase/migrations/20260905120000_franx_frix_workspace.sql` adds `title`/`mode` to `ai_conversations`. Chat creation tolerates the columns missing (falls back to a minimal insert); rename and stored modes only work once it's applied to the hosted Supabase project.
+- **File/image upload and voice are intentionally absent** from the workspace — no backend integration exists, and the product rule is "no fake controls".
