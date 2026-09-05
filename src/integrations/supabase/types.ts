@@ -828,6 +828,276 @@ export type Database = {
         }
         Relationships: []
       }
+      digital_library: {
+        Row: {
+          access_type: string
+          created_at: string
+          expires_at: string | null
+          granted_at: string
+          id: string
+          is_active: boolean
+          payment_id: string | null
+          plan_code: string | null
+          product_slug: string | null
+          subscription_id: string | null
+          user_id: string
+        }
+        Insert: {
+          access_type?: string
+          created_at?: string
+          expires_at?: string | null
+          granted_at?: string
+          id?: string
+          is_active?: boolean
+          payment_id?: string | null
+          plan_code?: string | null
+          product_slug?: string | null
+          subscription_id?: string | null
+          user_id: string
+        }
+        Update: {
+          access_type?: string
+          created_at?: string
+          expires_at?: string | null
+          granted_at?: string
+          id?: string
+          is_active?: boolean
+          payment_id?: string | null
+          plan_code?: string | null
+          product_slug?: string | null
+          subscription_id?: string | null
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "digital_library_payment_id_fkey"
+            columns: ["payment_id"]
+            isOneToOne: false
+            referencedRelation: "payments"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "digital_library_subscription_id_fkey"
+            columns: ["subscription_id"]
+            isOneToOne: false
+            referencedRelation: "subscriptions"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      digital_plans: {
+        Row: {
+          annual_price: number
+          badge: string | null
+          benefits: Json
+          code: string
+          created_at: string
+          currency: string
+          featured: boolean
+          id: string
+          is_active: boolean
+          monthly_price: number
+          name: string
+          plan_type: string
+          revenue: number
+          sort_order: number
+          subscribers_count: number
+          updated_at: string
+          usage_limit: number | null
+        }
+        Insert: {
+          annual_price?: number
+          badge?: string | null
+          benefits?: Json
+          code: string
+          created_at?: string
+          currency?: string
+          featured?: boolean
+          id?: string
+          is_active?: boolean
+          monthly_price?: number
+          name: string
+          plan_type: string
+          revenue?: number
+          sort_order?: number
+          subscribers_count?: number
+          updated_at?: string
+          usage_limit?: number | null
+        }
+        Update: {
+          annual_price?: number
+          badge?: string | null
+          benefits?: Json
+          code?: string
+          created_at?: string
+          currency?: string
+          featured?: boolean
+          id?: string
+          is_active?: boolean
+          monthly_price?: number
+          name?: string
+          plan_type?: string
+          revenue?: number
+          sort_order?: number
+          subscribers_count?: number
+          updated_at?: string
+          usage_limit?: number | null
+        }
+        Relationships: []
+      }
+      digital_products: {
+        Row: {
+          bundle_slugs: Json
+          category: string
+          cover: string | null
+          created_at: string
+          currency: string
+          description: string
+          disclaimer: string | null
+          downloads: number
+          featured: boolean
+          file_format: string
+          file_url: string | null
+          has_file: boolean
+          id: string
+          is_archived: boolean
+          is_bundle: boolean
+          is_published: boolean
+          name: string
+          price: number
+          related_slugs: Json
+          revenue: number
+          sales_count: number
+          slug: string
+          sort_order: number
+          updated_at: string
+          whats_included: Json
+        }
+        Insert: {
+          bundle_slugs?: Json
+          category: string
+          cover?: string | null
+          created_at?: string
+          currency?: string
+          description?: string
+          disclaimer?: string | null
+          downloads?: number
+          featured?: boolean
+          file_format?: string
+          file_url?: string | null
+          has_file?: boolean
+          id?: string
+          is_archived?: boolean
+          is_bundle?: boolean
+          is_published?: boolean
+          name: string
+          price?: number
+          related_slugs?: Json
+          revenue?: number
+          sales_count?: number
+          slug: string
+          sort_order?: number
+          updated_at?: string
+          whats_included?: Json
+        }
+        Update: {
+          bundle_slugs?: Json
+          category?: string
+          cover?: string | null
+          created_at?: string
+          currency?: string
+          description?: string
+          disclaimer?: string | null
+          downloads?: number
+          featured?: boolean
+          file_format?: string
+          file_url?: string | null
+          has_file?: boolean
+          id?: string
+          is_archived?: boolean
+          is_bundle?: boolean
+          is_published?: boolean
+          name?: string
+          price?: number
+          related_slugs?: Json
+          revenue?: number
+          sales_count?: number
+          slug?: string
+          sort_order?: number
+          updated_at?: string
+          whats_included?: Json
+        }
+        Relationships: []
+      }
+      digital_services: {
+        Row: {
+          billing_label: string
+          billing_type: string
+          cover: string | null
+          created_at: string
+          custom_quote_only: boolean
+          delivery_estimate: string
+          description: string
+          featured: boolean
+          group_label: string
+          id: string
+          is_active: boolean
+          name: string
+          price_from: number
+          requests_count: number
+          revenue: number
+          service_group: string
+          slug: string
+          sort_order: number
+          updated_at: string
+          whats_included: Json
+        }
+        Insert: {
+          billing_label?: string
+          billing_type?: string
+          cover?: string | null
+          created_at?: string
+          custom_quote_only?: boolean
+          delivery_estimate?: string
+          description?: string
+          featured?: boolean
+          group_label: string
+          id?: string
+          is_active?: boolean
+          name: string
+          price_from?: number
+          requests_count?: number
+          revenue?: number
+          service_group: string
+          slug: string
+          sort_order?: number
+          updated_at?: string
+          whats_included?: Json
+        }
+        Update: {
+          billing_label?: string
+          billing_type?: string
+          cover?: string | null
+          created_at?: string
+          custom_quote_only?: boolean
+          delivery_estimate?: string
+          description?: string
+          featured?: boolean
+          group_label?: string
+          id?: string
+          is_active?: boolean
+          name?: string
+          price_from?: number
+          requests_count?: number
+          revenue?: number
+          service_group?: string
+          slug?: string
+          sort_order?: number
+          updated_at?: string
+          whats_included?: Json
+        }
+        Relationships: []
+      }
       documents: {
         Row: {
           created_at: string
@@ -1510,6 +1780,60 @@ export type Database = {
           },
         ]
       }
+      promotions: {
+        Row: {
+          applies_to: string
+          code: string
+          created_at: string
+          description: string | null
+          discount_type: string
+          discount_value: number
+          ends_at: string | null
+          id: string
+          is_active: boolean
+          max_uses: number | null
+          starts_at: string | null
+          subscriber_only: boolean
+          target_slug: string | null
+          updated_at: string
+          used_count: number
+        }
+        Insert: {
+          applies_to?: string
+          code: string
+          created_at?: string
+          description?: string | null
+          discount_type?: string
+          discount_value?: number
+          ends_at?: string | null
+          id?: string
+          is_active?: boolean
+          max_uses?: number | null
+          starts_at?: string | null
+          subscriber_only?: boolean
+          target_slug?: string | null
+          updated_at?: string
+          used_count?: number
+        }
+        Update: {
+          applies_to?: string
+          code?: string
+          created_at?: string
+          description?: string | null
+          discount_type?: string
+          discount_value?: number
+          ends_at?: string | null
+          id?: string
+          is_active?: boolean
+          max_uses?: number | null
+          starts_at?: string | null
+          subscriber_only?: boolean
+          target_slug?: string | null
+          updated_at?: string
+          used_count?: number
+        }
+        Relationships: []
+      }
       proposals: {
         Row: {
           amount: number | null
@@ -1656,6 +1980,77 @@ export type Database = {
             columns: ["subscription_id"]
             isOneToOne: false
             referencedRelation: "subscriptions"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      service_requests: {
+        Row: {
+          amount: number | null
+          assigned_to: string | null
+          budget: string | null
+          completed_work: Json
+          created_at: string
+          expected_delivery: string | null
+          files: Json
+          goals: string | null
+          id: string
+          inquiry_id: string | null
+          messages: Json
+          payment_status: string
+          service_name: string
+          service_slug: string
+          status: string
+          timeline: string | null
+          updated_at: string
+          user_id: string | null
+        }
+        Insert: {
+          amount?: number | null
+          assigned_to?: string | null
+          budget?: string | null
+          completed_work?: Json
+          created_at?: string
+          expected_delivery?: string | null
+          files?: Json
+          goals?: string | null
+          id?: string
+          inquiry_id?: string | null
+          messages?: Json
+          payment_status?: string
+          service_name: string
+          service_slug: string
+          status?: string
+          timeline?: string | null
+          updated_at?: string
+          user_id?: string | null
+        }
+        Update: {
+          amount?: number | null
+          assigned_to?: string | null
+          budget?: string | null
+          completed_work?: Json
+          created_at?: string
+          expected_delivery?: string | null
+          files?: Json
+          goals?: string | null
+          id?: string
+          inquiry_id?: string | null
+          messages?: Json
+          payment_status?: string
+          service_name?: string
+          service_slug?: string
+          status?: string
+          timeline?: string | null
+          updated_at?: string
+          user_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "service_requests_inquiry_id_fkey"
+            columns: ["inquiry_id"]
+            isOneToOne: false
+            referencedRelation: "inquiries"
             referencedColumns: ["id"]
           },
         ]
