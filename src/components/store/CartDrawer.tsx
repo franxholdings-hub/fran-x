@@ -19,7 +19,7 @@ export function CartDrawer() {
     <Sheet open={isOpen} onOpenChange={setOpen}>
       <SheetContent className="flex w-full flex-col gap-0 p-0 sm:max-w-md">
         <SheetHeader className="border-b border-border px-5 py-4">
-          <SheetTitle className="flex items-center gap-2 font-display">
+          <SheetTitle className="flex items-center gap-2 pr-8 font-display">
             <ShoppingBag className="h-4 w-4" /> Your Cart
             <span className="ml-auto text-sm font-normal text-muted-foreground">
               {count} {count === 1 ? "item" : "items"}
@@ -37,6 +37,16 @@ export function CartDrawer() {
           </div>
         ) : (
           <>
+            {/* Subtotal summary — kept at the top so the floating WhatsApp
+                button can never cover the amount a customer needs to pay. */}
+            <div className="border-b border-border bg-surface/50 px-5 py-4">
+              <div className="flex items-center justify-between">
+                <span className="text-sm text-muted-foreground">Subtotal</span>
+                <span className="font-display text-xl font-semibold">{formatNaira(total)}</span>
+              </div>
+            </div>
+
+            {/* Product details — name, units and price live below the subtotal. */}
             <div className="flex-1 overflow-y-auto px-5 py-4">
               <ul className="space-y-3">
                 {items.map((item) => (
@@ -47,7 +57,7 @@ export function CartDrawer() {
                     <div className="min-w-0">
                       <p className="truncate text-sm font-medium">{item.name}</p>
                       <p className="text-xs capitalize text-muted-foreground">
-                        {item.kind === "subscription" ? "Subscription" : item.category}
+                        {item.kind === "subscription" ? "Subscription" : item.category} · 1 unit
                       </p>
                     </div>
                     <div className="flex items-center gap-2">
@@ -69,19 +79,8 @@ export function CartDrawer() {
             </div>
 
             <div className="border-t border-border px-5 py-4">
-              <div className="flex items-center justify-between text-sm">
-                <span className="text-muted-foreground">Subtotal</span>
-                <span className="font-display text-lg font-semibold">{formatNaira(total)}</span>
-              </div>
-              <Button asChild className="mt-4 w-full" size="lg" onClick={() => setOpen(false)}>
-                <Link to="/store/checkout">
-                  <span className="flex items-center gap-2">
-                    Checkout via Paystack
-                    <span className="rounded bg-primary-foreground/20 px-1.5 py-0.5 text-[10px] font-bold uppercase tracking-wide">
-                      Paystack
-                    </span>
-                  </span>
-                </Link>
+              <Button asChild className="w-full" size="lg" onClick={() => setOpen(false)}>
+                <Link to="/store/checkout">Proceed to payment</Link>
               </Button>
               <Button
                 variant="ghost"

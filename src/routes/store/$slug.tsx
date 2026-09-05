@@ -1,11 +1,14 @@
+import { useMemo } from "react";
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { toast } from "sonner";
-import { ArrowLeft, ArrowRight, Check, Package, ShoppingCart, ShieldCheck, Sparkles } from "lucide-react";
+import { ArrowLeft, ArrowRight, Check, FileDown, Package, ShoppingCart, ShieldCheck, Sparkles } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { PageHero } from "@/components/site/PageHero";
 import { ValueMatrix, ProductCard, StoreSectionHeading } from "@/components/store/ProductCard";
 import { useCart } from "@/hooks/useCart";
+import { useStoreProducts, type StoreProduct } from "@/hooks/useStoreProducts";
+import { useProductAccess, useProductFiles, downloadProductFile } from "@/lib/digital-store/files";
 import {
   getProductBySlug,
   getRelatedProducts,
@@ -26,10 +29,26 @@ export const Route = createFileRoute("/store/$slug")({
 
 function ProductDetail() {
   const { slug } = Route.useParams();
-  const product = getProductBySlug(slug);
+  // Admin-managed DB product (static catalog as fallback while loading) —
+  // products created in the admin dashboard render automatically.
+  const { data, isPending } = useStoreProducts();
+  const product = useMemo<StoreProduct | undefined>(
+    () => data?.products.find((p) => p.slug === slug) ?? getProductBySlug(slug),
+    [data, slug],
+  );
   const { add, open } = useCart();
+  const { data: files } = useProductFiles(slug);
+  const owned = useProductAccess(slug);
+  const previewFile = (files ?? []).find((f) => f.kind === "preview");
 
   if (!product) {
+    if (isPending) {
+      return (
+        <div className="container-x py-12 text-center text-sm text-muted-foreground">
+          Loading product…
+        </div>
+      );
+    }
     return (
       <div className="container-x py-12 text-center">
         <h1 className="text-2xl font-semibold">Product not found</h1>
@@ -40,7 +59,11 @@ function ProductDetail() {
     );
   }
 
-  const photo = PHOTOS[product.cover];
+  const basePhoto = PHOTOS[product.cover];
+  const photo = {
+    src: product.coverUrl ?? basePhoto?.src ?? "",
+    alt: basePhoto?.alt ?? product.name,
+  };
   const related = getRelatedProducts(product, 4);
   const savings = product.bundle ? getBundleOriginalTotal(product) - product.price : 0;
 
@@ -140,10 +163,48 @@ function ProductDetail() {
               )}
             </div>
 
+            {/* Already owned — link straight to the library */}
+            {owned.data && (
+              <div className="mt-5 flex flex-wrap items-center justify-between gap-3 rounded-xl border border-emerald-500/30 bg-emerald-500/5 p-4">
+                <p className="text-sm font-medium text-emerald-700 dark:text-emerald-400">
+                  You already own this product.
+                </p>
+                <Button asChild size="sm">
+                  <Link to="/portal" hash="library">Go to my library</Link>
+                </Button>
+              </div>
+            )}
+
+            {/* Free preview / sample uploaded by the admin */}
+            {previewFile && (
+              <Button
+                variant="outline"
+                size="sm"
+                className="mt-4"
+                onClick={() =>
+                  downloadProductFile(slug, previewFile.id).catch((e: Error) =>
+                    toast.error(e.message || "Could not download the sample."),
+                  )
+                }
+              >
+                <FileDown className="h-4 w-4" /> Download free sample
+              </Button>
+            )}
+
             <h2 className="mt-7 font-display text-lg font-semibold">What's included</h2>
             <div className="mt-3 rounded-xl border border-border bg-surface/40 p-5">
               <ValueMatrix items={product.whatsIncluded} />
             </div>
+
+            {/* Admin-editable notes / instructions */}
+            {product.notes && (
+              <>
+                <h2 className="mt-7 font-display text-lg font-semibold">How to use this product</h2>
+                <p className="mt-3 whitespace-pre-line rounded-xl border border-border bg-surface/40 p-5 text-sm leading-relaxed text-muted-foreground">
+                  {product.notes}
+                </p>
+              </>
+            )}
 
             {product.disclaimer && (
               <p className="mt-4 rounded-lg border border-amber-500/30 bg-amber-500/5 p-3 text-xs leading-relaxed text-muted-foreground">

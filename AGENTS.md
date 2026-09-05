@@ -30,6 +30,16 @@
 - **Admin access:** `useAuth` treats the email `franxholdings@gmail.com` as admin client-side, and `supabase/migrations/20260904000000_franx_admin_email.sql` extends `has_role()` so RLS recognizes it at the DB level (apply the migration to the hosted Supabase project).
 - Generated Supabase types (`src/integrations/supabase/types.ts`) are stale (missing `revenue_history`, `payments`, `ai_clients`, `digital_*` tables) — existing code works around it with `as never` casts; `tsc --noEmit` reports pre-existing errors. Regenerating the types would clear most of them.
 
+## Digital product file system (Sept 2026)
+
+- **Migration required:** `supabase/migrations/20260905140000_franx_product_files.sql` adds `digital_product_files` (kind: `product`/`preview`/`cover`, versioned), a `notes` column on `digital_products`, the PRIVATE `product-files` storage bucket + RLS (admin-only writes; preview/cover files public-read; paid files readable only by owners via a `digital_library` policy). Apply it to the hosted Supabase project.
+- **Admin uploads** happen in `src/components/admin/product-files.tsx` (`ProductFilesDialog`, opened via the folder icon in Admin → Digital Products). Uploads go through the session client + storage RLS (works as the admin email without the service key). Replacing a file increments `version` and removes the old storage object; `digital_products.has_file` is kept in sync.
+- **Downloads** go through `GET /api/store/download?slug=&file=&direct=&inline=` (`src/routes/api/store/download.ts`): paid files require an active `digital_library` row (granted ONLY in `processVerifiedPayment` after Paystack verification — the checkout page rendering is never sufficient), then a 10-minute signed URL to the private bucket is issued. Signed URL creation needs `SUPABASE_SERVICE_ROLE_KEY`; without it the API returns a clear 503.
+- **Verified-payment grants:** `processVerifiedPayment` in `src/lib/paystack.server.ts` now inserts `digital_library` rows for each `digital_store` line (owned products permanent; store subscriptions get +30d/+365d expiry) and updates `digital_products.sales_count`/`revenue`. Idempotent via the existing verified-payment guard.
+- **Storefront is DB-driven:** `useStoreProducts()` (`src/hooks/useStoreProducts.ts`) reads published `digital_products` rows and maps them onto the catalog types — admin-created products and price edits appear on `/store` without code changes. The static catalog (`src/lib/digital-store/catalog.ts`) is the fallback while loading / if the DB is unreachable. `/api/store/checkout` validates prices DB-first too.
+- **Customer library:** `DigitalLibrarySection.tsx` renders owned products from `digital_library` joined to `digital_products` with per-file Download buttons, "Download all files", Read/View for PDFs and the admin notes; legacy verified payments render as a simple fallback when no library rows exist.
+- Product notes are shown on the product page and in the library; free samples (`kind='preview'`) are downloadable on the product page without purchase.
+
 ## App-like navigation system
 
 - **`src/components/navigation/`** contains the app-like navigation system, wired into `__root.tsx` via `AppShell`.
@@ -42,3 +52,12 @@
 - **FrixWidget / WhatsApp button** positions adjusted (`bottom-40` / `bottom-24` on mobile) to clear the mobile bottom nav.
 - **DashboardShell** reads URL hash on mount + `hashchange` to sync sidebar deep-links (e.g. `/portal#notifications`).
 - The old `Header.tsx` is preserved but no longer rendered; `Footer` is conditionally shown by `AppShell` (hidden on `/portal` and `/admin`).
+
+## FRIX AI Workspace (authenticated member experience, Sept 2026)
+
+- **Route:** `/frix-ai/workspace` (`src/routes/_authenticated/frix-ai.workspace.tsx`, auth-guarded → `/auth`). The public `/frix-ai` marketing page links to it ("Open FRIX Workspace"); the visitor widget still opens via the `frix:open` event but has **no floating launcher button** anymore (removed Sept 2026; WhatsApp button remains).
+- **API:** `src/routes/api/frix/{chat,conversations,conversation,account}.ts` — authenticated with `getUserFromRequest` (Bearer token). Server-side ownership checks, subscription/usage enforcement (402 + `limitReached` on new-conversation overage), title/mode persistence, regenerate (deletes trailing assistant message server-side).
+- **Plan/usage resolution** in `src/lib/frix-server.ts` (`resolveFrixAccount`): latest `subscriptions` row → `ai_packages.usage_limit` is the monthly conversation limit; users without an active/trial sub fall back to the `explorer` package's `usage_limit` (DB-driven, admin-editable). Usage counts are live queries over `ai_conversations`/`ai_messages` (`user_id`, month window). AI gateway call is aggregated SSE, same as `/api/public/frix`.
+- **Modes** (pidgin/exam/lowdata) and **tools** (writing/summarize/business/data/productivity) are real instruction injections in `frix-server.ts` — no dead buttons.
+- **Migration required:** `supabase/migrations/20260905120000_franx_frix_workspace.sql` adds `title`/`mode` to `ai_conversations`. Chat creation tolerates the columns missing (falls back to a minimal insert); rename and stored modes only work once it's applied to the hosted Supabase project.
+- **File/image upload and voice are intentionally absent** from the workspace — no backend integration exists, and the product rule is "no fake controls".

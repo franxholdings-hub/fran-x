@@ -7,6 +7,7 @@ import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
 import { ProductCard, StoreSectionHeading } from "@/components/store/ProductCard";
 import { PageHero } from "@/components/site/PageHero";
+import { useStoreProducts } from "@/hooks/useStoreProducts";
 import {
   getPublishedProducts,
   STORE_CATEGORY_MAP,
@@ -16,7 +17,16 @@ import { PHOTOS } from "@/lib/photos";
 
 export function CategoryPage({ categoryId }: { categoryId: StoreCategoryId }) {
   const cat = STORE_CATEGORY_MAP[categoryId];
-  const all = useMemo(() => getPublishedProducts(categoryId), [categoryId]);
+  // Admin-managed DB products (static catalog as fallback while loading) —
+  // products created in the admin dashboard show up automatically.
+  const { data } = useStoreProducts();
+  const all = useMemo(
+    () =>
+      (data?.products ?? getPublishedProducts(categoryId)).filter(
+        (p) => p.category === categoryId,
+      ),
+    [data, categoryId],
+  );
   const [query, setQuery] = useState("");
 
   const filtered = useMemo(() => {

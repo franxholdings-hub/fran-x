@@ -22,11 +22,43 @@ export const Route = createFileRoute("/api/store/checkout")({
         const user = await getUserFromRequest(request);
         if (!user) return Response.json({ error: "Authentication required." }, { status: 401 });
 
-        // Server-side price validation: recompute the total from the catalog
-        // so a tampered client price can never be charged.
+        // Server-side price validation: recompute the total from the
+        // admin-managed digital_products table (source of truth — the admin
+        // can create/edit products with no code changes), falling back to the
+        // static catalog, so a tampered client price can never be charged.
         const { DIGITAL_PRODUCTS, STORE_SUBSCRIPTIONS } = await import(
           "@/lib/digital-store/catalog"
         );
+
+        let lookupProduct: (slug: string) => Promise<{ name: string; price: number } | null> = async (slug) => {
+          const product = DIGITAL_PRODUCTS.find((p) => p.slug === slug && p.published);
+          return product ? { name: product.name, price: product.price } : null;
+        };
+        try {
+          const { createClient } = await import("@supabase/supabase-js");
+          const dbUrl = process.env.SUPABASE_URL;
+          const dbKey = process.env.SUPABASE_PUBLISHABLE_KEY;
+          if (dbUrl && dbKey) {
+            const db = createClient(dbUrl, dbKey, { auth: { persistSession: false } });
+            lookupProduct = async (slug) => {
+              const { data } = await db
+                .from("digital_products")
+                .select("name,price")
+                .eq("slug", slug)
+                .eq("is_published", true)
+                .eq("is_archived", false)
+                .maybeSingle();
+              if (data) {
+                const row = data as { name: string; price: number | string };
+                return { name: row.name, price: Number(row.price) };
+              }
+              const product = DIGITAL_PRODUCTS.find((p) => p.slug === slug && p.published);
+              return product ? { name: product.name, price: product.price } : null;
+            };
+          }
+        } catch {
+          // DB unavailable — static catalog fallback above stays active.
+        }
 
         let total = 0;
         const lines: {
@@ -45,10 +77,10 @@ export const Route = createFileRoute("/api/store/checkout")({
             total += price;
             lines.push({ slug: item.slug, name: plan.name, price, kind: "subscription", subCode: plan.code });
           } else {
-            const product = DIGITAL_PRODUCTS.find((p) => p.slug === item.slug && p.published);
+            const product = await lookupProduct(item.slug);
             if (!product) return Response.json({ error: `Unknown product: ${item.slug}` }, { status: 400 });
             total += product.price;
-            lines.push({ slug: product.slug, name: product.name, price: product.price, kind: "product" });
+            lines.push({ slug: item.slug, name: product.name, price: product.price, kind: "product" });
           }
         }
 

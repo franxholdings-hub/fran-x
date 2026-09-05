@@ -108,11 +108,13 @@ function FrixAiPage() {
         photo={PHOTOS.technology}
       >
         <div className="flex flex-col gap-2.5 sm:flex-row">
-          <Button size="lg" onClick={() => openFrix()}>
-            <Sparkles /> Chat with FRIX AI
+          <Button asChild size="lg">
+            <Link to="/frix-ai/workspace">
+              <Sparkles /> Open FRIX Workspace
+            </Link>
           </Button>
-          <Button asChild size="lg" variant="outline">
-            <Link to="/pricing">View Plans</Link>
+          <Button size="lg" variant="outline" onClick={() => openFrix()}>
+            Quick chat (no sign-in)
           </Button>
         </div>
       </PageHero>
