@@ -19,7 +19,7 @@ export function CartDrawer() {
     <Sheet open={isOpen} onOpenChange={setOpen}>
       <SheetContent className="flex w-full flex-col gap-0 p-0 sm:max-w-md">
         <SheetHeader className="border-b border-border px-5 py-4">
-          <SheetTitle className="flex items-center gap-2 font-display">
+          <SheetTitle className="flex items-center gap-2 pr-8 font-display">
             <ShoppingBag className="h-4 w-4" /> Your Cart
             <span className="ml-auto text-sm font-normal text-muted-foreground">
               {count} {count === 1 ? "item" : "items"}
@@ -80,14 +80,7 @@ export function CartDrawer() {
 
             <div className="border-t border-border px-5 py-4">
               <Button asChild className="w-full" size="lg" onClick={() => setOpen(false)}>
-                <Link to="/store/checkout">
-                  <span className="flex items-center gap-2">
-                    Checkout via Paystack
-                    <span className="rounded bg-primary-foreground/20 px-1.5 py-0.5 text-[10px] font-bold uppercase tracking-wide">
-                      Paystack
-                    </span>
-                  </span>
-                </Link>
+                <Link to="/store/checkout">Proceed to payment</Link>
               </Button>
               <Button
                 variant="ghost"
