@@ -94,7 +94,7 @@ export function DigitalLibrarySection() {
                     <div className="min-w-0 flex-1">
                       <p className="truncate text-sm font-medium">{line.name}</p>
                       <p className="text-xs text-muted-foreground">
-                        {formatNaira(p.amount)} · {new Date(p.paid_at ?? p.created_at ?? Date.now()).toLocaleDateString()}
+                        {formatNaira(p.amount)} · {new Date(p.paid_at ?? Date.now()).toLocaleDateString()}
                       </p>
                     </div>
                     <Button size="sm" variant="outline" disabled>

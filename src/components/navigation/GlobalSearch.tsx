@@ -93,7 +93,7 @@ export function GlobalSearch() {
       } else if (result.action === "theme") {
         document.documentElement.classList.toggle("dark");
       } else if (result.to) {
-        void navigate({ to: result.to, hash: result.hash });
+        void navigate({ to: result.to, ...(result.hash ? { hash: result.hash } : {}) });
       }
     },
     [navigate, signOut],

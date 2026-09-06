@@ -103,7 +103,7 @@ export function AppSidebar() {
         <Link
           key={key}
           to={item.to!}
-          hash={item.hash}
+          {...(item.hash ? { hash: item.hash } : {})}
           className={className}
           aria-label={item.label}
         >

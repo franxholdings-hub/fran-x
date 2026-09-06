@@ -32,13 +32,13 @@ export const Route = createFileRoute("/store/")({
 
 // Category tiles for the main store navigation — structured to mirror the
 // dashboard Profile section (PanelSection + compact bordered cards).
-const BENTO = [
-  { cat: STORE_CATEGORIES[0], href: "/store/templates" as const },
-  { cat: STORE_CATEGORIES[1], href: "/store/ebooks" as const },
-  { cat: STORE_CATEGORIES[2], href: "/store/finance" as const },
-  { cat: STORE_CATEGORIES[3], href: "/store/frix-ai" as const },
-  { cat: STORE_CATEGORIES[4], href: "/store/services" as const },
-  { cat: STORE_CATEGORIES[5], href: "/store/services" as const },
+const BENTO: { cat: (typeof STORE_CATEGORIES)[number]; href: string }[] = [
+  { cat: STORE_CATEGORIES[0]!, href: "/store/templates" as const },
+  { cat: STORE_CATEGORIES[1]!, href: "/store/ebooks" as const },
+  { cat: STORE_CATEGORIES[2]!, href: "/store/finance" as const },
+  { cat: STORE_CATEGORIES[3]!, href: "/store/frix-ai" as const },
+  { cat: STORE_CATEGORIES[4]!, href: "/store/services" as const },
+  { cat: STORE_CATEGORIES[5]!, href: "/store/services" as const },
 ];
 
 function StoreHome() {

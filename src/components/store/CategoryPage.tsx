@@ -49,6 +49,7 @@ export function CategoryPage({ categoryId }: { categoryId: StoreCategoryId }) {
       <section className="container-x py-6 sm:py-8">
         <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
           <StoreSectionHeading
+            title={cat.label}
             subtitle={
               categoryId === "finance"
                 ? "Educational resources for personal and business finance. These do not constitute personalized financial advice."

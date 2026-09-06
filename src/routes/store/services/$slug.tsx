@@ -156,7 +156,7 @@ function ServiceDetail() {
 
               {!user ? (
                 <div className="mt-5">
-                  <AuthGateNotice />
+                  <AuthGateNotice action="continue" />
                   <Button asChild className="mt-4 w-full">
                     <Link to="/auth">Sign in to continue</Link>
                   </Button>

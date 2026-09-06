@@ -176,7 +176,7 @@ function CheckoutPage() {
 
               {!user ? (
                 <div className="mt-6">
-                  <AuthGateNotice />
+                  <AuthGateNotice action="continue" />
                   <Button asChild className="mt-4 w-full">
                     <Link to="/auth">Sign in to checkout</Link>
                   </Button>
