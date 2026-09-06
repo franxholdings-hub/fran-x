@@ -1,4 +1,3 @@
-import { useMemo } from "react";
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { ArrowRight, Package, Sparkles, TrendingUp } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -14,7 +13,6 @@ import {
   formatNaira,
 } from "@/lib/digital-store/catalog";
 import { PHOTOS } from "@/lib/photos";
-import { useStoreProducts } from "@/hooks/useStoreProducts";
 
 const TITLE = "FRAN-X Digital Store | Templates, E-Books, Services & Subscriptions";
 const DESCRIPTION =
@@ -34,23 +32,17 @@ export const Route = createFileRoute("/store/")({
 
 // Category tiles for the main store navigation — structured to mirror the
 // dashboard Profile section (PanelSection + compact bordered cards).
-const BENTO = [
-  { cat: STORE_CATEGORIES[0], href: "/store/templates" as const },
-  { cat: STORE_CATEGORIES[1], href: "/store/ebooks" as const },
-  { cat: STORE_CATEGORIES[2], href: "/store/finance" as const },
-  { cat: STORE_CATEGORIES[3], href: "/store/frix-ai" as const },
-  { cat: STORE_CATEGORIES[4], href: "/store/services" as const },
-  { cat: STORE_CATEGORIES[5], href: "/store/services" as const },
+const BENTO: { cat: (typeof STORE_CATEGORIES)[number]; href: string }[] = [
+  { cat: STORE_CATEGORIES[0]!, href: "/store/templates" as const },
+  { cat: STORE_CATEGORIES[1]!, href: "/store/ebooks" as const },
+  { cat: STORE_CATEGORIES[2]!, href: "/store/finance" as const },
+  { cat: STORE_CATEGORIES[3]!, href: "/store/frix-ai" as const },
+  { cat: STORE_CATEGORIES[4]!, href: "/store/services" as const },
+  { cat: STORE_CATEGORIES[5]!, href: "/store/services" as const },
 ];
 
 function StoreHome() {
-  // Admin-managed DB products (with the static catalog as fallback while
-  // loading) — new products published in the dashboard appear automatically.
-  const { data } = useStoreProducts();
-  const featured = useMemo(() => {
-    const pool = data?.products ?? getFeaturedProducts(8);
-    return pool.filter((p) => p.featured).slice(0, 8);
-  }, [data]);
+  const featured = getFeaturedProducts(8);
   const startupBundle = featured.find((p) => p.bundle);
 
   return (

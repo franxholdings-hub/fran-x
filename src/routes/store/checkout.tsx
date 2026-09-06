@@ -176,7 +176,7 @@ function CheckoutPage() {
 
               {!user ? (
                 <div className="mt-6">
-                  <AuthGateNotice />
+                  <AuthGateNotice action="continue" />
                   <Button asChild className="mt-4 w-full">
                     <Link to="/auth">Sign in to checkout</Link>
                   </Button>
@@ -192,7 +192,7 @@ function CheckoutPage() {
                     <Loader2 className="h-4 w-4 animate-spin" />
                   ) : (
                     <>
-                      <Lock className="h-4 w-4" /> Confirm payment
+                      <Lock className="h-4 w-4" /> Pay {formatNaira(total)} via Paystack
                     </>
                   )}
                 </Button>

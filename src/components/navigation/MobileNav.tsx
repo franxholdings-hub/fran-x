@@ -127,7 +127,7 @@ export function MobileNav() {
                   <Link
                     key={item.label}
                     to={item.to!}
-                    hash={item.hash}
+                    {...(item.hash ? { hash: item.hash } : {})}
                     onClick={() => setMoreOpen(false)}
                     className="flex w-full items-center gap-3 rounded-lg px-3 py-3 text-sm font-medium text-muted-foreground transition-colors hover:bg-surface hover:text-foreground"
                   >
@@ -199,7 +199,7 @@ function BottomNavItem({
     return (
       <Link
         to={item.to}
-        hash={item.hash}
+        {...(item.hash ? { hash: item.hash } : {})}
         className={className}
         aria-label={item.label}
         aria-current={active ? "page" : undefined}

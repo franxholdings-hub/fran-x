@@ -1330,7 +1330,7 @@ export function getFeaturedProducts(n = 6): DigitalProduct[] {
 export function getRelatedProducts(product: DigitalProduct, n = 4): DigitalProduct[] {
   const explicit = (product.relatedSlugs ?? [])
     .map((s) => getProductBySlug(s))
-    .filter((p): p is DigitalProduct => Boolean(p) && p.slug !== product.slug);
+    .filter((p): p is DigitalProduct => p !== undefined && p.slug !== product.slug);
   if (explicit.length >= n) return explicit.slice(0, n);
   const sameCat = DIGITAL_PRODUCTS.filter(
     (p) =>

@@ -128,7 +128,7 @@ function ResourcePass() {
 
         {!user && (
           <div className="mt-8">
-            <AuthGateNotice />
+            <AuthGateNotice action="continue" />
           </div>
         )}
 

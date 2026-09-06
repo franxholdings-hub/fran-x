@@ -7,7 +7,6 @@ import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
 import { ProductCard, StoreSectionHeading } from "@/components/store/ProductCard";
 import { PageHero } from "@/components/site/PageHero";
-import { useStoreProducts } from "@/hooks/useStoreProducts";
 import {
   getPublishedProducts,
   STORE_CATEGORY_MAP,
@@ -17,16 +16,7 @@ import { PHOTOS } from "@/lib/photos";
 
 export function CategoryPage({ categoryId }: { categoryId: StoreCategoryId }) {
   const cat = STORE_CATEGORY_MAP[categoryId];
-  // Admin-managed DB products (static catalog as fallback while loading) —
-  // products created in the admin dashboard show up automatically.
-  const { data } = useStoreProducts();
-  const all = useMemo(
-    () =>
-      (data?.products ?? getPublishedProducts(categoryId)).filter(
-        (p) => p.category === categoryId,
-      ),
-    [data, categoryId],
-  );
+  const all = useMemo(() => getPublishedProducts(categoryId), [categoryId]);
   const [query, setQuery] = useState("");
 
   const filtered = useMemo(() => {
@@ -59,11 +49,13 @@ export function CategoryPage({ categoryId }: { categoryId: StoreCategoryId }) {
       <section className="container-x py-6 sm:py-8">
         <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
           <StoreSectionHeading
-            subtitle={
-              categoryId === "finance"
-                ? "Educational resources for personal and business finance. These do not constitute personalized financial advice."
-                : undefined
-            }
+            title={cat.label}
+            {...(categoryId === "finance"
+              ? {
+                  subtitle:
+                    "Educational resources for personal and business finance. These do not constitute personalized financial advice.",
+                }
+              : {})}
           />
           <div className="relative w-full sm:max-w-xs">
             <Search className="pointer-events-none absolute top-1/2 left-3.5 h-4 w-4 -translate-y-1/2 text-muted-foreground" />

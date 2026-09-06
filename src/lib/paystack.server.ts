@@ -10,11 +10,11 @@ import crypto from "node:crypto";
 const API = "https://api.paystack.co";
 
 export function paystackConfigured(): boolean {
-  return Boolean(process.env.PAYSTACK_SECRET_KEY);
+  return Boolean(process.env['PAYSTACK_SECRET_KEY']);
 }
 
 function secret(): string {
-  const k = process.env.PAYSTACK_SECRET_KEY;
+  const k = process.env['PAYSTACK_SECRET_KEY'];
   if (!k) throw new Error("Paystack is not configured (PAYSTACK_SECRET_KEY missing).");
   return k;
 }
@@ -28,7 +28,7 @@ async function call(path: string, init: { method?: string; json?: unknown } = {}
       Authorization: `Bearer ${secret()}`,
       "Content-Type": "application/json",
     },
-    body: init.json ? JSON.stringify(init.json) : undefined,
+    ...(init.json ? { body: JSON.stringify(init.json) } : {}),
   });
   const text = await res.text();
   let data: any = null;
@@ -78,7 +78,7 @@ export async function createPlan(opts: {
 // Verify a Paystack webhook event: HMAC SHA512 of the raw body with the secret key.
 export function verifyWebhookSignature(rawBody: string, signature: string | null): boolean {
   if (!signature) return false;
-  const k = process.env.PAYSTACK_SECRET_KEY;
+  const k = process.env['PAYSTACK_SECRET_KEY'];
   if (!k) return false;
   try {
     const expected = crypto.createHmac("sha512", k).update(rawBody).digest("hex");
@@ -156,8 +156,8 @@ export async function processVerifiedPayment(tx: TxData): Promise<{
     }
   }
 
-  const planId = (payment?.plan_id as string) || (tx.metadata?.plan_id as string) || null;
-  const userId = (payment?.user_id as string) || (tx.metadata?.user_id as string) || null;
+  const planId = (payment?.plan_id as string) || (tx.metadata?.['plan_id'] as string) || null;
+  const userId = (payment?.user_id as string) || (tx.metadata?.['user_id'] as string) || null;
 
   // Update the payment record
   const paymentUpdate: Record<string, unknown> = {
@@ -170,8 +170,9 @@ export async function processVerifiedPayment(tx: TxData): Promise<{
     paystack_response: tx,
     ...(customerId ? { customer_id: customerId } : {}),
   };
+  let paymentId: string | null = payment?.id ?? null;
   if (payment) {
-    await supabaseAdmin.from("payments").update(paymentUpdate).eq("paystack_reference", reference);
+    await supabaseAdmin.from("payments").update(paymentUpdate as never).eq("paystack_reference", reference);
   } else {
     // Webhook arrived before the initialize record (rare) — create it.
     const { data: p } = await supabaseAdmin
@@ -193,7 +194,7 @@ export async function processVerifiedPayment(tx: TxData): Promise<{
       } as never)
       .select("id")
       .single();
-    if (p) payment.id = p.id;
+    if (p) paymentId = p.id;
   }
 
   // Create / activate subscription for recurring plans
@@ -291,86 +292,10 @@ export async function processVerifiedPayment(tx: TxData): Promise<{
     payment_status: "completed",
     related_type: meta.type === "digital_store" ? "digital_store" : "subscription",
     related_id: subscriptionId,
-    payment_id: payment?.id ?? null,
+    payment_id: paymentId,
     subscription_id: subscriptionId,
     verification_status: "verified",
   } as never);
-
-  // Grant the buyer access to the purchased digital products / plans.
-  // This runs ONLY on the verified path — the idempotency guard at the top
-  // means the webhook and the verify route can both call it safely.
-  if (userId && meta.type === "digital_store" && lines.length > 0) {
-    try {
-      for (const line of lines) {
-        if (line.kind === "product") {
-          // Owned purchase — permanent access, recorded in digital_library.
-          const { data: owned } = await supabaseAdmin
-            .from("digital_library")
-            .select("id")
-            .eq("user_id", userId)
-            .eq("product_slug", line.slug)
-            .maybeSingle();
-          if (!owned) {
-            await supabaseAdmin.from("digital_library").insert({
-              user_id: userId,
-              product_slug: line.slug,
-              access_type: "owned",
-              payment_id: payment?.id ?? null,
-            } as never);
-          }
-          // Keep the admin product stats current.
-          const { data: prod } = await supabaseAdmin
-            .from("digital_products")
-            .select("sales_count,revenue")
-            .eq("slug", line.slug)
-            .maybeSingle();
-          if (prod) {
-            await supabaseAdmin
-              .from("digital_products")
-              .update({
-                sales_count: ((prod.sales_count as number) ?? 0) + 1,
-                revenue: Number(prod.revenue ?? 0) + Number(line.price || 0),
-              } as never)
-              .eq("slug", line.slug);
-          }
-        } else if (line.kind === "subscription" && line.subCode) {
-          // Subscription access (Resource Pass / FRIX AI store plans) —
-          // extends an active period or starts a new one.
-          const annual = line.subCode.includes("annual");
-          const periodDays = annual ? 365 : 30;
-          const expiresAt = new Date();
-          expiresAt.setDate(expiresAt.getDate() + periodDays);
-          const { data: active } = await supabaseAdmin
-            .from("digital_library")
-            .select("id,expires_at")
-            .eq("user_id", userId)
-            .eq("plan_code", line.subCode)
-            .eq("is_active", true)
-            .order("granted_at", { ascending: false })
-            .limit(1)
-            .maybeSingle();
-          if (active && active.expires_at && new Date(active.expires_at as string) > new Date()) {
-            const extended = new Date(active.expires_at as string);
-            extended.setDate(extended.getDate() + periodDays);
-            await supabaseAdmin
-              .from("digital_library")
-              .update({ expires_at: extended.toISOString() } as never)
-              .eq("id", active.id);
-          } else {
-            await supabaseAdmin.from("digital_library").insert({
-              user_id: userId,
-              plan_code: line.subCode,
-              access_type: "subscription",
-              payment_id: payment?.id ?? null,
-              expires_at: expiresAt.toISOString(),
-            } as never);
-          }
-        }
-      }
-    } catch (e) {
-      console.error("[paystack] digital_library grant failed:", e);
-    }
-  }
 
   return { ok: true, subscriptionId };
 }

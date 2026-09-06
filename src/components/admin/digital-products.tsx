@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { toast } from "sonner";
-import { Pencil, Plus, Package, Archive, Eye, EyeOff, FolderOpen } from "lucide-react";
+import { Pencil, Plus, Package, Archive, Eye, EyeOff } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -28,7 +28,6 @@ import { Empty, Loading, PanelSection } from "@/components/admin/kit";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/hooks/useAuth";
 import { formatMoney } from "@/lib/ai-integration";
-import { ProductFilesDialog } from "@/components/admin/product-files";
 
 type Product = {
   id: string;
@@ -46,7 +45,6 @@ type Product = {
   is_published: boolean;
   is_archived: boolean;
   has_file: boolean;
-  notes: string | null;
   sort_order: number;
   sales_count: number;
   revenue: number;
@@ -80,7 +78,6 @@ export function DigitalProducts() {
   const { user } = useAuth();
   const [editing, setEditing] = useState<Product | null>(null);
   const [creating, setCreating] = useState(false);
-  const [managingFiles, setManagingFiles] = useState<Product | null>(null);
 
   const products = useQuery({
     queryKey: ["admin-digital-products"],
@@ -98,12 +95,12 @@ export function DigitalProducts() {
     mutationFn: async (values: Record<string, unknown>) => {
       const payload = {
         ...values,
-        whats_included: String(values.whats_included)
+        whats_included: String(values['whats_included'])
           .split("\n")
           .map((s) => s.trim())
           .filter(Boolean),
-        price: Number(values.price) || 0,
-        sort_order: Number(values.sort_order) || 0,
+        price: Number(values['price']) || 0,
+        sort_order: Number(values['sort_order']) || 0,
       } as Record<string, unknown>;
       if (editing) {
         const { error } = await supabase.from("digital_products").update(payload as never).eq("id", editing.id);
@@ -186,7 +183,6 @@ export function DigitalProducts() {
                   </td>
                   <td className="py-2 pr-3">
                     <div className="flex items-center gap-1">
-                      <Button size="sm" variant="ghost" onClick={() => setManagingFiles(p)} title="Manage files & notes"><FolderOpen className="h-3.5 w-3.5" /></Button>
                       <Button size="sm" variant="ghost" onClick={() => setEditing(p)} title="Edit"><Pencil className="h-3.5 w-3.5" /></Button>
                       <Button
                         size="sm" variant="ghost"
@@ -221,18 +217,6 @@ export function DigitalProducts() {
           pending={save.isPending}
         />
       )}
-
-      {managingFiles && (
-        <ProductFilesDialog
-          product={{
-            id: managingFiles.id,
-            slug: managingFiles.slug,
-            name: managingFiles.name,
-            notes: managingFiles.notes,
-          }}
-          onClose={() => setManagingFiles(null)}
-        />
-      )}
     </PanelSection>
   );
 }
@@ -255,28 +239,28 @@ function ProductDialog({ product, onClose, onSave, pending }: {
       <DialogContent className="max-h-[90vh] overflow-y-auto">
         <DialogHeader><DialogTitle>{product ? "Edit product" : "New product"}</DialogTitle></DialogHeader>
         <div className="grid gap-4 sm:grid-cols-2">
-          <div><Label>Name</Label><Input className="mt-1" value={f.name as string} onChange={(e) => set("name", e.target.value)} /></div>
-          <div><Label>Slug (unique)</Label><Input className="mt-1" value={f.slug as string} disabled={!!product} onChange={(e) => set("slug", e.target.value)} /></div>
+          <div><Label>Name</Label><Input className="mt-1" value={f['name'] as string} onChange={(e) => set("name", e.target.value)} /></div>
+          <div><Label>Slug (unique)</Label><Input className="mt-1" value={f['slug'] as string} disabled={!!product} onChange={(e) => set("slug", e.target.value)} /></div>
           <div>
             <Label>Category</Label>
-            <Select value={f.category as string} onValueChange={(v) => set("category", v)}>
+            <Select value={f['category'] as string} onValueChange={(v) => set("category", v)}>
               <SelectTrigger className="mt-1"><SelectValue /></SelectTrigger>
               <SelectContent>{CATEGORIES.map((c) => <SelectItem key={c} value={c}>{c}</SelectItem>)}</SelectContent>
             </Select>
           </div>
-          <div><Label>Price (NGN)</Label><Input className="mt-1" type="number" value={f.price as number} onChange={(e) => set("price", e.target.value)} /></div>
-          <div><Label>File format</Label><Input className="mt-1" value={f.file_format as string} onChange={(e) => set("file_format", e.target.value)} /></div>
-          <div><Label>Cover photo key</Label><Input className="mt-1" value={f.cover as string} onChange={(e) => set("cover", e.target.value)} /></div>
-          <div><Label>Sort order</Label><Input className="mt-1" type="number" value={f.sort_order as number} onChange={(e) => set("sort_order", e.target.value)} /></div>
-          <div className="sm:col-span-2"><Label>Description</Label><Textarea className="mt-1" value={f.description as string} onChange={(e) => set("description", e.target.value)} /></div>
-          <div className="sm:col-span-2"><Label>What's included (one per line)</Label><Textarea className="mt-1" rows={5} value={f.whats_included as string} onChange={(e) => set("whats_included", e.target.value)} /></div>
-          <label className="flex items-center gap-2"><Switch checked={f.featured as boolean} onCheckedChange={(v) => set("featured", v)} /> Featured</label>
-          <label className="flex items-center gap-2"><Switch checked={f.is_bundle as boolean} onCheckedChange={(v) => set("is_bundle", v)} /> Bundle</label>
-          <label className="flex items-center gap-2 sm:col-span-2"><Switch checked={f.is_published as boolean} onCheckedChange={(v) => set("is_published", v)} /> Published (requires uploaded file)</label>
+          <div><Label>Price (NGN)</Label><Input className="mt-1" type="number" value={f['price'] as number} onChange={(e) => set("price", e.target.value)} /></div>
+          <div><Label>File format</Label><Input className="mt-1" value={f['file_format'] as string} onChange={(e) => set("file_format", e.target.value)} /></div>
+          <div><Label>Cover photo key</Label><Input className="mt-1" value={f['cover'] as string} onChange={(e) => set("cover", e.target.value)} /></div>
+          <div><Label>Sort order</Label><Input className="mt-1" type="number" value={f['sort_order'] as number} onChange={(e) => set("sort_order", e.target.value)} /></div>
+          <div className="sm:col-span-2"><Label>Description</Label><Textarea className="mt-1" value={f['description'] as string} onChange={(e) => set("description", e.target.value)} /></div>
+          <div className="sm:col-span-2"><Label>What's included (one per line)</Label><Textarea className="mt-1" rows={5} value={f['whats_included'] as string} onChange={(e) => set("whats_included", e.target.value)} /></div>
+          <label className="flex items-center gap-2"><Switch checked={f['featured'] as boolean} onCheckedChange={(v) => set("featured", v)} /> Featured</label>
+          <label className="flex items-center gap-2"><Switch checked={f['is_bundle'] as boolean} onCheckedChange={(v) => set("is_bundle", v)} /> Bundle</label>
+          <label className="flex items-center gap-2 sm:col-span-2"><Switch checked={f['is_published'] as boolean} onCheckedChange={(v) => set("is_published", v)} /> Published (requires uploaded file)</label>
         </div>
         <DialogFooter>
           <Button variant="outline" onClick={onClose}>Cancel</Button>
-          <Button onClick={() => { if (!(f.name as string).trim() || !(f.slug as string).trim()) { toast.error("Name and slug are required."); return; } onSave(f); }} disabled={pending}>
+          <Button onClick={() => { if (!(f['name'] as string).trim() || !(f['slug'] as string).trim()) { toast.error("Name and slug are required."); return; } onSave(f); }} disabled={pending}>
             {pending ? "Saving…" : "Save product"}
           </Button>
         </DialogFooter>
