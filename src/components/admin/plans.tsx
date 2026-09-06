@@ -87,15 +87,15 @@ export function Plans() {
 
   const save = useMutation({
     mutationFn: async (values: Record<string, unknown>) => {
-      const features = parseFeatures(String(values.features));
+      const features = parseFeatures(String(values['features']));
       const payload = {
         ...values,
         features,
-        setup_fee: Number(values.setup_fee) || 0,
-        monthly_price: Number(values.monthly_price) || 0,
-        usage_limit: Number(values.usage_limit) || 0,
-        sort_order: Number(values.sort_order) || 0,
-        trial_days: Number(values.trial_days) || 0,
+        setup_fee: Number(values['setup_fee']) || 0,
+        monthly_price: Number(values['monthly_price']) || 0,
+        usage_limit: Number(values['usage_limit']) || 0,
+        sort_order: Number(values['sort_order']) || 0,
+        trial_days: Number(values['trial_days']) || 0,
       } as Record<string, unknown>;
       if (editing) {
         const { error } = await supabase.from("ai_packages").update(payload as never).eq("id", editing.id);
@@ -228,15 +228,15 @@ function PlanDialog({
         <div className="grid gap-4 sm:grid-cols-2">
           <div>
             <Label>Plan name</Label>
-            <Input className="mt-1" value={f.name as string} onChange={(e) => set("name", e.target.value)} />
+            <Input className="mt-1" value={f['name'] as string} onChange={(e) => set("name", e.target.value)} />
           </div>
           <div>
             <Label>Code (unique)</Label>
-            <Input className="mt-1" value={f.code as string} disabled={!!plan} onChange={(e) => set("code", e.target.value)} placeholder="e.g. pro" />
+            <Input className="mt-1" value={f['code'] as string} disabled={!!plan} onChange={(e) => set("code", e.target.value)} placeholder="e.g. pro" />
           </div>
           <div>
             <Label>Product type</Label>
-            <Select value={f.product_type as string} onValueChange={(v) => set("product_type", v)}>
+            <Select value={f['product_type'] as string} onValueChange={(v) => set("product_type", v)}>
               <SelectTrigger className="mt-1"><SelectValue /></SelectTrigger>
               <SelectContent>
                 {PLAN_PRODUCT_TYPES.map((t) => <SelectItem key={t} value={t}>{t}</SelectItem>)}
@@ -245,7 +245,7 @@ function PlanDialog({
           </div>
           <div>
             <Label>Billing interval</Label>
-            <Select value={f.billing_interval as string} onValueChange={(v) => set("billing_interval", v)}>
+            <Select value={f['billing_interval'] as string} onValueChange={(v) => set("billing_interval", v)}>
               <SelectTrigger className="mt-1"><SelectValue /></SelectTrigger>
               <SelectContent>
                 {BILLING_INTERVALS.map((t) => <SelectItem key={t} value={t}>{t}</SelectItem>)}
@@ -254,45 +254,45 @@ function PlanDialog({
           </div>
           <div>
             <Label>Monthly / recurring price</Label>
-            <Input className="mt-1" type="number" value={f.monthly_price as number} onChange={(e) => set("monthly_price", e.target.value)} />
+            <Input className="mt-1" type="number" value={f['monthly_price'] as number} onChange={(e) => set("monthly_price", e.target.value)} />
           </div>
           <div>
             <Label>Setup fee (one-time)</Label>
-            <Input className="mt-1" type="number" value={f.setup_fee as number} onChange={(e) => set("setup_fee", e.target.value)} />
+            <Input className="mt-1" type="number" value={f['setup_fee'] as number} onChange={(e) => set("setup_fee", e.target.value)} />
           </div>
           <div>
             <Label>Currency</Label>
-            <Input className="mt-1" value={f.currency as string} onChange={(e) => set("currency", e.target.value)} />
+            <Input className="mt-1" value={f['currency'] as string} onChange={(e) => set("currency", e.target.value)} />
           </div>
           <div>
             <Label>Usage limit (messages/month)</Label>
-            <Input className="mt-1" type="number" value={f.usage_limit as number} onChange={(e) => set("usage_limit", e.target.value)} />
+            <Input className="mt-1" type="number" value={f['usage_limit'] as number} onChange={(e) => set("usage_limit", e.target.value)} />
           </div>
           <div>
             <Label>Trial duration (days)</Label>
-            <Input className="mt-1" type="number" value={f.trial_days as number} onChange={(e) => set("trial_days", e.target.value)} />
+            <Input className="mt-1" type="number" value={f['trial_days'] as number} onChange={(e) => set("trial_days", e.target.value)} />
           </div>
           <div>
             <Label>Display order</Label>
-            <Input className="mt-1" type="number" value={f.sort_order as number} onChange={(e) => set("sort_order", e.target.value)} />
+            <Input className="mt-1" type="number" value={f['sort_order'] as number} onChange={(e) => set("sort_order", e.target.value)} />
           </div>
           <div className="sm:col-span-2">
             <Label>Description</Label>
-            <Textarea className="mt-1" value={f.description as string} onChange={(e) => set("description", e.target.value)} />
+            <Textarea className="mt-1" value={f['description'] as string} onChange={(e) => set("description", e.target.value)} />
           </div>
           <div className="sm:col-span-2">
             <Label>Features (one per line)</Label>
-            <Textarea className="mt-1" rows={5} value={f.features as string} onChange={(e) => set("features", e.target.value)} />
+            <Textarea className="mt-1" rows={5} value={f['features'] as string} onChange={(e) => set("features", e.target.value)} />
           </div>
           <label className="flex items-center gap-2 sm:col-span-2">
-            <Switch checked={f.is_active as boolean} onCheckedChange={(v) => set("is_active", v)} /> Active (visible on pricing page)
+            <Switch checked={f['is_active'] as boolean} onCheckedChange={(v) => set("is_active", v)} /> Active (visible on pricing page)
           </label>
         </div>
         <DialogFooter>
           <Button variant="outline" onClick={onClose}>Cancel</Button>
           <Button
             onClick={() => {
-              if (!(f.name as string).trim() || !(f.code as string).trim()) {
+              if (!(f['name'] as string).trim() || !(f['code'] as string).trim()) {
                 toast.error("Name and code are required.");
                 return;
               }

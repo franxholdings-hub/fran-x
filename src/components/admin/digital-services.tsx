@@ -57,9 +57,9 @@ export function DigitalServices() {
     mutationFn: async (values: Record<string, unknown>) => {
       const payload = {
         ...values,
-        whats_included: String(values.whats_included).split("\n").map((s: string) => s.trim()).filter(Boolean),
-        price_from: Number(values.price_from) || 0,
-        sort_order: Number(values.sort_order) || 0,
+        whats_included: String(values['whats_included']).split("\n").map((s: string) => s.trim()).filter(Boolean),
+        price_from: Number(values['price_from']) || 0,
+        sort_order: Number(values['sort_order']) || 0,
       } as Record<string, unknown>;
       if (editing) {
         const { error } = await supabase.from("digital_services").update(payload as never).eq("id", editing.id);
@@ -153,34 +153,34 @@ function ServiceDialog({ service, onClose, onSave, pending }: {
       <DialogContent className="max-h-[90vh] overflow-y-auto">
         <DialogHeader><DialogTitle>{service ? "Edit service" : "New service"}</DialogTitle></DialogHeader>
         <div className="grid gap-4 sm:grid-cols-2">
-          <div><Label>Name</Label><Input className="mt-1" value={f.name as string} onChange={(e) => set("name", e.target.value)} /></div>
-          <div><Label>Slug</Label><Input className="mt-1" value={f.slug as string} disabled={!!service} onChange={(e) => set("slug", e.target.value)} /></div>
-          <div><Label>Group label</Label><Input className="mt-1" value={f.group_label as string} onChange={(e) => set("group_label", e.target.value)} /></div>
+          <div><Label>Name</Label><Input className="mt-1" value={f['name'] as string} onChange={(e) => set("name", e.target.value)} /></div>
+          <div><Label>Slug</Label><Input className="mt-1" value={f['slug'] as string} disabled={!!service} onChange={(e) => set("slug", e.target.value)} /></div>
+          <div><Label>Group label</Label><Input className="mt-1" value={f['group_label'] as string} onChange={(e) => set("group_label", e.target.value)} /></div>
           <div>
             <Label>Service group</Label>
-            <Select value={f.service_group as string} onValueChange={(v) => set("service_group", v)}>
+            <Select value={f['service_group'] as string} onValueChange={(v) => set("service_group", v)}>
               <SelectTrigger className="mt-1"><SelectValue /></SelectTrigger>
               <SelectContent>{SERVICE_GROUPS.map((g) => <SelectItem key={g} value={g}>{g}</SelectItem>)}</SelectContent>
             </Select>
           </div>
-          <div><Label>Starting price</Label><Input className="mt-1" type="number" value={f.price_from as number} onChange={(e) => set("price_from", e.target.value)} /></div>
+          <div><Label>Starting price</Label><Input className="mt-1" type="number" value={f['price_from'] as number} onChange={(e) => set("price_from", e.target.value)} /></div>
           <div>
             <Label>Billing type</Label>
-            <Select value={f.billing_type as string} onValueChange={(v) => set("billing_type", v)}>
+            <Select value={f['billing_type'] as string} onValueChange={(v) => set("billing_type", v)}>
               <SelectTrigger className="mt-1"><SelectValue /></SelectTrigger>
               <SelectContent>{BILLING_TYPES.map((b) => <SelectItem key={b} value={b}>{b.replace("_", " ")}</SelectItem>)}</SelectContent>
             </Select>
           </div>
-          <div><Label>Billing label</Label><Input className="mt-1" value={f.billing_label as string} onChange={(e) => set("billing_label", e.target.value)} /></div>
-          <div><Label>Delivery estimate</Label><Input className="mt-1" value={f.delivery_estimate as string} onChange={(e) => set("delivery_estimate", e.target.value)} /></div>
-          <div className="sm:col-span-2"><Label>Description</Label><Textarea className="mt-1" value={f.description as string} onChange={(e) => set("description", e.target.value)} /></div>
-          <div className="sm:col-span-2"><Label>What's included (one per line)</Label><Textarea className="mt-1" rows={4} value={f.whats_included as string} onChange={(e) => set("whats_included", e.target.value)} /></div>
-          <label className="flex items-center gap-2"><Switch checked={f.custom_quote_only as boolean} onCheckedChange={(v) => set("custom_quote_only", v)} /> Custom quote only</label>
-          <label className="flex items-center gap-2"><Switch checked={f.featured as boolean} onCheckedChange={(v) => set("featured", v)} /> Featured</label>
+          <div><Label>Billing label</Label><Input className="mt-1" value={f['billing_label'] as string} onChange={(e) => set("billing_label", e.target.value)} /></div>
+          <div><Label>Delivery estimate</Label><Input className="mt-1" value={f['delivery_estimate'] as string} onChange={(e) => set("delivery_estimate", e.target.value)} /></div>
+          <div className="sm:col-span-2"><Label>Description</Label><Textarea className="mt-1" value={f['description'] as string} onChange={(e) => set("description", e.target.value)} /></div>
+          <div className="sm:col-span-2"><Label>What's included (one per line)</Label><Textarea className="mt-1" rows={4} value={f['whats_included'] as string} onChange={(e) => set("whats_included", e.target.value)} /></div>
+          <label className="flex items-center gap-2"><Switch checked={f['custom_quote_only'] as boolean} onCheckedChange={(v) => set("custom_quote_only", v)} /> Custom quote only</label>
+          <label className="flex items-center gap-2"><Switch checked={f['featured'] as boolean} onCheckedChange={(v) => set("featured", v)} /> Featured</label>
         </div>
         <DialogFooter>
           <Button variant="outline" onClick={onClose}>Cancel</Button>
-          <Button onClick={() => { if (!(f.name as string).trim() || !(f.slug as string).trim()) { toast.error("Name and slug are required."); return; } onSave(f); }} disabled={pending}>{pending ? "Saving…" : "Save service"}</Button>
+          <Button onClick={() => { if (!(f['name'] as string).trim() || !(f['slug'] as string).trim()) { toast.error("Name and slug are required."); return; } onSave(f); }} disabled={pending}>{pending ? "Saving…" : "Save service"}</Button>
         </DialogFooter>
       </DialogContent>
     </Dialog>
@@ -208,10 +208,10 @@ export function DigitalPlans() {
     mutationFn: async (values: Record<string, unknown>) => {
       const payload = {
         ...values,
-        benefits: String(values.benefits).split("\n").map((s: string) => s.trim()).filter(Boolean),
-        monthly_price: Number(values.monthly_price) || 0,
-        annual_price: Number(values.annual_price) || 0,
-        sort_order: Number(values.sort_order) || 0,
+        benefits: String(values['benefits']).split("\n").map((s: string) => s.trim()).filter(Boolean),
+        monthly_price: Number(values['monthly_price']) || 0,
+        annual_price: Number(values['annual_price']) || 0,
+        sort_order: Number(values['sort_order']) || 0,
       } as Record<string, unknown>;
       if (editing) {
         const { error } = await supabase.from("digital_plans").update(payload as never).eq("id", editing.id);
@@ -290,27 +290,27 @@ function PlanDialog({ plan, onClose, onSave, pending }: {
       <DialogContent className="max-h-[90vh] overflow-y-auto">
         <DialogHeader><DialogTitle>{plan ? "Edit plan" : "New plan"}</DialogTitle></DialogHeader>
         <div className="grid gap-4 sm:grid-cols-2">
-          <div><Label>Name</Label><Input className="mt-1" value={f.name as string} onChange={(e) => set("name", e.target.value)} /></div>
-          <div><Label>Code (unique)</Label><Input className="mt-1" value={f.code as string} disabled={!!plan} onChange={(e) => set("code", e.target.value)} /></div>
+          <div><Label>Name</Label><Input className="mt-1" value={f['name'] as string} onChange={(e) => set("name", e.target.value)} /></div>
+          <div><Label>Code (unique)</Label><Input className="mt-1" value={f['code'] as string} disabled={!!plan} onChange={(e) => set("code", e.target.value)} /></div>
           <div>
             <Label>Plan type</Label>
-            <Select value={f.plan_type as string} onValueChange={(v) => set("plan_type", v)}>
+            <Select value={f['plan_type'] as string} onValueChange={(v) => set("plan_type", v)}>
               <SelectTrigger className="mt-1"><SelectValue /></SelectTrigger>
               <SelectContent><SelectItem value="resource_pass">Resource Pass</SelectItem><SelectItem value="frix_ai">FRIX AI</SelectItem></SelectContent>
             </Select>
           </div>
-          <div><Label>Monthly price</Label><Input className="mt-1" type="number" value={f.monthly_price as number} onChange={(e) => set("monthly_price", e.target.value)} /></div>
-          <div><Label>Annual price</Label><Input className="mt-1" type="number" value={f.annual_price as number} onChange={(e) => set("annual_price", e.target.value)} /></div>
-          <div><Label>Usage limit (FRIX AI)</Label><Input className="mt-1" type="number" value={(f.usage_limit as number) ?? ""} onChange={(e) => set("usage_limit", e.target.value || null)} /></div>
-          <div><Label>Badge</Label><Input className="mt-1" value={(f.badge as string) ?? ""} onChange={(e) => set("badge", e.target.value)} /></div>
-          <div><Label>Sort order</Label><Input className="mt-1" type="number" value={f.sort_order as number} onChange={(e) => set("sort_order", e.target.value)} /></div>
-          <div className="sm:col-span-2"><Label>Benefits (one per line)</Label><Textarea className="mt-1" rows={5} value={f.benefits as string} onChange={(e) => set("benefits", e.target.value)} /></div>
-          <label className="flex items-center gap-2"><Switch checked={f.is_active as boolean} onCheckedChange={(v) => set("is_active", v)} /> Active</label>
-          <label className="flex items-center gap-2"><Switch checked={f.featured as boolean} onCheckedChange={(v) => set("featured", v)} /> Featured</label>
+          <div><Label>Monthly price</Label><Input className="mt-1" type="number" value={f['monthly_price'] as number} onChange={(e) => set("monthly_price", e.target.value)} /></div>
+          <div><Label>Annual price</Label><Input className="mt-1" type="number" value={f['annual_price'] as number} onChange={(e) => set("annual_price", e.target.value)} /></div>
+          <div><Label>Usage limit (FRIX AI)</Label><Input className="mt-1" type="number" value={(f['usage_limit'] as number) ?? ""} onChange={(e) => set("usage_limit", e.target.value || null)} /></div>
+          <div><Label>Badge</Label><Input className="mt-1" value={(f['badge'] as string) ?? ""} onChange={(e) => set("badge", e.target.value)} /></div>
+          <div><Label>Sort order</Label><Input className="mt-1" type="number" value={f['sort_order'] as number} onChange={(e) => set("sort_order", e.target.value)} /></div>
+          <div className="sm:col-span-2"><Label>Benefits (one per line)</Label><Textarea className="mt-1" rows={5} value={f['benefits'] as string} onChange={(e) => set("benefits", e.target.value)} /></div>
+          <label className="flex items-center gap-2"><Switch checked={f['is_active'] as boolean} onCheckedChange={(v) => set("is_active", v)} /> Active</label>
+          <label className="flex items-center gap-2"><Switch checked={f['featured'] as boolean} onCheckedChange={(v) => set("featured", v)} /> Featured</label>
         </div>
         <DialogFooter>
           <Button variant="outline" onClick={onClose}>Cancel</Button>
-          <Button onClick={() => { if (!(f.name as string).trim() || !(f.code as string).trim()) { toast.error("Name and code are required."); return; } onSave(f); }} disabled={pending}>{pending ? "Saving…" : "Save plan"}</Button>
+          <Button onClick={() => { if (!(f['name'] as string).trim() || !(f['code'] as string).trim()) { toast.error("Name and code are required."); return; } onSave(f); }} disabled={pending}>{pending ? "Saving…" : "Save plan"}</Button>
         </DialogFooter>
       </DialogContent>
     </Dialog>
