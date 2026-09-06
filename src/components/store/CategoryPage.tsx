@@ -50,11 +50,12 @@ export function CategoryPage({ categoryId }: { categoryId: StoreCategoryId }) {
         <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
           <StoreSectionHeading
             title={cat.label}
-            subtitle={
-              categoryId === "finance"
-                ? "Educational resources for personal and business finance. These do not constitute personalized financial advice."
-                : undefined
-            }
+            {...(categoryId === "finance"
+              ? {
+                  subtitle:
+                    "Educational resources for personal and business finance. These do not constitute personalized financial advice.",
+                }
+              : {})}
           />
           <div className="relative w-full sm:max-w-xs">
             <Search className="pointer-events-none absolute top-1/2 left-3.5 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
