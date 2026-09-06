@@ -28,7 +28,7 @@ async function call(path: string, init: { method?: string; json?: unknown } = {}
       Authorization: `Bearer ${secret()}`,
       "Content-Type": "application/json",
     },
-    body: init.json ? JSON.stringify(init.json) : undefined,
+    ...(init.json ? { body: JSON.stringify(init.json) } : {}),
   });
   const text = await res.text();
   let data: any = null;
@@ -170,8 +170,9 @@ export async function processVerifiedPayment(tx: TxData): Promise<{
     paystack_response: tx,
     ...(customerId ? { customer_id: customerId } : {}),
   };
+  let paymentId: string | null = payment?.id ?? null;
   if (payment) {
-    await supabaseAdmin.from("payments").update(paymentUpdate).eq("paystack_reference", reference);
+    await supabaseAdmin.from("payments").update(paymentUpdate as never).eq("paystack_reference", reference);
   } else {
     // Webhook arrived before the initialize record (rare) — create it.
     const { data: p } = await supabaseAdmin
@@ -193,7 +194,7 @@ export async function processVerifiedPayment(tx: TxData): Promise<{
       } as never)
       .select("id")
       .single();
-    if (p) payment.id = p.id;
+    if (p) paymentId = p.id;
   }
 
   // Create / activate subscription for recurring plans
@@ -291,7 +292,7 @@ export async function processVerifiedPayment(tx: TxData): Promise<{
     payment_status: "completed",
     related_type: meta.type === "digital_store" ? "digital_store" : "subscription",
     related_id: subscriptionId,
-    payment_id: payment?.id ?? null,
+    payment_id: paymentId,
     subscription_id: subscriptionId,
     verification_status: "verified",
   } as never);

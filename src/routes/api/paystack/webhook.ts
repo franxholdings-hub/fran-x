@@ -25,7 +25,7 @@ export const Route = createFileRoute("/api/paystack/webhook")({
           const tx = event.data;
           if (tx && tx['status'] === "success" && tx['reference']) {
             try {
-              await processVerifiedPayment({ ...(tx as never), source: "webhook" });
+              await processVerifiedPayment({ ...(tx as Record<string, unknown>), source: "webhook" } as never);
             } catch (err) {
               console.error("paystack webhook processing failed", err);
             }
