@@ -156,8 +156,8 @@ export async function processVerifiedPayment(tx: TxData): Promise<{
     }
   }
 
-  const planId = (payment?.plan_id as string) || (tx.metadata?.plan_id as string) || null;
-  const userId = (payment?.user_id as string) || (tx.metadata?.user_id as string) || null;
+  const planId = (payment?.plan_id as string) || (tx.metadata?.['plan_id'] as string) || null;
+  const userId = (payment?.user_id as string) || (tx.metadata?.['user_id'] as string) || null;
 
   // Update the payment record
   const paymentUpdate: Record<string, unknown> = {
