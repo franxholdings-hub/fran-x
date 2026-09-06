@@ -11,8 +11,8 @@ export async function getUserFromRequest(request: Request) {
   const token = authHeader.slice(7).trim();
   if (!token || token.split(".").length !== 3) return null;
 
-  const SUPABASE_URL = process.env.SUPABASE_URL;
-  const SUPABASE_PUBLISHABLE_KEY = process.env.SUPABASE_PUBLISHABLE_KEY;
+  const SUPABASE_URL = process.env['SUPABASE_URL'];
+  const SUPABASE_PUBLISHABLE_KEY = process.env['SUPABASE_PUBLISHABLE_KEY'];
   if (!SUPABASE_URL || !SUPABASE_PUBLISHABLE_KEY) return null;
 
   const { createClient } = await import("@supabase/supabase-js");

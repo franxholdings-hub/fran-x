@@ -10,11 +10,11 @@ import crypto from "node:crypto";
 const API = "https://api.paystack.co";
 
 export function paystackConfigured(): boolean {
-  return Boolean(process.env.PAYSTACK_SECRET_KEY);
+  return Boolean(process.env['PAYSTACK_SECRET_KEY']);
 }
 
 function secret(): string {
-  const k = process.env.PAYSTACK_SECRET_KEY;
+  const k = process.env['PAYSTACK_SECRET_KEY'];
   if (!k) throw new Error("Paystack is not configured (PAYSTACK_SECRET_KEY missing).");
   return k;
 }
@@ -78,7 +78,7 @@ export async function createPlan(opts: {
 // Verify a Paystack webhook event: HMAC SHA512 of the raw body with the secret key.
 export function verifyWebhookSignature(rawBody: string, signature: string | null): boolean {
   if (!signature) return false;
-  const k = process.env.PAYSTACK_SECRET_KEY;
+  const k = process.env['PAYSTACK_SECRET_KEY'];
   if (!k) return false;
   try {
     const expected = crypto.createHmac("sha512", k).update(rawBody).digest("hex");

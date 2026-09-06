@@ -106,7 +106,7 @@ export function Subscriptions() {
                       value={s.status}
                       onChange={(e) => {
                         const v: Record<string, unknown> = { status: e.target.value };
-                        if (e.target.value === "cancelled") v.cancelled_at = new Date().toISOString();
+                        if (e.target.value === "cancelled") v['cancelled_at'] = new Date().toISOString();
                         update.mutate({ id: s.id, values: v });
                       }}
                       className="h-8 rounded-md border border-input bg-background px-2 text-xs"
