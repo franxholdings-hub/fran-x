@@ -91,6 +91,9 @@ function Admin() {
             <TabsTrigger value="frix"><Bot className="h-4 w-4" /> FRIX AI</TabsTrigger>
             <TabsTrigger value="knowledge"><Brain className="h-4 w-4" /> Knowledge</TabsTrigger>
             <TabsTrigger value="ai-integration"><Sparkles className="h-4 w-4" /> AI Integration</TabsTrigger>
+            <TabsTrigger value="plans"><CircleDollarSign className="h-4 w-4" /> Plans</TabsTrigger>
+            <TabsTrigger value="subscriptions"><Users className="h-4 w-4" /> Subscriptions</TabsTrigger>
+            <TabsTrigger value="payments"><CircleDollarSign className="h-4 w-4" /> Payments</TabsTrigger>
             <TabsTrigger value="revenue"><CircleDollarSign className="h-4 w-4" /> Revenue</TabsTrigger>
             <TabsTrigger value="cms"><ImageIcon className="h-4 w-4" /> Content</TabsTrigger>
             <TabsTrigger value="analytics"><Activity className="h-4 w-4" /> Analytics</TabsTrigger>
@@ -1040,15 +1043,43 @@ function Knowledge() {
 
 /* ---------------- CMS ---------------- */
 
+// Only the categories FRAN-X Technologies actually offers today are managed
+// here — legacy sector content (real estate, oil & gas, automotive, etc.) is
+// preserved in the database but no longer surfaced in the command center.
+const ACTIVE_SERVICE_CATEGORIES = [
+  "Technology & Digital",
+  "AI & Automation",
+  "Business & Data",
+  "E-commerce",
+  "Marketing & Copywriting",
+  "Creative & Media",
+];
+
+const ACTIVE_COMPANY_SLUGS = ["fx-tech", "frix-ai", "fx-vault", "eaizystore"];
+
 function Cms() {
   const qc = useQueryClient();
   const services = useQuery({
     queryKey: ["cc-services"],
-    queryFn: async () => (await supabase.from("services").select("*").order("sort_order")).data ?? [],
+    queryFn: async () =>
+      (
+        await supabase
+          .from("services")
+          .select("*")
+          .in("category", ACTIVE_SERVICE_CATEGORIES)
+          .order("sort_order")
+      ).data ?? [],
   });
   const companies = useQuery({
     queryKey: ["cc-companies"],
-    queryFn: async () => (await supabase.from("companies").select("*").order("sort_order")).data ?? [],
+    queryFn: async () =>
+      (
+        await supabase
+          .from("companies")
+          .select("*")
+          .in("slug", ACTIVE_COMPANY_SLUGS)
+          .order("sort_order")
+      ).data ?? [],
   });
   const faqs = useQuery({
     queryKey: ["cc-faqs"],

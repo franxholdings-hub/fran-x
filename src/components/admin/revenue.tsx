@@ -1,7 +1,16 @@
 import { useMemo, useState } from "react";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { toast } from "sonner";
-import { Plus, TrendingUp, Receipt } from "lucide-react";
+import { Plus, TrendingUp, Receipt, CircleDollarSign, ArrowUpRight, ArrowDownRight } from "lucide-react";
+import {
+  Area,
+  AreaChart,
+  CartesianGrid,
+  ResponsiveContainer,
+  Tooltip,
+  XAxis,
+  YAxis,
+} from "recharts";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -465,118 +474,249 @@ function AddExpenseDialog({ onClose, onSaved }: { onClose: () => void; onSaved: 
 
 /* ---------------- Dashboard ---------------- */
 
+type Txn = {
+  id: string;
+  amount: number;
+  currency: string;
+  category: string;
+  payment_status: string;
+  transacted_at: string;
+  service_product: string | null;
+  customer_name: string | null;
+  transaction_id: string;
+};
+
 function RevenueDashboard() {
+  const [range, setRange] = useState<"6M" | "1Y" | "All">("6M");
+
   const data = useQuery({
     queryKey: ["revenue-dashboard"],
     queryFn: async () => {
-      const { data: rev, error: e1 } = await supabase
+      const { data: rev, error } = await supabase
         .from("revenue_history")
-        .select("amount, currency, category, payment_status, transacted_at")
-        .order("transacted_at", { ascending: false });
-      if (e1) throw e1;
-      const { data: exp, error: e2 } = await supabase
-        .from("expenses")
-        .select("amount, currency, category, incurred_at");
-      if (e2) throw e2;
+        .select("id, transaction_id, amount, currency, category, payment_status, transacted_at, service_product, customer_name")
+        .order("transacted_at", { ascending: false })
+        .limit(2000);
+      if (error) throw error;
       const { count: activeSubs } = await supabase
-        .from("ai_client_subscriptions")
+        .from("subscriptions")
         .select("id", { count: "exact", head: true })
         .eq("status", "active");
-      return {
-        revenue: (rev ?? []) as { amount: number; currency: string; category: string; payment_status: string; transacted_at: string }[],
-        expenses: (exp ?? []) as { amount: number; currency: string; category: string; incurred_at: string }[],
-        activeSubs: activeSubs ?? 0,
-      };
+      return { revenue: (rev ?? []) as unknown as Txn[], activeSubs: activeSubs ?? 0 };
     },
   });
 
+  const completed = useMemo(
+    () => (data.data?.revenue ?? []).filter((r) => r.payment_status === "completed"),
+    [data.data],
+  );
+
   const stats = useMemo(() => {
     const now = new Date();
-    const startOfDay = new Date(now.getFullYear(), now.getMonth(), now.getDate());
-    const startOfWeek = new Date(startOfDay);
-    startOfWeek.setDate(startOfDay.getDate() - startOfDay.getDay());
     const startOfMonth = new Date(now.getFullYear(), now.getMonth(), 1);
-    const startOfYear = new Date(now.getFullYear(), 0, 1);
-
-    const completed = data.data?.revenue.filter((r) => r.payment_status === "completed") ?? [];
-    const sum = (rows: { amount: number; transacted_at: string }[], from: Date) =>
-      rows.filter((r) => new Date(r.transacted_at) >= from).reduce((s, r) => s + Number(r.amount), 0);
-
-    const allTime = completed.reduce((s, r) => s + Number(r.amount), 0);
-    const byCategory = new Map<string, number>();
-    for (const r of completed) byCategory.set(r.category, (byCategory.get(r.category) ?? 0) + Number(r.amount));
-
-    const totalExpenses = (data.data?.expenses ?? []).reduce((s, r) => s + Number(r.amount), 0);
-    const aiCost = (data.data?.expenses ?? []).filter((r) => r.category === "AI/API").reduce((s, r) => s + Number(r.amount), 0);
-
-    // MRR: sum of active monthly subscriptions — approximated by recurring revenue this month.
-    const monthRev = sum(completed, startOfMonth);
+    const prevStart = new Date(now.getFullYear(), now.getMonth() - 1, 1);
+    const total = completed.reduce((s, r) => s + Number(r.amount), 0);
+    const thisMonth = completed
+      .filter((r) => new Date(r.transacted_at) >= startOfMonth)
+      .reduce((s, r) => s + Number(r.amount), 0);
+    const lastMonth = completed
+      .filter((r) => {
+        const d = new Date(r.transacted_at);
+        return d >= prevStart && d < startOfMonth;
+      })
+      .reduce((s, r) => s + Number(r.amount), 0);
+    const growth = lastMonth > 0 ? ((thisMonth - lastMonth) / lastMonth) * 100 : null;
+    const avg = completed.length ? total / completed.length : 0;
     return {
-      today: sum(completed, startOfDay),
-      week: sum(completed, startOfWeek),
-      month: monthRev,
-      year: sum(completed, startOfYear),
-      allTime,
-      byCategory: [...byCategory.entries()].sort((a, b) => b[1] - a[1]),
-      totalExpenses,
-      aiCost,
-      net: monthRev - totalExpenses,
+      total,
+      thisMonth,
+      growth,
+      avg,
+      count: completed.length,
       activeSubs: data.data?.activeSubs ?? 0,
     };
-  }, [data.data]);
+  }, [completed, data.data]);
+
+  const series = useMemo(() => {
+    const months = range === "6M" ? 6 : range === "1Y" ? 12 : 24;
+    const now = new Date();
+    const buckets: { label: string; key: string; value: number }[] = [];
+    for (let i = months - 1; i >= 0; i--) {
+      const d = new Date(now.getFullYear(), now.getMonth() - i, 1);
+      buckets.push({
+        label: d.toLocaleDateString("en-NG", { month: "short" }),
+        key: `${d.getFullYear()}-${d.getMonth()}`,
+        value: 0,
+      });
+    }
+    for (const r of completed) {
+      const d = new Date(r.transacted_at);
+      const key = `${d.getFullYear()}-${d.getMonth()}`;
+      const b = buckets.find((x) => x.key === key);
+      if (b) b.value += Number(r.amount);
+    }
+    return buckets;
+  }, [completed, range]);
+
+  const byCategory = useMemo(() => {
+    const map = new Map<string, number>();
+    for (const r of completed) map.set(r.category, (map.get(r.category) ?? 0) + Number(r.amount));
+    return [...map.entries()].sort((a, b) => b[1] - a[1]).slice(0, 6);
+  }, [completed]);
+
+  const maxCat = byCategory[0]?.[1] ?? 0;
 
   if (data.isLoading) return <Loading />;
 
   return (
-    <div className="space-y-6">
-      <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-        <StatCard label="Today" value={formatMoney(stats.today)} />
-        <StatCard label="This week" value={formatMoney(stats.week)} />
-        <StatCard label="This month" value={formatMoney(stats.month)} />
-        <StatCard label="This year" value={formatMoney(stats.year)} />
-        <StatCard label="All-time revenue" value={formatMoney(stats.allTime)} />
-        <StatCard label="Active subscriptions" value={stats.activeSubs} />
+    <div className="dark space-y-4 rounded-2xl border border-border bg-background p-4 text-foreground sm:p-6">
+      <div>
+        <h2 className="font-display text-2xl font-semibold sm:text-3xl">Revenue Dashboard</h2>
+        <p className="mt-1 text-sm text-muted-foreground">
+          Live figures from verified transactions only.
+        </p>
       </div>
 
-      <div className="grid gap-6 lg:grid-cols-2">
-        <PanelSection title="Revenue by category" description="Completed revenue split across FRAN-X business units.">
-          {stats.byCategory.length ? (
-            <ul className="space-y-2">
-              {stats.byCategory.map(([cat, amt]) => (
-                <li key={cat} className="flex items-center justify-between text-sm">
-                  <span>{cat}</span>
-                  <span className="font-medium">{formatMoney(amt)}</span>
-                </li>
-              ))}
-            </ul>
-          ) : (
-            <Empty>No completed revenue yet.</Empty>
-          )}
-        </PanelSection>
-
-        <PanelSection title="Profit foundation" description="Revenue vs. costs. Profit is revenue minus all expenses.">
-          <ul className="space-y-2 text-sm">
-            <li className="flex items-center justify-between">
-              <span>Gross revenue (this month)</span>
-              <span className="font-medium text-emerald-600 dark:text-emerald-400">{formatMoney(stats.month)}</span>
-            </li>
-            <li className="flex items-center justify-between">
-              <span>Total expenses</span>
-              <span className="font-medium text-destructive">-{formatMoney(stats.totalExpenses)}</span>
-            </li>
-            <li className="flex items-center justify-between">
-              <span>Estimated AI cost</span>
-              <span className="font-medium text-muted-foreground">{formatMoney(stats.aiCost)}</span>
-            </li>
-            <li className="mt-2 flex items-center justify-between border-t border-border pt-2">
-              <span className="font-semibold">Net operating result</span>
-              <span className={`font-display text-lg font-semibold ${stats.net >= 0 ? "text-emerald-600 dark:text-emerald-400" : "text-destructive"}`}>
-                {formatMoney(stats.net)}
-              </span>
-            </li>
-          </ul>
-        </PanelSection>
+      <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
+        <MetricCard label="Revenue" value={formatMoney(stats.total)} delta={stats.growth} />
+        <MetricCard label="Transactions" value={String(stats.count)} />
+        <MetricCard label="Active subscriptions" value={String(stats.activeSubs)} />
+        <MetricCard label="Avg transaction" value={formatMoney(Math.round(stats.avg))} />
       </div>
+
+      <div className="rounded-xl border border-border bg-card p-4 sm:p-5">
+        <div className="mb-4 flex items-center justify-between">
+          <h3 className="font-display text-base font-semibold">Revenue</h3>
+          <div className="flex items-center gap-1 rounded-lg border border-border p-0.5">
+            {(["6M", "1Y", "All"] as const).map((r) => (
+              <button
+                key={r}
+                onClick={() => setRange(r)}
+                className={`rounded-md px-2.5 py-1 text-xs transition-colors ${
+                  range === r ? "bg-primary/15 text-primary" : "text-muted-foreground hover:text-foreground"
+                }`}
+              >
+                {r}
+              </button>
+            ))}
+          </div>
+        </div>
+        <div className="h-56 w-full">
+          <ResponsiveContainer width="100%" height="100%">
+            <AreaChart data={series} margin={{ top: 5, right: 8, left: 0, bottom: 0 }}>
+              <defs>
+                <linearGradient id="goldFill" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="0%" stopColor="var(--primary)" stopOpacity={0.35} />
+                  <stop offset="100%" stopColor="var(--primary)" stopOpacity={0} />
+                </linearGradient>
+              </defs>
+              <CartesianGrid stroke="var(--border)" strokeDasharray="3 3" vertical={false} />
+              <XAxis dataKey="label" tickLine={false} axisLine={false} tick={{ fontSize: 11, fill: "var(--muted-foreground)" }} />
+              <YAxis
+                tickLine={false}
+                axisLine={false}
+                width={56}
+                tick={{ fontSize: 11, fill: "var(--muted-foreground)" }}
+                tickFormatter={(v: number) => (v >= 1000 ? `₦${Math.round(v / 1000)}k` : `₦${v}`)}
+              />
+              <Tooltip
+                contentStyle={{
+                  background: "var(--card)",
+                  border: "1px solid var(--border)",
+                  borderRadius: 10,
+                  color: "var(--foreground)",
+                  fontSize: 12,
+                }}
+                formatter={(v: number) => [formatMoney(v), "Revenue"]}
+              />
+              <Area type="monotone" dataKey="value" stroke="var(--primary)" strokeWidth={2} fill="url(#goldFill)" />
+            </AreaChart>
+          </ResponsiveContainer>
+        </div>
+      </div>
+
+      <div className="rounded-xl border border-border bg-card p-4 sm:p-5">
+        <h3 className="mb-4 font-display text-base font-semibold">Revenue by category</h3>
+        <div className="grid gap-6 lg:grid-cols-[1fr_auto]">
+          <div className="space-y-3">
+            {byCategory.length ? (
+              byCategory.map(([cat, amt]) => (
+                <div key={cat} className="flex items-center gap-3">
+                  <span className="w-40 shrink-0 truncate text-xs text-muted-foreground">{cat}</span>
+                  <div className="h-4 flex-1 overflow-hidden rounded-sm bg-surface">
+                    <div
+                      className="h-full rounded-sm bg-primary"
+                      style={{ width: `${maxCat ? Math.max(4, (amt / maxCat) * 100) : 0}%` }}
+                    />
+                  </div>
+                  <span className="w-24 shrink-0 text-right text-xs font-medium">{formatMoney(amt)}</span>
+                </div>
+              ))
+            ) : (
+              <Empty>No completed revenue yet.</Empty>
+            )}
+          </div>
+          <div className="lg:w-48 lg:border-l lg:border-border lg:pl-6">
+            <p className="text-xs uppercase tracking-wide text-muted-foreground">Total revenue</p>
+            <p className="mt-1 font-display text-2xl font-semibold">{formatMoney(stats.total)}</p>
+            <p className="mt-1 text-xs text-muted-foreground">
+              {formatMoney(stats.thisMonth)} this month
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <div className="rounded-xl border border-border bg-card p-4 sm:p-5">
+        <h3 className="mb-4 font-display text-base font-semibold">Latest transactions</h3>
+        {completed.length ? (
+          <div className="overflow-x-auto">
+            <table className="w-full text-sm">
+              <thead>
+                <tr className="border-b border-border text-left text-xs uppercase tracking-wide text-muted-foreground">
+                  <th className="py-2 pr-3">Date</th>
+                  <th className="py-2 pr-3">Customer</th>
+                  <th className="py-2 pr-3">Category</th>
+                  <th className="py-2 pr-3">Item</th>
+                  <th className="py-2 pr-3 text-right">Amount</th>
+                </tr>
+              </thead>
+              <tbody>
+                {completed.slice(0, 10).map((r) => (
+                  <tr key={r.id} className="border-b border-border/60">
+                    <td className="py-2 pr-3 whitespace-nowrap text-xs">{new Date(r.transacted_at).toLocaleDateString()}</td>
+                    <td className="py-2 pr-3">{r.customer_name ?? "—"}</td>
+                    <td className="py-2 pr-3"><Badge variant="outline" className="border-primary/40 text-primary">{r.category}</Badge></td>
+                    <td className="py-2 pr-3">{r.service_product ?? "—"}</td>
+                    <td className="py-2 pr-3 text-right font-medium">{formatMoney(r.amount, r.currency)}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        ) : (
+          <Empty>No transactions yet.</Empty>
+        )}
+      </div>
+    </div>
+  );
+}
+
+function MetricCard({ label, value, delta }: { label: string; value: string; delta?: number | null }) {
+  return (
+    <div className="rounded-xl border border-border bg-card p-4">
+      <span className="grid h-9 w-9 place-items-center rounded-lg border border-primary/30 bg-primary/10 text-primary">
+        <CircleDollarSign className="h-[1.05rem] w-[1.05rem]" />
+      </span>
+      <p className="mt-3 text-xs uppercase tracking-wide text-muted-foreground">{label}</p>
+      <p className="mt-1 font-display text-2xl font-semibold">{value}</p>
+      {delta != null && Number.isFinite(delta) ? (
+        <p className={`mt-1 flex items-center gap-1 text-xs ${delta >= 0 ? "text-emerald-400" : "text-destructive"}`}>
+          {delta >= 0 ? <ArrowUpRight className="h-3.5 w-3.5" /> : <ArrowDownRight className="h-3.5 w-3.5" />}
+          {Math.abs(delta).toFixed(1)}% vs last month
+        </p>
+      ) : (
+        <p className="mt-1 text-xs text-muted-foreground">&nbsp;</p>
+      )}
     </div>
   );
 }
