@@ -58,7 +58,7 @@ export function Payments() {
             {config.data?.configured ? "Secret key configured" : "Secret key NOT configured"}
           </Badge>
           <p className="text-xs text-muted-foreground">
-            Webhook URL: <code className="rounded bg-surface/60 px-1.5 py-0.5">/api/paystack/webhook</code> — add it in your
+            Webhook URL: <code className="rounded bg-surface/60 px-1.5 py-0.5">https://fran-x.lovable.app/api/public/paystack-webhook</code> — add it in your
             Paystack dashboard → Settings → Webhooks. Signatures are verified with your secret key (no separate webhook secret).
           </p>
         </div>
