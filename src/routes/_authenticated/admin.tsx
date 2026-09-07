@@ -91,6 +91,9 @@ function Admin() {
             <TabsTrigger value="frix"><Bot className="h-4 w-4" /> FRIX AI</TabsTrigger>
             <TabsTrigger value="knowledge"><Brain className="h-4 w-4" /> Knowledge</TabsTrigger>
             <TabsTrigger value="ai-integration"><Sparkles className="h-4 w-4" /> AI Integration</TabsTrigger>
+            <TabsTrigger value="plans"><CircleDollarSign className="h-4 w-4" /> Plans</TabsTrigger>
+            <TabsTrigger value="subscriptions"><Users className="h-4 w-4" /> Subscriptions</TabsTrigger>
+            <TabsTrigger value="payments"><CircleDollarSign className="h-4 w-4" /> Payments</TabsTrigger>
             <TabsTrigger value="revenue"><CircleDollarSign className="h-4 w-4" /> Revenue</TabsTrigger>
             <TabsTrigger value="cms"><ImageIcon className="h-4 w-4" /> Content</TabsTrigger>
             <TabsTrigger value="analytics"><Activity className="h-4 w-4" /> Analytics</TabsTrigger>
