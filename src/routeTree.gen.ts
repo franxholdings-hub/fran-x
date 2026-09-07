@@ -45,6 +45,7 @@ import { Route as ApiPaystackStatusRouteImport } from './routes/api/paystack/sta
 import { Route as ApiPaystackVerifyRouteImport } from './routes/api/paystack/verify'
 import { Route as ApiPaystackWebhookRouteImport } from './routes/api/paystack/webhook'
 import { Route as ApiPublicFrixRouteImport } from './routes/api/public/frix'
+import { Route as ApiPublicPaystackWebhookRouteImport } from './routes/api/public/paystack-webhook'
 import { Route as ApiStoreCheckoutRouteImport } from './routes/api/store/checkout'
 import { Route as ApiSubscriptionStartTrialRouteImport } from './routes/api/subscription/start-trial'
 import { Route as StoreServicesIndexRouteImport } from './routes/store/services/index'
@@ -229,6 +230,12 @@ const ApiPublicFrixRoute = ApiPublicFrixRouteImport.update({
   path: '/api/public/frix',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ApiPublicPaystackWebhookRoute =
+  ApiPublicPaystackWebhookRouteImport.update({
+    id: '/api/public/paystack-webhook',
+    path: '/api/public/paystack-webhook',
+    getParentRoute: () => rootRouteImport,
+  } as any)
 const ApiStoreCheckoutRoute = ApiStoreCheckoutRouteImport.update({
   id: '/api/store/checkout',
   path: '/api/store/checkout',
@@ -287,6 +294,7 @@ export interface FileRoutesByFullPath {
   '/api/paystack/verify': typeof ApiPaystackVerifyRoute
   '/api/paystack/webhook': typeof ApiPaystackWebhookRoute
   '/api/public/frix': typeof ApiPublicFrixRoute
+  '/api/public/paystack-webhook': typeof ApiPublicPaystackWebhookRoute
   '/api/store/checkout': typeof ApiStoreCheckoutRoute
   '/api/subscription/start-trial': typeof ApiSubscriptionStartTrialRoute
   '/store/services/$slug': typeof StoreServicesSlugRoute
@@ -327,6 +335,7 @@ export interface FileRoutesByTo {
   '/api/paystack/verify': typeof ApiPaystackVerifyRoute
   '/api/paystack/webhook': typeof ApiPaystackWebhookRoute
   '/api/public/frix': typeof ApiPublicFrixRoute
+  '/api/public/paystack-webhook': typeof ApiPublicPaystackWebhookRoute
   '/api/store/checkout': typeof ApiStoreCheckoutRoute
   '/api/subscription/start-trial': typeof ApiSubscriptionStartTrialRoute
   '/store/services/$slug': typeof StoreServicesSlugRoute
@@ -370,6 +379,7 @@ export interface FileRoutesById {
   '/api/paystack/verify': typeof ApiPaystackVerifyRoute
   '/api/paystack/webhook': typeof ApiPaystackWebhookRoute
   '/api/public/frix': typeof ApiPublicFrixRoute
+  '/api/public/paystack-webhook': typeof ApiPublicPaystackWebhookRoute
   '/api/store/checkout': typeof ApiStoreCheckoutRoute
   '/api/subscription/start-trial': typeof ApiSubscriptionStartTrialRoute
   '/store/services/$slug': typeof StoreServicesSlugRoute
@@ -413,6 +423,7 @@ export interface FileRouteTypes {
     | '/api/paystack/verify'
     | '/api/paystack/webhook'
     | '/api/public/frix'
+    | '/api/public/paystack-webhook'
     | '/api/store/checkout'
     | '/api/subscription/start-trial'
     | '/store/services/$slug'
@@ -453,6 +464,7 @@ export interface FileRouteTypes {
     | '/api/paystack/verify'
     | '/api/paystack/webhook'
     | '/api/public/frix'
+    | '/api/public/paystack-webhook'
     | '/api/store/checkout'
     | '/api/subscription/start-trial'
     | '/store/services/$slug'
@@ -495,6 +507,7 @@ export interface FileRouteTypes {
     | '/api/paystack/verify'
     | '/api/paystack/webhook'
     | '/api/public/frix'
+    | '/api/public/paystack-webhook'
     | '/api/store/checkout'
     | '/api/subscription/start-trial'
     | '/store/services/$slug'
@@ -527,6 +540,7 @@ export interface RootRouteChildren {
   ApiPaystackVerifyRoute: typeof ApiPaystackVerifyRoute
   ApiPaystackWebhookRoute: typeof ApiPaystackWebhookRoute
   ApiPublicFrixRoute: typeof ApiPublicFrixRoute
+  ApiPublicPaystackWebhookRoute: typeof ApiPublicPaystackWebhookRoute
   ApiStoreCheckoutRoute: typeof ApiStoreCheckoutRoute
   ApiSubscriptionStartTrialRoute: typeof ApiSubscriptionStartTrialRoute
 }
@@ -785,6 +799,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ApiPublicFrixRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/api/public/paystack-webhook': {
+      id: '/api/public/paystack-webhook'
+      path: '/api/public/paystack-webhook'
+      fullPath: '/api/public/paystack-webhook'
+      preLoaderRoute: typeof ApiPublicPaystackWebhookRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/api/store/checkout': {
       id: '/api/store/checkout'
       path: '/api/store/checkout'
@@ -897,6 +918,7 @@ const rootRouteChildren: RootRouteChildren = {
   ApiPaystackVerifyRoute: ApiPaystackVerifyRoute,
   ApiPaystackWebhookRoute: ApiPaystackWebhookRoute,
   ApiPublicFrixRoute: ApiPublicFrixRoute,
+  ApiPublicPaystackWebhookRoute: ApiPublicPaystackWebhookRoute,
   ApiStoreCheckoutRoute: ApiStoreCheckoutRoute,
   ApiSubscriptionStartTrialRoute: ApiSubscriptionStartTrialRoute,
 }
