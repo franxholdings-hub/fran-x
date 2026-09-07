@@ -1043,15 +1043,43 @@ function Knowledge() {
 
 /* ---------------- CMS ---------------- */
 
+// Only the categories FRAN-X Technologies actually offers today are managed
+// here — legacy sector content (real estate, oil & gas, automotive, etc.) is
+// preserved in the database but no longer surfaced in the command center.
+const ACTIVE_SERVICE_CATEGORIES = [
+  "Technology & Digital",
+  "AI & Automation",
+  "Business & Data",
+  "E-commerce",
+  "Marketing & Copywriting",
+  "Creative & Media",
+];
+
+const ACTIVE_COMPANY_SLUGS = ["fx-tech", "frix-ai", "fx-vault", "eaizystore"];
+
 function Cms() {
   const qc = useQueryClient();
   const services = useQuery({
     queryKey: ["cc-services"],
-    queryFn: async () => (await supabase.from("services").select("*").order("sort_order")).data ?? [],
+    queryFn: async () =>
+      (
+        await supabase
+          .from("services")
+          .select("*")
+          .in("category", ACTIVE_SERVICE_CATEGORIES)
+          .order("sort_order")
+      ).data ?? [],
   });
   const companies = useQuery({
     queryKey: ["cc-companies"],
-    queryFn: async () => (await supabase.from("companies").select("*").order("sort_order")).data ?? [],
+    queryFn: async () =>
+      (
+        await supabase
+          .from("companies")
+          .select("*")
+          .in("slug", ACTIVE_COMPANY_SLUGS)
+          .order("sort_order")
+      ).data ?? [],
   });
   const faqs = useQuery({
     queryKey: ["cc-faqs"],
