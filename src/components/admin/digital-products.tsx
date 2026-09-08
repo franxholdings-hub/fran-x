@@ -221,6 +221,58 @@ export function DigitalProducts() {
   );
 }
 
+function FileCell({ product, onDone }: { product: Product; onDone: () => void }) {
+  const [busy, setBusy] = useState(false);
+
+  const upload = async (file: File) => {
+    setBusy(true);
+    try {
+      const ext = file.name.split(".").pop() ?? "pdf";
+      const path = `${product.slug}/${Date.now()}.${ext}`;
+      const { error: upErr } = await supabase.storage
+        .from("product-files")
+        .upload(path, file, { upsert: true, contentType: file.type || undefined });
+      if (upErr) throw upErr;
+      const { error } = await supabase
+        .from("digital_products")
+        .update({ file_url: path, file_name: file.name, has_file: true } as never)
+        .eq("id", product.id);
+      if (error) throw error;
+      toast.success(`${file.name} uploaded`);
+      onDone();
+    } catch (e) {
+      toast.error((e as Error).message);
+    } finally {
+      setBusy(false);
+    }
+  };
+
+  return (
+    <div className="flex items-center gap-2">
+      <Badge
+        variant="outline"
+        className={product.has_file ? "border-emerald-500/40 text-emerald-600" : "border-amber-500/40 text-amber-600"}
+        title={product.file_name ?? undefined}
+      >
+        {product.has_file ? "Uploaded" : "No file"}
+      </Badge>
+      <label className="cursor-pointer text-xs font-medium text-primary underline">
+        {busy ? "Uploading…" : product.has_file ? "Replace" : "Upload"}
+        <input
+          type="file"
+          className="hidden"
+          disabled={busy}
+          onChange={(e) => {
+            const f = e.target.files?.[0];
+            if (f) void upload(f);
+            e.target.value = "";
+          }}
+        />
+      </label>
+    </div>
+  );
+}
+
 function ProductDialog({ product, onClose, onSave, pending }: {
   product: Product | null;
   onClose: () => void;
