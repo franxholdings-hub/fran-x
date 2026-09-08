@@ -45,6 +45,8 @@ type Product = {
   is_published: boolean;
   is_archived: boolean;
   has_file: boolean;
+  file_url: string | null;
+  file_name: string | null;
   sort_order: number;
   sales_count: number;
   revenue: number;
