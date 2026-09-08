@@ -108,6 +108,7 @@ export function DigitalLibrarySection() {
       name: product.name,
       price: product.price,
       kind: "product",
+      currency: product.currency,
       category: product.category,
     });
     setOpen(true);
