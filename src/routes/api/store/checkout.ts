@@ -115,7 +115,6 @@ export const Route = createFileRoute("/api/store/checkout")({
         }
 
         // Record a pending payment — verified only after server-side confirmation.
-        const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
         try {
           await supabaseAdmin.from("payments").insert({
             transaction_id: reference,
