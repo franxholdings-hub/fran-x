@@ -15,7 +15,6 @@ import { reportLovableError } from "../lib/lovable-error-reporting";
 import { AuthProvider } from "@/hooks/useAuth";
 import { ThemeProvider, themeBootstrapScript } from "@/hooks/useTheme";
 import { WhatsAppButton } from "@/components/site/WhatsAppButton";
-import { FrixWidget } from "@/components/site/FrixWidget";
 import { CitySkylineBackground } from "@/components/site/CitySkylineBackground";
 import { Toaster } from "@/components/ui/sonner";
 import { supabase } from "@/integrations/supabase/client";
@@ -144,7 +143,6 @@ function RootComponent() {
           <Outlet />
         </AppShell>
         <WhatsAppButton />
-        <FrixWidget />
         <Toaster position="top-center" />
       </AuthProvider>
       </ThemeProvider>

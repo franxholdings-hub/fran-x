@@ -37,18 +37,42 @@ export const Route = createFileRoute("/api/store/checkout")({
           subCode?: string;
         }[] = [];
 
+        // Live admin-managed prices win over the static catalog fallback.
+        const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
+
         for (const item of items) {
           if (item.kind === "subscription") {
+            const { data: dbPlan } = await supabaseAdmin
+              .from("digital_plans")
+              .select("code, name, monthly_price, annual_price, is_active")
+              .eq("code", item.subCode ?? "")
+              .maybeSingle();
             const plan = STORE_SUBSCRIPTIONS.find((s) => s.code === item.subCode);
-            if (!plan) return Response.json({ error: `Unknown plan: ${item.subCode}` }, { status: 400 });
-            const price = plan.annualPrice > 0 ? plan.annualPrice : plan.monthlyPrice;
+            if (!dbPlan && !plan)
+              return Response.json({ error: `Unknown plan: ${item.subCode}` }, { status: 400 });
+            const monthly = dbPlan ? Number(dbPlan.monthly_price) : (plan?.monthlyPrice ?? 0);
+            const annual = dbPlan ? Number(dbPlan.annual_price) : (plan?.annualPrice ?? 0);
+            const price = annual > 0 ? annual : monthly;
+            const name = dbPlan?.name ?? plan?.name ?? "Subscription";
             total += price;
-            lines.push({ slug: item.slug, name: plan.name, price, kind: "subscription", subCode: plan.code });
+            lines.push({ slug: item.slug, name, price, kind: "subscription", subCode: (dbPlan?.code ?? plan?.code) as string });
           } else {
-            const product = DIGITAL_PRODUCTS.find((p) => p.slug === item.slug && p.published);
-            if (!product) return Response.json({ error: `Unknown product: ${item.slug}` }, { status: 400 });
-            total += product.price;
-            lines.push({ slug: product.slug, name: product.name, price: product.price, kind: "product" });
+            const { data: dbProduct } = await supabaseAdmin
+              .from("digital_products")
+              .select("slug, name, price, is_published, is_archived")
+              .eq("slug", item.slug)
+              .maybeSingle();
+            if (dbProduct) {
+              if (!dbProduct.is_published || dbProduct.is_archived)
+                return Response.json({ error: `Unavailable product: ${item.slug}` }, { status: 400 });
+              total += Number(dbProduct.price);
+              lines.push({ slug: dbProduct.slug, name: dbProduct.name, price: Number(dbProduct.price), kind: "product" });
+            } else {
+              const product = DIGITAL_PRODUCTS.find((p) => p.slug === item.slug && p.published);
+              if (!product) return Response.json({ error: `Unknown product: ${item.slug}` }, { status: 400 });
+              total += product.price;
+              lines.push({ slug: product.slug, name: product.name, price: product.price, kind: "product" });
+            }
           }
         }
 
@@ -91,7 +115,6 @@ export const Route = createFileRoute("/api/store/checkout")({
         }
 
         // Record a pending payment — verified only after server-side confirmation.
-        const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
         try {
           await supabaseAdmin.from("payments").insert({
             transaction_id: reference,

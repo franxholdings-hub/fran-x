@@ -45,6 +45,8 @@ type Product = {
   is_published: boolean;
   is_archived: boolean;
   has_file: boolean;
+  file_url: string | null;
+  file_name: string | null;
   sort_order: number;
   sales_count: number;
   revenue: number;
@@ -168,9 +170,7 @@ export function DigitalProducts() {
                   <td className="py-2 pr-3 text-right">{formatMoney(Number(p.price), p.currency)}</td>
                   <td className="py-2 pr-3 text-xs text-muted-foreground">{p.sales_count ?? 0} · {formatMoney(Number(p.revenue ?? 0))}</td>
                   <td className="py-2 pr-3">
-                    <Badge variant="outline" className={p.has_file ? "border-emerald-500/40 text-emerald-600" : "border-amber-500/40 text-amber-600"}>
-                      {p.has_file ? "Uploaded" : "No file"}
-                    </Badge>
+                    <FileCell product={p} onDone={() => void qc.invalidateQueries({ queryKey: ["admin-digital-products"] })} />
                   </td>
                   <td className="py-2 pr-3">
                     {p.is_archived ? (
@@ -218,6 +218,58 @@ export function DigitalProducts() {
         />
       )}
     </PanelSection>
+  );
+}
+
+function FileCell({ product, onDone }: { product: Product; onDone: () => void }) {
+  const [busy, setBusy] = useState(false);
+
+  const upload = async (file: File) => {
+    setBusy(true);
+    try {
+      const ext = file.name.split(".").pop() ?? "pdf";
+      const path = `${product.slug}/${Date.now()}.${ext}`;
+      const { error: upErr } = await supabase.storage
+        .from("product-files")
+        .upload(path, file, { upsert: true, contentType: file.type || "application/octet-stream" });
+      if (upErr) throw upErr;
+      const { error } = await supabase
+        .from("digital_products")
+        .update({ file_url: path, file_name: file.name, has_file: true } as never)
+        .eq("id", product.id);
+      if (error) throw error;
+      toast.success(`${file.name} uploaded`);
+      onDone();
+    } catch (e) {
+      toast.error((e as Error).message);
+    } finally {
+      setBusy(false);
+    }
+  };
+
+  return (
+    <div className="flex items-center gap-2">
+      <Badge
+        variant="outline"
+        className={product.has_file ? "border-emerald-500/40 text-emerald-600" : "border-amber-500/40 text-amber-600"}
+        title={product.file_name ?? undefined}
+      >
+        {product.has_file ? "Uploaded" : "No file"}
+      </Badge>
+      <label className="cursor-pointer text-xs font-medium text-primary underline">
+        {busy ? "Uploading…" : product.has_file ? "Replace" : "Upload"}
+        <input
+          type="file"
+          className="hidden"
+          disabled={busy}
+          onChange={(e) => {
+            const f = e.target.files?.[0];
+            if (f) void upload(f);
+            e.target.value = "";
+          }}
+        />
+      </label>
+    </div>
   );
 }
 
