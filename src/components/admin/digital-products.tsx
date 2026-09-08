@@ -231,7 +231,7 @@ function FileCell({ product, onDone }: { product: Product; onDone: () => void })
       const path = `${product.slug}/${Date.now()}.${ext}`;
       const { error: upErr } = await supabase.storage
         .from("product-files")
-        .upload(path, file, { upsert: true, contentType: file.type || undefined });
+        .upload(path, file, { upsert: true, contentType: file.type || "application/octet-stream" });
       if (upErr) throw upErr;
       const { error } = await supabase
         .from("digital_products")
