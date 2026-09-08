@@ -170,9 +170,7 @@ export function DigitalProducts() {
                   <td className="py-2 pr-3 text-right">{formatMoney(Number(p.price), p.currency)}</td>
                   <td className="py-2 pr-3 text-xs text-muted-foreground">{p.sales_count ?? 0} · {formatMoney(Number(p.revenue ?? 0))}</td>
                   <td className="py-2 pr-3">
-                    <Badge variant="outline" className={p.has_file ? "border-emerald-500/40 text-emerald-600" : "border-amber-500/40 text-amber-600"}>
-                      {p.has_file ? "Uploaded" : "No file"}
-                    </Badge>
+                    <FileCell product={p} onDone={() => void qc.invalidateQueries({ queryKey: ["admin-digital-products"] })} />
                   </td>
                   <td className="py-2 pr-3">
                     {p.is_archived ? (
