@@ -957,6 +957,7 @@ export type Database = {
           downloads: number
           featured: boolean
           file_format: string
+          file_name: string | null
           file_url: string | null
           has_file: boolean
           id: string
@@ -984,6 +985,7 @@ export type Database = {
           downloads?: number
           featured?: boolean
           file_format?: string
+          file_name?: string | null
           file_url?: string | null
           has_file?: boolean
           id?: string
@@ -1011,6 +1013,7 @@ export type Database = {
           downloads?: number
           featured?: boolean
           file_format?: string
+          file_name?: string | null
           file_url?: string | null
           has_file?: boolean
           id?: string
