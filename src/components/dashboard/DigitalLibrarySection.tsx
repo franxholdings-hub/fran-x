@@ -1,18 +1,21 @@
 // Customer Digital Library — "My Digital Products".
 //
-// Reads the user's verified payments to separate Owned Purchases (one-time)
-// from Subscription Access. Uses the existing payments table (owner-read RLS),
-// so it works without the digital_store migration being applied.
+// Owned purchases (with secure downloads), subscription access, and a full
+// purchase history with a "Buy again" action. Downloads are authorised
+// server-side by /api/store/download, which issues a short-lived signed URL.
 
+import { useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { Link } from "@tanstack/react-router";
-import { BookOpen, Crown, Download, FileText, Package, Wallet } from "lucide-react";
+import { BookOpen, Crown, Download, FileText, Package, RotateCcw, Wallet } from "lucide-react";
+import { toast } from "sonner";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { PanelSection, Empty } from "@/components/admin/kit";
 import { useAuth } from "@/hooks/useAuth";
+import { useCart } from "@/hooks/useCart";
 import { supabase } from "@/integrations/supabase/client";
-import { formatNaira } from "@/lib/digital-store/catalog";
+import { formatNaira, getProductBySlug } from "@/lib/digital-store/catalog";
 
 type Payment = {
   id: string;
@@ -23,9 +26,13 @@ type Payment = {
   payment_status: string;
   verification_status: string;
   related_type: string;
+  related_id: string | null;
   paid_at: string | null;
+  created_at: string;
   notes: string | null;
 };
+
+type Line = { slug: string; name: string; kind: string; category?: string; price?: number };
 
 const CAT_ICON: Record<string, typeof FileText> = {
   templates: FileText,
@@ -34,8 +41,20 @@ const CAT_ICON: Record<string, typeof FileText> = {
   resources: Crown,
 };
 
+function parseLines(notes: string | null): Line[] {
+  if (!notes) return [];
+  try {
+    const parsed = JSON.parse(notes) as { lines?: Line[] };
+    return parsed.lines ?? [];
+  } catch {
+    return [];
+  }
+}
+
 export function DigitalLibrarySection() {
   const { user } = useAuth();
+  const { add, setOpen } = useCart();
+  const [downloading, setDownloading] = useState<string | null>(null);
 
   const payments = useQuery({
     queryKey: ["digital-library", user?.id],
@@ -45,31 +64,60 @@ export function DigitalLibrarySection() {
         .from("payments")
         .select("*")
         .eq("user_id", user!.id)
-        .eq("verification_status", "verified")
-        .order("paid_at", { ascending: false });
+        .order("created_at", { ascending: false });
       if (error) throw error;
       return (data ?? []) as unknown as Payment[];
     },
   });
 
-  const owned = (payments.data ?? []).filter((p) => p.related_type === "one_time");
-  const subscription = (payments.data ?? []).filter((p) => p.related_type === "subscription");
+  const all = payments.data ?? [];
+  const verified = all.filter((p) => p.verification_status === "verified");
+  const owned = verified.filter((p) => p.related_type === "one_time");
+  const subscription = verified.filter((p) => p.related_type === "subscription");
 
-  const parseLines = (notes: string | null) => {
-    if (!notes) return [];
+  const download = async (slug: string) => {
+    setDownloading(slug);
     try {
-      const parsed = JSON.parse(notes);
-      return (parsed.lines ?? []) as { slug: string; name: string; kind: string; category?: string }[];
-    } catch {
-      return [];
+      const { data: { session } } = await supabase.auth.getSession();
+      const res = await fetch("/api/store/download", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${session?.access_token ?? ""}`,
+        },
+        body: JSON.stringify({ slug }),
+      });
+      const json = (await res.json()) as { url?: string; error?: string };
+      if (!res.ok || !json.url) throw new Error(json.error || "Download unavailable.");
+      window.open(json.url, "_blank", "noopener");
+    } catch (e) {
+      toast.error((e as Error).message);
+    } finally {
+      setDownloading(null);
     }
+  };
+
+  const buyAgain = (line: Line) => {
+    const product = getProductBySlug(line.slug);
+    if (!product) {
+      toast.error("This product is no longer available.");
+      return;
+    }
+    add({
+      slug: product.slug,
+      name: product.name,
+      price: product.price,
+      kind: "product",
+      category: product.category,
+    });
+    setOpen(true);
   };
 
   return (
     <div className="space-y-4 sm:space-y-6">
       <PanelSection
         title="Owned Purchases"
-        description="Products you bought individually. These remain yours forever — even if you cancel a subscription."
+        description="Products you bought individually. Download the full file any time — these remain yours forever."
         action={<Badge variant="outline">{owned.length} owned</Badge>}
       >
         {payments.isLoading ? (
@@ -83,8 +131,12 @@ export function DigitalLibrarySection() {
           </Empty>
         ) : (
           <div className="grid gap-3 sm:grid-cols-2">
-            {owned.flatMap((p) =>
-              parseLines(p.notes).map((line) => {
+            {owned.flatMap((p) => {
+              const lines = parseLines(p.notes);
+              const fallback: Line[] = lines.length
+                ? lines
+                : [{ slug: p.related_id ?? p.id, name: p.service_product, kind: "product" }];
+              return fallback.map((line) => {
                 const Icon = CAT_ICON[line.category ?? "templates"] ?? Package;
                 return (
                   <div key={`${p.id}-${line.slug}`} className="flex items-start gap-3 rounded-lg border border-border bg-surface/40 p-4">
@@ -94,29 +146,22 @@ export function DigitalLibrarySection() {
                     <div className="min-w-0 flex-1">
                       <p className="truncate text-sm font-medium">{line.name}</p>
                       <p className="text-xs text-muted-foreground">
-                        {formatNaira(p.amount)} · {new Date(p.paid_at ?? Date.now()).toLocaleDateString()}
+                        {formatNaira(p.amount)} · {new Date(p.paid_at ?? p.created_at).toLocaleDateString()}
                       </p>
                     </div>
-                    <Button size="sm" variant="outline" disabled>
+                    <Button
+                      size="sm"
+                      variant="outline"
+                      onClick={() => void download(line.slug)}
+                      disabled={downloading === line.slug}
+                    >
                       <Download className="h-3.5 w-3.5" />
+                      {downloading === line.slug ? "Preparing…" : "Download"}
                     </Button>
                   </div>
                 );
-              }),
-            )}
-            {owned.length > 0 && owned.every((p) => parseLines(p.notes).length === 0) && (
-              <div className="sm:col-span-2">
-                {owned.map((p) => (
-                  <div key={p.id} className="mb-2 flex items-center justify-between rounded-lg border border-border bg-surface/40 p-4">
-                    <div>
-                      <p className="text-sm font-medium">{p.service_product}</p>
-                      <p className="text-xs text-muted-foreground">{formatNaira(p.amount)}</p>
-                    </div>
-                    <Badge variant="outline" className="border-emerald-500/40 text-emerald-600">Verified</Badge>
-                  </div>
-                ))}
-              </div>
-            )}
+              });
+            })}
           </div>
         )}
       </PanelSection>
@@ -144,13 +189,99 @@ export function DigitalLibrarySection() {
                   <div>
                     <p className="text-sm font-medium">{p.service_product}</p>
                     <p className="text-xs text-muted-foreground">
-                      {formatNaira(p.amount)} · {new Date(p.paid_at ?? Date.now()).toLocaleDateString()}
+                      {formatNaira(p.amount)} · {new Date(p.paid_at ?? p.created_at).toLocaleDateString()}
                     </p>
                   </div>
                 </div>
                 <Badge variant="outline" className="border-emerald-500/40 text-emerald-600">Active access</Badge>
               </div>
             ))}
+          </div>
+        )}
+      </PanelSection>
+
+      <PanelSection
+        title="Purchase History"
+        description="Every order you have placed, including pending and failed payments. You can buy any item again."
+        action={<Badge variant="outline">{all.length} orders</Badge>}
+      >
+        {payments.isLoading ? (
+          <p className="text-sm text-muted-foreground">Loading…</p>
+        ) : all.length === 0 ? (
+          <Empty>
+            No orders yet.{" "}
+            <Link to="/store" className="font-medium text-primary underline">
+              Visit the Digital Store
+            </Link>
+          </Empty>
+        ) : (
+          <div className="overflow-x-auto">
+            <table className="w-full text-sm">
+              <thead>
+                <tr className="border-b border-border text-left text-xs uppercase tracking-wide text-muted-foreground">
+                  <th className="py-2 pr-3">Order</th>
+                  <th className="py-2 pr-3">Date</th>
+                  <th className="py-2 pr-3 text-right">Amount</th>
+                  <th className="py-2 pr-3">Status</th>
+                  <th className="py-2 pr-3"></th>
+                </tr>
+              </thead>
+              <tbody>
+                {all.map((p) => {
+                  const lines = parseLines(p.notes);
+                  const isVerified = p.verification_status === "verified";
+                  return (
+                    <tr key={p.id} className="border-b border-border/60 align-top">
+                      <td className="py-2 pr-3">
+                        <p className="font-medium">{p.service_product || "Order"}</p>
+                        <p className="font-mono text-[11px] text-muted-foreground">{p.transaction_id}</p>
+                      </td>
+                      <td className="py-2 pr-3 text-xs text-muted-foreground">
+                        {new Date(p.paid_at ?? p.created_at).toLocaleDateString()}
+                      </td>
+                      <td className="py-2 pr-3 text-right">{formatNaira(p.amount)}</td>
+                      <td className="py-2 pr-3">
+                        <Badge
+                          variant="outline"
+                          className={
+                            isVerified
+                              ? "border-emerald-500/40 text-emerald-600"
+                              : p.payment_status === "pending"
+                                ? "border-amber-500/40 text-amber-600"
+                                : "border-destructive/40 text-destructive"
+                          }
+                        >
+                          {isVerified ? "Paid" : p.payment_status}
+                        </Badge>
+                      </td>
+                      <td className="py-2 pr-3">
+                        <div className="flex flex-wrap justify-end gap-1">
+                          {(lines.length
+                            ? lines.filter((l) => l.kind !== "subscription")
+                            : []
+                          ).map((line) => (
+                            <Button
+                              key={line.slug}
+                              size="sm"
+                              variant="ghost"
+                              onClick={() => buyAgain(line)}
+                              title={`Buy ${line.name} again`}
+                            >
+                              <RotateCcw className="h-3.5 w-3.5" /> Buy again
+                            </Button>
+                          ))}
+                          {lines.length === 0 && (
+                            <Button asChild size="sm" variant="ghost">
+                              <Link to="/store">Shop</Link>
+                            </Button>
+                          )}
+                        </div>
+                      </td>
+                    </tr>
+                  );
+                })}
+              </tbody>
+            </table>
           </div>
         )}
       </PanelSection>
