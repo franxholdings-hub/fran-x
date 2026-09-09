@@ -7,15 +7,17 @@
 import { useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { Link } from "@tanstack/react-router";
-import { BookOpen, Crown, Download, FileText, Package, RotateCcw, Wallet } from "lucide-react";
+import { BookOpen, Crown, Download, FileText, Package, RotateCcw, Unlock, Wallet } from "lucide-react";
 import { toast } from "sonner";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { PanelSection, Empty } from "@/components/admin/kit";
 import { useAuth } from "@/hooks/useAuth";
 import { useCart } from "@/hooks/useCart";
 import { supabase } from "@/integrations/supabase/client";
 import { formatNaira, getProductBySlug } from "@/lib/digital-store/catalog";
+
 
 type Payment = {
   id: string;
