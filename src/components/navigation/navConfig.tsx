@@ -76,13 +76,15 @@ export const FOOTER_NAV: NavItem[] = [
   { to: "/auth", label: "Sign in", icon: LogIn, guestOnly: true },
 ];
 
-/** Mobile bottom navigation — 4 primary touch targets */
+/** Mobile bottom navigation — 5 primary touch targets */
 export const MOBILE_BOTTOM_NAV: NavItem[] = [
   { to: "/", label: "Home", icon: Home, exact: true },
   { to: "/services", label: "Services", icon: Briefcase },
+  { to: "/store", label: "Products", icon: Package },
   { to: "/frix-ai", label: "FRIX AI", icon: Bot },
   { to: "/contact", label: "Contact", icon: Mail },
 ];
+
 
 /** All items for the mobile "More" sheet */
 export const MORE_NAV: NavItem[] = [
