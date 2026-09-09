@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { toast } from "sonner";
-import { Check, Loader2, Lock, Minus, ShieldCheck, ShoppingBag } from "lucide-react";
+import { Check, FileDown, FileText, FileType, Loader2, Lock, Minus, ShieldCheck, ShoppingBag } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { PageHero } from "@/components/site/PageHero";
@@ -28,6 +28,8 @@ function CheckoutPage() {
   const qc = useQueryClient();
   const [paying, setPaying] = useState(false);
   const [done, setDone] = useState(false);
+  const [purchased, setPurchased] = useState<{ slug: string; name: string }[]>([]);
+  const [downloading, setDownloading] = useState<string | null>(null);
 
   // Handle Paystack return: ?reference=...
   useEffect(() => {
@@ -48,6 +50,25 @@ function CheckoutPage() {
           clear();
           toast.success("Payment verified — your order is complete!");
           void qc.invalidateQueries();
+          // Load the purchased lines so the user can download immediately.
+          try {
+            const { supabase } = await import("@/integrations/supabase/client");
+            const { data } = await supabase
+              .from("payments")
+              .select("notes")
+              .eq("paystack_reference", reference)
+              .maybeSingle();
+            const parsed = JSON.parse((data?.notes as string) || "{}") as {
+              lines?: { slug: string; name: string; kind: string }[];
+            };
+            setPurchased(
+              (parsed.lines ?? [])
+                .filter((l) => l.kind !== "subscription")
+                .map((l) => ({ slug: l.slug, name: l.name })),
+            );
+          } catch {
+            /* convenience only — the library always shows the purchase */
+          }
         } else {
           toast.error(json.error || `Payment not successful (${json.status || "unknown"})`);
         }
@@ -56,6 +77,18 @@ function CheckoutPage() {
       }
     })();
   }, [qc, clear]);
+
+  const downloadAs = async (item: { slug: string; name: string }, format: "pdf" | "doc" | "txt") => {
+    setDownloading(`${item.slug}:${format}`);
+    try {
+      const { downloadProductFile } = await import("@/lib/store/download-client");
+      await downloadProductFile(item.slug, item.name, format);
+    } catch (e) {
+      toast.error((e as Error).message);
+    } finally {
+      setDownloading(null);
+    }
+  };
 
   const checkout = async () => {
     if (!user) {
@@ -93,6 +126,50 @@ function CheckoutPage() {
           <p className="mt-2 text-sm text-muted-foreground">
             Your payment was verified. Your digital products are now available in your library.
           </p>
+          {purchased.length > 0 && (
+            <div className="mt-6 border-t border-border pt-5 text-left">
+              <p className="text-sm font-semibold">Download your purchase now</p>
+              <p className="mt-0.5 text-xs text-muted-foreground">
+                Available as PDF, Word and plain text — also any time from your library.
+              </p>
+              <ul className="mt-3 space-y-2">
+                {purchased.map((item) => (
+                  <li
+                    key={item.slug}
+                    className="flex flex-wrap items-center justify-between gap-2 rounded-lg border border-border/60 bg-surface/40 px-4 py-3"
+                  >
+                    <span className="min-w-0 truncate text-sm font-medium">{item.name}</span>
+                    <div className="flex gap-1.5">
+                      <Button
+                        size="sm"
+                        variant="outline"
+                        disabled={downloading !== null}
+                        onClick={() => void downloadAs(item, "pdf")}
+                      >
+                        <FileDown className="h-3.5 w-3.5" /> PDF
+                      </Button>
+                      <Button
+                        size="sm"
+                        variant="outline"
+                        disabled={downloading !== null}
+                        onClick={() => void downloadAs(item, "doc")}
+                      >
+                        <FileType className="h-3.5 w-3.5" /> Word
+                      </Button>
+                      <Button
+                        size="sm"
+                        variant="outline"
+                        disabled={downloading !== null}
+                        onClick={() => void downloadAs(item, "txt")}
+                      >
+                        <FileText className="h-3.5 w-3.5" /> TXT
+                      </Button>
+                    </div>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          )}
           <div className="mt-6 flex flex-col gap-2 sm:flex-row sm:justify-center">
             <Button asChild>
               <Link to="/portal" hash="library">Go to my library</Link>

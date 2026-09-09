@@ -80,7 +80,7 @@ export function DigitalLibrarySection() {
   const owned = verified.filter((p) => p.related_type === "one_time");
   const subscription = verified.filter((p) => p.related_type === "subscription");
 
-  const download = async (slug: string) => {
+  const download = async (slug: string, name: string) => {
     setDownloading(slug);
     try {
       const { data: { session } } = await supabase.auth.getSession();
@@ -93,8 +93,18 @@ export function DigitalLibrarySection() {
         body: JSON.stringify({ slug }),
       });
       const json = (await res.json()) as { url?: string; error?: string };
-      if (!res.ok || !json.url) throw new Error(json.error || "Download unavailable.");
-      window.open(json.url, "_blank", "noopener");
+      if (res.ok && json.url) {
+        window.open(json.url, "_blank", "noopener");
+        return;
+      }
+      if (res.status === 404) {
+        // No uploaded file — fall back to the PDF generated from the
+        // written e-book / template content.
+        const { downloadProductFile } = await import("@/lib/store/download-client");
+        await downloadProductFile(slug, name, "pdf");
+        return;
+      }
+      throw new Error(json.error || "Download unavailable.");
     } catch (e) {
       toast.error((e as Error).message);
     } finally {
@@ -196,7 +206,7 @@ export function DigitalLibrarySection() {
                       <Button
                         size="sm"
                         variant="outline"
-                        onClick={() => void download(line.slug)}
+                        onClick={() => void download(line.slug, line.name)}
                         disabled={downloading === line.slug}
                       >
                         <Download className="h-3.5 w-3.5" />
@@ -331,6 +341,23 @@ export function DigitalLibrarySection() {
           </div>
         )}
       </PanelSection>
+
+      {/* Reading window — renders the secure-fetched e-book body */}
+      <Dialog open={reader !== null} onOpenChange={(open) => !open && setReader(null)}>
+        <DialogContent className="flex max-h-[88vh] max-w-3xl flex-col gap-0 overflow-hidden p-0">
+          <DialogHeader className="border-b border-border px-5 py-4 sm:px-6">
+            <DialogTitle className="flex items-center gap-2 font-display text-lg">
+              <BookOpen className="h-5 w-5 text-primary" />
+              {reader?.name}
+            </DialogTitle>
+          </DialogHeader>
+          <div className="overflow-y-auto px-5 py-5 sm:px-8 sm:py-6">
+            <article className="whitespace-pre-wrap text-[15px] leading-7 text-foreground/90">
+              {reader?.body}
+            </article>
+          </div>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 }
