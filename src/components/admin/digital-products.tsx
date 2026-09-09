@@ -1,9 +1,10 @@
 // Admin: Digital Products management (CRUD on the digital_products table).
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { toast } from "sonner";
-import { Pencil, Plus, Package, Archive, Eye, EyeOff } from "lucide-react";
+import { Pencil, Plus, Package, Archive, Eye, EyeOff, BookOpen } from "lucide-react";
+
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
