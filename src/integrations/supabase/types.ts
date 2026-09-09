@@ -945,6 +945,27 @@ export type Database = {
         }
         Relationships: []
       }
+      digital_product_content: {
+        Row: {
+          body: string
+          created_at: string
+          product_slug: string
+          updated_at: string
+        }
+        Insert: {
+          body?: string
+          created_at?: string
+          product_slug: string
+          updated_at?: string
+        }
+        Update: {
+          body?: string
+          created_at?: string
+          product_slug?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
       digital_products: {
         Row: {
           bundle_slugs: Json
