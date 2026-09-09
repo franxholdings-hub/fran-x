@@ -331,6 +331,23 @@ export function DigitalLibrarySection() {
           </div>
         )}
       </PanelSection>
+
+      {/* Reading window — renders the secure-fetched e-book body */}
+      <Dialog open={reader !== null} onOpenChange={(open) => !open && setReader(null)}>
+        <DialogContent className="flex max-h-[88vh] max-w-3xl flex-col gap-0 overflow-hidden p-0">
+          <DialogHeader className="border-b border-border px-5 py-4 sm:px-6">
+            <DialogTitle className="flex items-center gap-2 font-display text-lg">
+              <BookOpen className="h-5 w-5 text-primary" />
+              {reader?.name}
+            </DialogTitle>
+          </DialogHeader>
+          <div className="overflow-y-auto px-5 py-5 sm:px-8 sm:py-6">
+            <article className="whitespace-pre-wrap text-[15px] leading-7 text-foreground/90">
+              {reader?.body}
+            </article>
+          </div>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 }

@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { toast } from "sonner";
+import { ArrowRight, Package } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -106,6 +107,20 @@ export function ProfileSection() {
         <StatCard label="Account status" value={sub.data?.isTrial ? "Trial" : "Active"} />
         <StatCard label="Plan" value={sub.data?.plan?.name ?? "Explorer"} />
       </div>
+
+      <PanelSection
+        title="Purchase history"
+        description="Review every order you have placed, re-download digital products, or buy again."
+        action={
+          <Button size="sm" variant="outline" onClick={() => { window.location.hash = "library"; }}>
+            <Package className="h-3.5 w-3.5" /> View purchases <ArrowRight className="h-3.5 w-3.5" />
+          </Button>
+        }
+      >
+        <p className="text-sm text-muted-foreground">
+          Your full order history lives in My Digital Products — owned purchases, subscription access, and every past transaction.
+        </p>
+      </PanelSection>
 
       <PanelSection title="Contact information" description="How FRAN-X reaches you.">
         {editing ? (
