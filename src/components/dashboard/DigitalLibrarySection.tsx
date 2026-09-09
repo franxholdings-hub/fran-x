@@ -57,6 +57,9 @@ export function DigitalLibrarySection() {
   const { user } = useAuth();
   const { add, setOpen } = useCart();
   const [downloading, setDownloading] = useState<string | null>(null);
+  const [reading, setReading] = useState<string | null>(null);
+  const [reader, setReader] = useState<{ name: string; body: string } | null>(null);
+
 
   const payments = useQuery({
     queryKey: ["digital-library", user?.id],
@@ -99,7 +102,35 @@ export function DigitalLibrarySection() {
     }
   };
 
+  const read = async (slug: string) => {
+    setReading(slug);
+    try {
+      const { data: { session } } = await supabase.auth.getSession();
+      const res = await fetch("/api/store/read", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${session?.access_token ?? ""}`,
+        },
+        body: JSON.stringify({ slug }),
+      });
+      const json = (await res.json()) as { name?: string; body?: string; error?: string };
+      if (!res.ok) throw new Error(json.error || "Could not open this product.");
+      setReader({
+        name: json.name ?? slug,
+        body: json.body?.trim()
+          ? json.body
+          : "The written content for this product has not been published yet. You can still download the file if one is attached.",
+      });
+    } catch (e) {
+      toast.error((e as Error).message);
+    } finally {
+      setReading(null);
+    }
+  };
+
   const buyAgain = (line: Line) => {
+
     const product = getProductBySlug(line.slug);
     if (!product) {
       toast.error("This product is no longer available.");
