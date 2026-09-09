@@ -173,26 +173,38 @@ export function DigitalLibrarySection() {
               return fallback.map((line) => {
                 const Icon = CAT_ICON[line.category ?? "templates"] ?? Package;
                 return (
-                  <div key={`${p.id}-${line.slug}`} className="flex items-start gap-3 rounded-lg border border-border bg-surface/40 p-4">
-                    <span className="grid h-9 w-9 shrink-0 place-items-center rounded-lg border border-primary/20 bg-primary/5 text-primary">
-                      <Icon className="h-4 w-4" />
-                    </span>
-                    <div className="min-w-0 flex-1">
-                      <p className="truncate text-sm font-medium">{line.name}</p>
-                      <p className="text-xs text-muted-foreground">
-                        {formatNaira(p.amount)} · {new Date(p.paid_at ?? p.created_at).toLocaleDateString()}
-                      </p>
+                  <div key={`${p.id}-${line.slug}`} className="rounded-lg border border-border bg-surface/40 p-4">
+                    <div className="flex items-start gap-3">
+                      <span className="grid h-9 w-9 shrink-0 place-items-center rounded-lg border border-primary/20 bg-primary/5 text-primary">
+                        <Icon className="h-4 w-4" />
+                      </span>
+                      <div className="min-w-0 flex-1">
+                        <p className="truncate text-sm font-medium">{line.name}</p>
+                        <p className="text-xs text-muted-foreground">
+                          {formatNaira(p.amount)} · {new Date(p.paid_at ?? p.created_at).toLocaleDateString()}
+                        </p>
+                      </div>
+                      <Badge variant="outline" className="border-emerald-500/40 text-emerald-600">
+                        <Unlock className="mr-1 h-3 w-3" /> Unlocked
+                      </Badge>
                     </div>
-                    <Button
-                      size="sm"
-                      variant="outline"
-                      onClick={() => void download(line.slug)}
-                      disabled={downloading === line.slug}
-                    >
-                      <Download className="h-3.5 w-3.5" />
-                      {downloading === line.slug ? "Preparing…" : "Download"}
-                    </Button>
+                    <div className="mt-3 flex flex-wrap gap-2">
+                      <Button size="sm" onClick={() => void read(line.slug)} disabled={reading === line.slug}>
+                        <BookOpen className="h-3.5 w-3.5" />
+                        {reading === line.slug ? "Opening…" : "Read now"}
+                      </Button>
+                      <Button
+                        size="sm"
+                        variant="outline"
+                        onClick={() => void download(line.slug)}
+                        disabled={downloading === line.slug}
+                      >
+                        <Download className="h-3.5 w-3.5" />
+                        {downloading === line.slug ? "Preparing…" : "Download"}
+                      </Button>
+                    </div>
                   </div>
+
                 );
               });
             })}
