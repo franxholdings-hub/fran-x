@@ -7,15 +7,17 @@
 import { useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { Link } from "@tanstack/react-router";
-import { BookOpen, Crown, Download, FileText, Package, RotateCcw, Wallet } from "lucide-react";
+import { BookOpen, Crown, Download, FileText, Package, RotateCcw, Unlock, Wallet } from "lucide-react";
 import { toast } from "sonner";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { PanelSection, Empty } from "@/components/admin/kit";
 import { useAuth } from "@/hooks/useAuth";
 import { useCart } from "@/hooks/useCart";
 import { supabase } from "@/integrations/supabase/client";
 import { formatNaira, getProductBySlug } from "@/lib/digital-store/catalog";
+
 
 type Payment = {
   id: string;
@@ -55,6 +57,9 @@ export function DigitalLibrarySection() {
   const { user } = useAuth();
   const { add, setOpen } = useCart();
   const [downloading, setDownloading] = useState<string | null>(null);
+  const [reading, setReading] = useState<string | null>(null);
+  const [reader, setReader] = useState<{ name: string; body: string } | null>(null);
+
 
   const payments = useQuery({
     queryKey: ["digital-library", user?.id],
@@ -97,7 +102,35 @@ export function DigitalLibrarySection() {
     }
   };
 
+  const read = async (slug: string) => {
+    setReading(slug);
+    try {
+      const { data: { session } } = await supabase.auth.getSession();
+      const res = await fetch("/api/store/read", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${session?.access_token ?? ""}`,
+        },
+        body: JSON.stringify({ slug }),
+      });
+      const json = (await res.json()) as { name?: string; body?: string; error?: string };
+      if (!res.ok) throw new Error(json.error || "Could not open this product.");
+      setReader({
+        name: json.name ?? slug,
+        body: json.body?.trim()
+          ? json.body
+          : "The written content for this product has not been published yet. You can still download the file if one is attached.",
+      });
+    } catch (e) {
+      toast.error((e as Error).message);
+    } finally {
+      setReading(null);
+    }
+  };
+
   const buyAgain = (line: Line) => {
+
     const product = getProductBySlug(line.slug);
     if (!product) {
       toast.error("This product is no longer available.");
@@ -140,26 +173,38 @@ export function DigitalLibrarySection() {
               return fallback.map((line) => {
                 const Icon = CAT_ICON[line.category ?? "templates"] ?? Package;
                 return (
-                  <div key={`${p.id}-${line.slug}`} className="flex items-start gap-3 rounded-lg border border-border bg-surface/40 p-4">
-                    <span className="grid h-9 w-9 shrink-0 place-items-center rounded-lg border border-primary/20 bg-primary/5 text-primary">
-                      <Icon className="h-4 w-4" />
-                    </span>
-                    <div className="min-w-0 flex-1">
-                      <p className="truncate text-sm font-medium">{line.name}</p>
-                      <p className="text-xs text-muted-foreground">
-                        {formatNaira(p.amount)} · {new Date(p.paid_at ?? p.created_at).toLocaleDateString()}
-                      </p>
+                  <div key={`${p.id}-${line.slug}`} className="rounded-lg border border-border bg-surface/40 p-4">
+                    <div className="flex items-start gap-3">
+                      <span className="grid h-9 w-9 shrink-0 place-items-center rounded-lg border border-primary/20 bg-primary/5 text-primary">
+                        <Icon className="h-4 w-4" />
+                      </span>
+                      <div className="min-w-0 flex-1">
+                        <p className="truncate text-sm font-medium">{line.name}</p>
+                        <p className="text-xs text-muted-foreground">
+                          {formatNaira(p.amount)} · {new Date(p.paid_at ?? p.created_at).toLocaleDateString()}
+                        </p>
+                      </div>
+                      <Badge variant="outline" className="border-emerald-500/40 text-emerald-600">
+                        <Unlock className="mr-1 h-3 w-3" /> Unlocked
+                      </Badge>
                     </div>
-                    <Button
-                      size="sm"
-                      variant="outline"
-                      onClick={() => void download(line.slug)}
-                      disabled={downloading === line.slug}
-                    >
-                      <Download className="h-3.5 w-3.5" />
-                      {downloading === line.slug ? "Preparing…" : "Download"}
-                    </Button>
+                    <div className="mt-3 flex flex-wrap gap-2">
+                      <Button size="sm" onClick={() => void read(line.slug)} disabled={reading === line.slug}>
+                        <BookOpen className="h-3.5 w-3.5" />
+                        {reading === line.slug ? "Opening…" : "Read now"}
+                      </Button>
+                      <Button
+                        size="sm"
+                        variant="outline"
+                        onClick={() => void download(line.slug)}
+                        disabled={downloading === line.slug}
+                      >
+                        <Download className="h-3.5 w-3.5" />
+                        {downloading === line.slug ? "Preparing…" : "Download"}
+                      </Button>
+                    </div>
                   </div>
+
                 );
               });
             })}

@@ -48,6 +48,7 @@ import { Route as ApiPublicFrixRouteImport } from './routes/api/public/frix'
 import { Route as ApiPublicPaystackWebhookRouteImport } from './routes/api/public/paystack-webhook'
 import { Route as ApiStoreCheckoutRouteImport } from './routes/api/store/checkout'
 import { Route as ApiStoreDownloadRouteImport } from './routes/api/store/download'
+import { Route as ApiStoreReadRouteImport } from './routes/api/store/read'
 import { Route as ApiSubscriptionStartTrialRouteImport } from './routes/api/subscription/start-trial'
 import { Route as StoreServicesIndexRouteImport } from './routes/store/services/index'
 import { Route as StoreServicesSlugRouteImport } from './routes/store/services/$slug'
@@ -247,6 +248,11 @@ const ApiStoreDownloadRoute = ApiStoreDownloadRouteImport.update({
   path: '/api/store/download',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ApiStoreReadRoute = ApiStoreReadRouteImport.update({
+  id: '/api/store/read',
+  path: '/api/store/read',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ApiSubscriptionStartTrialRoute =
   ApiSubscriptionStartTrialRouteImport.update({
     id: '/api/subscription/start-trial',
@@ -303,6 +309,7 @@ export interface FileRoutesByFullPath {
   '/api/public/paystack-webhook': typeof ApiPublicPaystackWebhookRoute
   '/api/store/checkout': typeof ApiStoreCheckoutRoute
   '/api/store/download': typeof ApiStoreDownloadRoute
+  '/api/store/read': typeof ApiStoreReadRoute
   '/api/subscription/start-trial': typeof ApiSubscriptionStartTrialRoute
   '/store/services/$slug': typeof StoreServicesSlugRoute
   '/store/services/': typeof StoreServicesIndexRoute
@@ -345,6 +352,7 @@ export interface FileRoutesByTo {
   '/api/public/paystack-webhook': typeof ApiPublicPaystackWebhookRoute
   '/api/store/checkout': typeof ApiStoreCheckoutRoute
   '/api/store/download': typeof ApiStoreDownloadRoute
+  '/api/store/read': typeof ApiStoreReadRoute
   '/api/subscription/start-trial': typeof ApiSubscriptionStartTrialRoute
   '/store/services/$slug': typeof StoreServicesSlugRoute
   '/store/services': typeof StoreServicesIndexRoute
@@ -390,6 +398,7 @@ export interface FileRoutesById {
   '/api/public/paystack-webhook': typeof ApiPublicPaystackWebhookRoute
   '/api/store/checkout': typeof ApiStoreCheckoutRoute
   '/api/store/download': typeof ApiStoreDownloadRoute
+  '/api/store/read': typeof ApiStoreReadRoute
   '/api/subscription/start-trial': typeof ApiSubscriptionStartTrialRoute
   '/store/services/$slug': typeof StoreServicesSlugRoute
   '/store/services/': typeof StoreServicesIndexRoute
@@ -435,6 +444,7 @@ export interface FileRouteTypes {
     | '/api/public/paystack-webhook'
     | '/api/store/checkout'
     | '/api/store/download'
+    | '/api/store/read'
     | '/api/subscription/start-trial'
     | '/store/services/$slug'
     | '/store/services/'
@@ -477,6 +487,7 @@ export interface FileRouteTypes {
     | '/api/public/paystack-webhook'
     | '/api/store/checkout'
     | '/api/store/download'
+    | '/api/store/read'
     | '/api/subscription/start-trial'
     | '/store/services/$slug'
     | '/store/services'
@@ -521,6 +532,7 @@ export interface FileRouteTypes {
     | '/api/public/paystack-webhook'
     | '/api/store/checkout'
     | '/api/store/download'
+    | '/api/store/read'
     | '/api/subscription/start-trial'
     | '/store/services/$slug'
     | '/store/services/'
@@ -555,6 +567,7 @@ export interface RootRouteChildren {
   ApiPublicPaystackWebhookRoute: typeof ApiPublicPaystackWebhookRoute
   ApiStoreCheckoutRoute: typeof ApiStoreCheckoutRoute
   ApiStoreDownloadRoute: typeof ApiStoreDownloadRoute
+  ApiStoreReadRoute: typeof ApiStoreReadRoute
   ApiSubscriptionStartTrialRoute: typeof ApiSubscriptionStartTrialRoute
 }
 
@@ -833,6 +846,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ApiStoreDownloadRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/api/store/read': {
+      id: '/api/store/read'
+      path: '/api/store/read'
+      fullPath: '/api/store/read'
+      preLoaderRoute: typeof ApiStoreReadRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/api/subscription/start-trial': {
       id: '/api/subscription/start-trial'
       path: '/api/subscription/start-trial'
@@ -941,6 +961,7 @@ const rootRouteChildren: RootRouteChildren = {
   ApiPublicPaystackWebhookRoute: ApiPublicPaystackWebhookRoute,
   ApiStoreCheckoutRoute: ApiStoreCheckoutRoute,
   ApiStoreDownloadRoute: ApiStoreDownloadRoute,
+  ApiStoreReadRoute: ApiStoreReadRoute,
   ApiSubscriptionStartTrialRoute: ApiSubscriptionStartTrialRoute,
 }
 export const routeTree = rootRouteImport

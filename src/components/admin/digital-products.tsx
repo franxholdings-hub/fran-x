@@ -1,9 +1,10 @@
 // Admin: Digital Products management (CRUD on the digital_products table).
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { toast } from "sonner";
-import { Pencil, Plus, Package, Archive, Eye, EyeOff } from "lucide-react";
+import { Pencil, Plus, Package, Archive, Eye, EyeOff, BookOpen } from "lucide-react";
+
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -79,7 +80,9 @@ export function DigitalProducts() {
   const qc = useQueryClient();
   const { user } = useAuth();
   const [editing, setEditing] = useState<Product | null>(null);
+  const [writing, setWriting] = useState<Product | null>(null);
   const [creating, setCreating] = useState(false);
+
 
   const products = useQuery({
     queryKey: ["admin-digital-products"],
@@ -183,7 +186,9 @@ export function DigitalProducts() {
                   </td>
                   <td className="py-2 pr-3">
                     <div className="flex items-center gap-1">
+                      <Button size="sm" variant="ghost" onClick={() => setWriting(p)} title="Write full e-book / notes"><BookOpen className="h-3.5 w-3.5" /></Button>
                       <Button size="sm" variant="ghost" onClick={() => setEditing(p)} title="Edit"><Pencil className="h-3.5 w-3.5" /></Button>
+
                       <Button
                         size="sm" variant="ghost"
                         onClick={() => toggle.mutate({ id: p.id, field: "is_published", value: !p.is_published })}
@@ -217,9 +222,79 @@ export function DigitalProducts() {
           pending={save.isPending}
         />
       )}
+
+      {writing && <ContentDialog product={writing} onClose={() => setWriting(null)} />}
     </PanelSection>
   );
 }
+
+/** Long-form e-book / notes editor — this is the actual content buyers read. */
+function ContentDialog({ product, onClose }: { product: Product; onClose: () => void }) {
+  const [body, setBody] = useState("");
+  const [loading, setLoading] = useState(true);
+  const [saving, setSaving] = useState(false);
+  const db = supabase as unknown as {
+    from: (t: string) => {
+      select: (c: string) => { eq: (k: string, v: string) => { maybeSingle: () => Promise<{ data: { body?: string } | null }> } };
+      upsert: (v: Record<string, unknown>, o: Record<string, unknown>) => Promise<{ error: { message: string } | null }>;
+    };
+  };
+
+  useEffect(() => {
+    let cancelled = false;
+    void (async () => {
+      const { data } = await db
+        .from("digital_product_content")
+        .select("body")
+        .eq("product_slug", product.slug)
+        .maybeSingle();
+      if (!cancelled) {
+        setBody(data?.body ?? "");
+        setLoading(false);
+      }
+    })();
+    return () => { cancelled = true; };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [product.slug]);
+
+  const save = async () => {
+    setSaving(true);
+    const { error } = await db
+      .from("digital_product_content")
+      .upsert({ product_slug: product.slug, body }, { onConflict: "product_slug" });
+    setSaving(false);
+    if (error) { toast.error(error.message); return; }
+    toast.success("Content saved — buyers see it immediately.");
+    onClose();
+  };
+
+  return (
+    <Dialog open onOpenChange={(o) => !o && onClose()}>
+      <DialogContent className="max-h-[92vh] max-w-3xl overflow-y-auto">
+        <DialogHeader>
+          <DialogTitle>Full content — {product.name}</DialogTitle>
+        </DialogHeader>
+        <p className="text-xs text-muted-foreground">
+          Write the complete e-book, template notes or guide here. Paying customers read this
+          in their library. Use blank lines between paragraphs; lines starting with # become headings.
+        </p>
+        <Textarea
+          className="mt-2 min-h-[50vh] font-mono text-xs leading-relaxed"
+          value={loading ? "Loading…" : body}
+          disabled={loading}
+          onChange={(e) => setBody(e.target.value)}
+          placeholder={"# Chapter 1\n\nStart writing the full e-book here…"}
+        />
+        <p className="text-[11px] text-muted-foreground">{body.trim() ? `${body.trim().split(/\s+/).length} words` : "Empty"}</p>
+        <DialogFooter>
+          <Button variant="outline" onClick={onClose}>Cancel</Button>
+          <Button onClick={() => void save()} disabled={saving || loading}>{saving ? "Saving…" : "Save content"}</Button>
+        </DialogFooter>
+      </DialogContent>
+    </Dialog>
+  );
+}
+
 
 function FileCell({ product, onDone }: { product: Product; onDone: () => void }) {
   const [busy, setBusy] = useState(false);
