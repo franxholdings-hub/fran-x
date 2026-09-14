@@ -7,6 +7,7 @@ import { MobileNav } from "./MobileNav";
 import { GlobalSearch } from "./GlobalSearch";
 import { ContextualFAB } from "./ContextualFAB";
 import { Footer } from "@/components/site/Footer";
+import { FrixWidget } from "@/components/site/FrixWidget";
 import { CartProvider } from "@/hooks/useCart";
 import { CartDrawer } from "@/components/store/CartDrawer";
 
@@ -32,6 +33,7 @@ export function AppShell({ children }: { children: ReactNode }) {
         </div>
         <MobileNav />
         <ContextualFAB />
+        <FrixWidget />
         <CartDrawer />
       </CartProvider>
     </TooltipProvider>
